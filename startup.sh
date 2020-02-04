@@ -55,4 +55,7 @@ import_workflows
 # Import devices
 import_devices
 
+#Write config to netconf-testtool
+curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/ &>/dev/null
+
 echo -e '\nDemo workers/workflows/devices successfully imported!\n'
