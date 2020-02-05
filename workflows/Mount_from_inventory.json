@@ -13,11 +13,12 @@
         "device_id": "${workflow.input.device_id}"
       },
       "type": "SIMPLE",
+      "optional": false,
       "startDelay": 0
     },
     {
       "name": "decisionTask",
-      "taskReferenceName": "decisionTaskRef",
+      "taskReferenceName": "decisionTaskRef_04CI",
       "inputParameters": {
         "case_value_param": "${get_device_from_inventory_ref_B1GP.output.response_body.topology}"
       },
@@ -25,6 +26,16 @@
       "caseValueParam": "case_value_param",
       "decisionCases": {
         "cli": [
+          {
+            "name": "CLI_check_cli_id_available",
+            "taskReferenceName": "cli_check_cli_id_available_ref_EC5E",
+            "inputParameters": {
+              "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
+            },
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
+          },
           {
             "name": "CLI_mount_cli",
             "taskReferenceName": "mount_cli_device_ref_6RXD",
@@ -38,7 +49,9 @@
               "username": "${get_device_from_inventory_ref_B1GP.output.response_body.username}",
               "password": "${get_device_from_inventory_ref_B1GP.output.response_body.password}"
             },
-            "type": "SIMPLE"
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
           },
           {
             "name": "CLI_check_cli_connected",
@@ -46,36 +59,69 @@
             "inputParameters": {
               "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
             },
-            "type": "SIMPLE"
-          }
-        ],
-        "netconf": [
-          {
-            "name": "Netconf_mount_netconf",
-            "taskReferenceName": "mount_netconf_device_ref_16F0",
-            "inputParameters": {
-              "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}",
-              "host": "${get_device_from_inventory_ref_B1GP.output.response_body.host}",
-              "port": "${get_device_from_inventory_ref_B1GP.output.response_body.port}",
-              "keepalivedelay": "${get_device_from_inventory_ref_B1GP.output.response_body.keepalive-delay}",
-              "tcponly": "${get_device_from_inventory_ref_B1GP.output.response_body.tcp-only}",
-              "username": "${get_device_from_inventory_ref_B1GP.output.response_body.username}",
-              "password": "${get_device_from_inventory_ref_B1GP.output.response_body.password}",
-              "uniconfignative": "${get_device_from_inventory_ref_B1GP.output.response_body.uniconfig-native}",
-              "blacklist": "${get_device_from_inventory_ref_B1GP.output.response_body.blacklist}"
-            },
-             "type": "SIMPLE"
-          },
-          {
-            "name": "Netconf_check_netconf_connected",
-            "taskReferenceName": "check_connection_netconf_device_ref_ABDV",
-            "inputParameters": {
-              "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
-            },
-            "type": "SIMPLE"
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
           }
         ]
-      }
+      },
+      "defaultCase": [
+        {
+          "name": "decisionTask",
+          "taskReferenceName": "decisionTaskRef_7XH5",
+          "inputParameters": {
+            "case_value_param": "${get_device_from_inventory_ref_B1GP.output.response_body.topology}"
+          },
+          "type": "DECISION",
+          "caseValueParam": "case_value_param",
+          "decisionCases": {
+            "netconf": [
+              {
+                "name": "Netconf_check_netconf_id_available",
+                "taskReferenceName": "netconf_check_netconf_id_available_ref_0W02",
+                "inputParameters": {
+                  "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
+                },
+                "type": "SIMPLE",
+                "optional": false,
+                "startDelay": 0
+              },{
+                "name": "Netconf_mount_netconf",
+                "taskReferenceName": "mount_netconf_device_ref_16F0",
+                "inputParameters": {
+                  "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}",
+                  "host": "${get_device_from_inventory_ref_B1GP.output.response_body.host}",
+                  "port": "${get_device_from_inventory_ref_B1GP.output.response_body.port}",
+                  "keepalive-delay": "${get_device_from_inventory_ref_B1GP.output.response_body.keepalive-delay}",
+                  "tcp-only": "${get_device_from_inventory_ref_B1GP.output.response_body.tcp-only}",
+                  "username": "${get_device_from_inventory_ref_B1GP.output.response_body.username}",
+                  "password": "${get_device_from_inventory_ref_B1GP.output.response_body.password}",
+                  "uniconfig-native": "${get_device_from_inventory_ref_B1GP.output.response_body.uniconfig-native}",
+                  "blacklist": "${get_device_from_inventory_ref_B1GP.output.response_body.blacklist}"
+                },
+                "type": "SIMPLE",
+                "optional": false,
+                "startDelay": 0
+              },
+              {
+                "name": "Netconf_check_netconf_connected",
+                "taskReferenceName": "check_connection_netconf_device_ref_ABDV",
+                "inputParameters": {
+                  "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
+                },
+                "type": "SIMPLE",
+                "optional": false,
+                "startDelay": 0
+              }
+            ]
+          },
+          "defaultCase": [],
+          "optional": false,
+          "startDelay": 0
+        }
+      ],
+      "optional": false,
+      "startDelay": 0
     }
   ],
   "schemaVersion": 2,
