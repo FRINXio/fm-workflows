@@ -6,7 +6,7 @@ import copy
 import requests
 from string import Template
 
-from frinx_rest import elastic_url_base, odl_url_base, odl_headers, odl_credentials, parse_response, elastic_headers
+from frinx_rest import elastic_url_base, odl_url_base, odl_credentials, parse_response, elastic_headers, add_uniconfig_tx_cookie
 
 build_lldp_url = odl_url_base + "/operations/lldptopo:build"
 export_lldp_url = odl_url_base + "/operations/lldptopo:export"
@@ -38,7 +38,9 @@ def build_lldp(task):
     lldp_body["input"]["concurrent-read-nodes"] = task['inputData']['concurrent-read-nodes']
     lldp_body["input"]["destination-topology"] = task['inputData']['destination-topology']
 
-    r = requests.post(build_lldp_url, data=json.dumps(lldp_body), headers=odl_headers, auth=odl_credentials)
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
+
+    r = requests.post(build_lldp_url, data=json.dumps(lldp_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.created or response_code == requests.codes.ok:
@@ -62,10 +64,11 @@ lldp_export_template = {
 
 
 def export_lldp(task):
-
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] \
+        if 'inputData' in task and 'uniconfig_tx_id' in task['inputData'] else ""
     lldp_body = copy.deepcopy(lldp_export_template)
 
-    r = requests.post(export_lldp_url, data=json.dumps(lldp_body), headers=odl_headers, auth=odl_credentials)
+    r = requests.post(export_lldp_url, data=json.dumps(lldp_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.created or response_code == requests.codes.ok:
@@ -85,9 +88,11 @@ def export_lldp(task):
 def read_lldp(task):
     topo_id = task['inputData']['destination-topology']
 
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
+
     id_url = Template(read_lldp_url).substitute({"topo": topo_id})
 
-    r = requests.get(id_url, headers=odl_headers, auth=odl_credentials)
+    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.created or response_code == requests.codes.ok:
@@ -143,7 +148,8 @@ def start(cc):
             "link_aggregation",
             "per-node-read-timeout",
             "concurrent-read_nodes",
-            "destination-topology"
+            "destination-topology",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",
@@ -163,6 +169,9 @@ def start(cc):
         "retryLogic": "FIXED",
         "retryDelaySeconds": 0,
         "responseTimeoutSeconds": 10,
+        "inputKeys": [
+            "uniconfig_tx_id"
+        ],
         "outputKeys": [
             "url",
             'request_body'
@@ -182,7 +191,8 @@ def start(cc):
         "retryDelaySeconds": 0,
         "responseTimeoutSeconds": 10,
         "inputKeys": [
-            "destination-topology"
+            "destination-topology",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",

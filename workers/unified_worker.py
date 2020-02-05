@@ -4,7 +4,7 @@ import requests
 import json
 import copy
 from string import Template
-from frinx_rest import odl_url_base, odl_headers, odl_credentials, parse_response
+from frinx_rest import odl_url_base, odl_credentials, parse_response, add_uniconfig_tx_cookie
 import uniconfig_worker
 
 odl_url_unified_oper_shallow = odl_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig&depth=3"
@@ -14,7 +14,9 @@ odl_url_unified_mount = odl_url_base + "/data/network-topology:network-topology/
 
 
 def execute_read_unified_topology_operational(task):
-    response_code, response_json = read_all_devices(odl_url_unified_oper)
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] \
+        if 'inputData' in task and 'uniconfig_tx_id' in task['inputData'] else ""
+    response_code, response_json = read_all_devices(odl_url_unified_oper, uniconfig_tx_id)
 
     if response_code == requests.codes.ok:
         return {'status': 'COMPLETED', 'output': {'url': odl_url_unified_oper,
@@ -28,8 +30,8 @@ def execute_read_unified_topology_operational(task):
                 'logs': []}
 
 
-def read_all_devices(url):
-    r = requests.get(url, headers=odl_headers, auth=odl_credentials)
+def read_all_devices(url, uniconfig_tx_id):
+    r = requests.get(url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     actual_nodes = response_json['topology'][0]['node']
@@ -61,8 +63,9 @@ def get_all_devices_as_dynamic_fork_tasks(task):
     add_params = task['inputData']['task_params']
     optional = task['inputData']['optional'] if 'optional' in task['inputData'] else "false"
     add_params = json.loads(add_params) if isinstance(add_params, str) else (add_params if add_params else {})
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
-    response_code, response_json = read_all_devices(odl_url_unified_oper_shallow)
+    response_code, response_json = read_all_devices(odl_url_unified_oper_shallow, uniconfig_tx_id)
 
     if response_code == requests.codes.ok:
         ids = [nodes["node-id"] for nodes in response_json["topology"][0]["node"]]
@@ -97,10 +100,11 @@ def read_structured_data(task):
     device_id = task['inputData']['device_id']
     uri = task['inputData']['uri']
     uri = uniconfig_worker.apply_functions(uri)
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
     id_url = Template(odl_url_unified_mount).substitute({"id": device_id}) + "/yang-ext:mount" + (uri if uri else "") + "?content=config"
 
-    r = requests.get(id_url, headers=odl_headers, auth=odl_credentials)
+    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.ok:
@@ -119,6 +123,7 @@ def write_structured_data(task):
     device_id = task['inputData']['device_id']
     uri = task['inputData']['uri']
     uri = uniconfig_worker.apply_functions(uri)
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
     template = task['inputData']['template']
     params = task['inputData']['params'] if task['inputData']['params'] else {}
@@ -129,7 +134,7 @@ def write_structured_data(task):
     id_url = Template(odl_url_unified_mount).substitute({"id": device_id}) + "/yang-ext:mount" + (uri if uri else "")
     id_url = Template(id_url).substitute(params)
 
-    r = requests.put(id_url, data=data_json, headers=odl_headers, auth=odl_credentials)
+    r = requests.put(id_url, data=data_json, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.no_content or response_code == requests.codes.created:
@@ -150,10 +155,11 @@ def delete_structured_data(task):
     device_id = task['inputData']['device_id']
     uri = task['inputData']['uri']
     uri = uniconfig_worker.apply_functions(uri)
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
     id_url = Template(odl_url_unified_mount).substitute({"id": device_id}) + "/yang-ext:mount" + (uri if uri else "")
 
-    r = requests.delete(id_url, headers=odl_headers, auth=odl_credentials)
+    r = requests.delete(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.no_content:
@@ -172,10 +178,11 @@ def delete_structured_data(task):
 
 def execute_check_unified_node_exists(task):
     device_id = task['inputData']['device_id']
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
     id_url = Template(odl_url_unified_oper_mount).substitute({"id": device_id})
 
-    r = requests.get(id_url, headers=odl_headers, auth=odl_credentials)
+    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
     response_code, response_json = parse_response(r)
 
     if response_code != requests.codes.not_found:
@@ -203,6 +210,9 @@ def start(cc):
         "retryLogic": "FIXED",
         "retryDelaySeconds": 0,
         "responseTimeoutSeconds": 10,
+        "inputKeys": [
+            "uniconfig_tx_id"
+        ],
         "outputKeys": [
             "url",
             "response_code",
@@ -223,7 +233,8 @@ def start(cc):
         "inputKeys": [
             "task",
             "task_params",
-            "optional"
+            "optional",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",
@@ -244,7 +255,8 @@ def start(cc):
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "device_id",
-            "uri"
+            "uri",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",
@@ -267,7 +279,8 @@ def start(cc):
             "device_id",
             "uri",
             "template",
-            "params"
+            "params",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",
@@ -289,7 +302,8 @@ def start(cc):
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "device_id",
-            "uri"
+            "uri",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",
@@ -310,7 +324,8 @@ def start(cc):
         "retryDelaySeconds": 0,
         "responseTimeoutSeconds": 10,
         "inputKeys": [
-            "device_id"
+            "device_id",
+            "uniconfig_tx_id"
         ],
         "outputKeys": [
             "url",
