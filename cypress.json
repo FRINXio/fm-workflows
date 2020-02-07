@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "alt_baseUrl": "http://10.103.5.231:3000",
+    "alt_inventory": "http://10.103.5.231:5601",
+    "alt_login": "schlebec@frinx.io",
+    "alt_password": "",
+    "inventory": "http://localhost:5601",
+    "login": "",
+    "password": ""
+  }
+}
