@@ -7,7 +7,7 @@
       "name": "UNICONFIG_sync_from_network",
       "taskReferenceName": "uniconfig_sync_from_network_ref_LYVS",
       "inputParameters": {
-        "devices": "${workflow.input.devices}"
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
       },
       "type": "SIMPLE"
     },
@@ -15,7 +15,7 @@
       "name": "UNICONFIG_replace_config_with_oper",
       "taskReferenceName": "uniconfig_replace_config_with_oper_ref_JTJ4",
       "inputParameters": {
-        "devices": "${workflow.input.devices}"
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
       },
       "type": "SIMPLE"
     },
@@ -54,7 +54,7 @@
       "name": "UNICONFIG_commit",
       "taskReferenceName": "uniconfig_commit_ref_RXFF",
       "inputParameters": {
-        "devices": "${workflow.input.devices}"
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
       },
        "type": "SIMPLE"
     },
@@ -126,8 +126,7 @@
     "interface01[Customer facing service interface on first node][GigabitEthernet1]",
     "node02[Second node of P2P connection #node_id][IOS02]",
     "interface02[Customer facing service interface on second node][GigabitEthernet3]",
-    "VCID[Virtual Circuit Identifier (globally unique)][444]",
-    "devices[Scoped devices][IOS01, IOS02]"
+    "VCID[Virtual Circuit Identifier (globally unique)][444]"
   ],
   "outputParameters": {
     "response_body": "Journal for ${workflow.input.node01}:  ${read_journal_cli_device_ref_LJUO.output.journal} --------  Journal for ${workflow.input.node02}:  ${read_journal_cli_device_ref_CDGP.output.journal}"

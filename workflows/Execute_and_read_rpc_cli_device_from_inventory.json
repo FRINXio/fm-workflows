@@ -22,7 +22,7 @@
       "type": "SIMPLE",
       "inputParameters": {
         "device_id": "${workflow.input.device_id}",
-        "template": "${read_command.output.command}",
+        "template": "${read_command.output.response_body.command}",
         "params": "${workflow.input.params}"
       }
     }
