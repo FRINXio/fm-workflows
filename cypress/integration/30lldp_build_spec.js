@@ -26,7 +26,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Build_read_store_LLDP_topology')	  
     cy.contains('Build_read_store_LLDP_topology').click()	  
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     /*
     //	  
@@ -46,17 +46,17 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.get('@link_aggregation').type('bidirectional-abbreviations')
 
     //	  
-    cy.contains('per_node_read_timeout').next().as('per_node_read_timeout') //label per_node_read_timeout become alias of next input
+    cy.contains('per-node-read-timeout').next().as('per_node_read_timeout') //label per_node_read_timeout become alias of next input
     cy.get('@per_node_read_timeout').type('{selectall}{backspace}')
     cy.get('@per_node_read_timeout').type('30')
 
     //	  
-    cy.contains('concurrent_read_nodes').next().as('concurrent_read_nodes') //label concurrent_read_nodes become alias of next input
+    cy.contains('concurrent-read-nodes').next().as('concurrent_read_nodes') //label concurrent_read_nodes become alias of next input
     cy.get('@concurrent_read_nodes').type('{selectall}{backspace}')
     cy.get('@concurrent_read_nodes').type('8')
 
     //	  
-    cy.contains('destination_topology').next().as('destination_topology') //label destination_topology become alias of next input
+    cy.contains('destination-topology').next().as('destination_topology') //label destination_topology become alias of next input
     cy.get('@destination_topology').type('{selectall}{backspace}')
     cy.get('@destination_topology').type('lldp')
 
@@ -73,6 +73,16 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.get('div.modal-header').contains('Details of Build_read_store_LLDP_topology',{timeout:3000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
+
+    cy.contains('Execution Flow').click()
+    //click on the green box with the CLI_get_cli_journal text.
+    cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
+    cy.get('g > rect').click()
+    cy.contains('Build_read_store_LLDP_topology (COMPLETED)')
+    cy.contains('Summary').click()
+
+    cy.contains('Close').scrollIntoView()
     cy.contains('Close').click()
   })
 })

@@ -28,7 +28,7 @@ describe('LACP workflows', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Link_aggregation')	  
     cy.contains('Link_aggregation').click()	  
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     cy.contains('node1').next().click() //label node1
     //cy.contains('node1').next().type('sss').clear() //label node1 // I tried to clear div element - not possible

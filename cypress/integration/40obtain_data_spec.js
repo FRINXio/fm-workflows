@@ -26,7 +26,7 @@ describe('Collect platform information from the device and store in the inventor
     cy.get('input[placeholder="Search by keyword."').type('Read_components_all_from_unified_update_inventory')	  
     cy.contains('Read_components_all_from_unified_update_inventory').click()	  
     //cy.contains('Read_components_update_inventory').click()	  
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     cy.get('div.modal-content').contains('Execute').click()	  
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')

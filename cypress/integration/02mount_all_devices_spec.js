@@ -5,6 +5,7 @@ describe('Mount all devices from inventory', function() {
     cy.unmount_all_devices()
   })
 
+  //prerequisite: all devices unmounted
   it('mounts all devices from inventory', function() { 
     cy.server({
       method: 'POST',
@@ -37,7 +38,7 @@ describe('Mount all devices from inventory', function() {
     cy.url().should('include', '/workflows/defs')	  
     cy.get('input[placeholder="Search by keyword."').type('Mount_all_from_inventory')	  
     cy.contains('Mount_all_from_inventory').click()	  
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
@@ -55,7 +56,8 @@ describe('Mount all devices from inventory', function() {
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
 
-    cy.contains('Children').click()
+    //cy.contains('Children').click()
+    //does not work in v1.1.0
 
     cy.contains('Input/Output').click()
     cy.contains('JSON').click()

@@ -17,7 +17,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')	  
     cy.contains('Add_cli_command_template_to_inventory').click()	  
 
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     cy.contains('template_id').next().as('template_id') //label bundle_ether_id become alias of next input
     cy.get('@template_id').type('{selectall}{backspace}')

@@ -1,7 +1,6 @@
-//https://docs.frinx.io/frinx-machine/use-cases/obtain-platform-inventory-data/obtain-platform-inventory-data.html
-//Obtain platform inventory data
-//Collect platform information from the device and store in the inventory
-describe('Collect platform information from the device and store in the inventory', function() {
+//https://docs.frinx.io/frinx-machine/use-cases/save-and-run-command/save-and-run-command.html
+//Save and execute commands on devices
+describe('Save and execute commands on devices', function() {
   it('prepares index', function() {
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
@@ -23,29 +22,29 @@ describe('Collect platform information from the device and store in the inventor
     })
     cy.route('/elasticsearch/_msearch?rest_total_hits_as_int=true&ignore_throttled=true').as('getSearchResults')
 	  
-    //After the workflow has completed, go to Kibana and look for an entry called “inventory-device”. 
+    //After the workflow has completed, go to Kibana and look for an entry called “lldp”. 
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
+
     cy.contains('Discover',{timeout:10000}).click()
-	  
     //cy.get('div.ui-select-match > span > i.caret.pull-right').click({force:true})
     cy.get('i.caret.pull-right').click({force:true})
-    //cy.contains('inventory-device*').click({force:true})
     cy.contains('inventory-device').click({force:true})
     cy.wait('@getSearchResults')
     //explicit wait
     cy.wait(500)
-	  
-    //cy.get('button.kbnDocTableOpen__button').click({multiple:true})
-    //cy.get('td[ng-click="toggleRow()"]').click({multiple:true})
     cy.get('td').click({force:true,multiple:true})
-    //cy.get('div.row').scrollTo('bottom', { easing: 'linear',force:true })
-    //cy.scrollTo('top', { easing: 'linear' })
-    //cy.get('input[type="search"]').type('inventory-device*',{force:true})
-    //cy.get('div.kbnGlobalNavLink__title').click()
-    //cy.get('div.iframes-container').click()
-    //  doc.find('div.kbnGlobalNav__links > div > app-switcher > div.kbnGlobalNavLink > a').click(() => {
-    cy.get("dd span").contains('XR01').scrollIntoView()
+
+    cy.get("dd span").contains('BIG_ONE_ROUTER').scrollIntoView()
+    cy.get("dd span").contains('GREATER_ONE_ROUTER').scrollIntoView()
+
+    //cy.contains('Dev Tools',{timeout:10000}).click()
+    //cy.get('button[i18n-id="console.welcomePage.closeButtonLabel"]',{timeout:10000}).contains('Get to work',{timeout:10000}).click({force:true})
+
+    // DELETE inventory-device/device/GREATER_ONE_ROUTER
+    // DELETE inventory-device/device/BIG_ONE_ROUTER
+    //cy.get('div.kbnUiAceKeyboardHint').next().invoke('show').type('{selectall}{del} DELETE inventory-device/device/BIG_ONE_ROUTER{ctrl}{enter}',{force:true})
+    //cy.get('div.kbnUiAceKeyboardHint').next().invoke('show').type('{selectall}{del} DELETE inventory-device/device/GREATER_ONE_ROUTER{ctrl}{enter}',{force:true})
   })
-})
+}) 
