@@ -16,6 +16,8 @@ describe('Create loopback address on devices stored in the inventory', function(
   })
 
 	
+  //prerequisite: not mounted VRP01 and netconf-testtool
+  //TODO: this test fails if it is executed 2 times
   it('creates loopback700929 on all mounted devices', function() { 
     cy.server({
       method: 'POST',
@@ -33,7 +35,7 @@ describe('Create loopback address on devices stored in the inventory', function(
     cy.url().should('include', '/workflows/defs')	  
     cy.get('input[placeholder="Search by keyword."').type('Create_loopback_all_in_uniconfig')	  
     cy.contains('Create_loopback_all_in_uniconfig').click()	  
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()
     cy.contains('loopback_id').parent().find('input').type('700929') //it should be random generated maybe
 
     cy.get('div.modal-content').contains('Execute').click()
@@ -55,7 +57,9 @@ describe('Create loopback address on devices stored in the inventory', function(
     //cy.get('#detailTabs-tabpane-taskDetails').get('tbody tr td:last').should('have.length',2)  ///.contains('COMPLETED',{timeout:300000})
 
     //here were again a lot of problems how to achieve clicking of subworkflow .... solutiion - invoke(show) on div which has set display:none:
-    cy.contains('Children').click().parent().find('div.dropdown-menu').invoke('show').contains('create_loopback').click()
+    //cy.contains('Children').click().parent().find('div.dropdown-menu').invoke('show').contains('create_loopback').click()
+    //^^^does not work in v1.1.0
+    cy.contains('SUB_WORKFLOW').next().find('button').click()
     //cy.contains('create_loopback').click({force:true}) //this did not work
     //cy.contains('Children').click().get('a') // neither worked
 
@@ -76,7 +80,8 @@ describe('Create loopback address on devices stored in the inventory', function(
 
     //return to previous
     cy.contains('Details of Create_loopback_all_in_uniconfig')
-    cy.contains('Children').click()
+    //cy.contains('Children').click()
+    //does not work in v1.1.0
 	  
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:300000})
 

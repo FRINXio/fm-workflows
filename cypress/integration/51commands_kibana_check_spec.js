@@ -1,7 +1,24 @@
 //https://docs.frinx.io/frinx-machine/use-cases/save-and-run-command/save-and-run-command.html
 //Save and execute commands on devices
 describe('Save and execute commands on devices', function() {
-  it('goes to inventory', function() {
+  it('prepares index', function() {
+    let inventory = Cypress.env('inventory')
+    cy.visit(inventory)
+    cy.url({timeout:5000}).should('include', '/app/')
+    //this is needed only for the first time
+    //cy.contains('Explore on my own',{timeout:10000}).click()
+    cy.contains('Management',{timeout:10000}).click()
+    cy.contains('Index Patterns',{timeout:10000}).click({force:true})
+    cy.get('button[data-test-subj="createIndexPatternButton"]').click({force:true})
+    cy.get('input[name="indexPattern"][data-test-subj="createIndexPatternNameInput"]').clear({force:true}).type('inventory-show_cmd{del}',{force:true})
+    cy.contains('Success! Your index pattern matches 1 index.')
+    cy.contains('Next step',{timeout:10000}).click({force:true})
+    cy.get('button[data-test-subj="createIndexPatternCreateButton"]').contains('Create index pattern',{timeout:10000}).click({force:true})
+    //explicit wait - occasionally I quit too quick - before successful creating of index !!!
+    cy.wait(500)
+  })
+
+  it('retrieves data', function() {
     cy.server({
       method: 'POST',
     })

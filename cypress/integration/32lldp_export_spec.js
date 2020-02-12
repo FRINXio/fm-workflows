@@ -19,7 +19,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Export_LLDP_topology')	  
     cy.contains('Export_LLDP_topology').click()	  
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     cy.get('div.modal-content').contains('Execute').click()	  
     cy.wait('@getWorkflowId')

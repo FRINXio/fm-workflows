@@ -19,7 +19,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory')	  
     cy.contains('Execute_and_read_rpc_cli_device_from_inventory').click()	  
 
-    cy.contains('Input').click()	  
+    cy.get('button').contains('Execute').click()	  
 
     cy.contains('template_id').next().as('template_id') //label bundle_ether_id become alias of next input
     cy.get('@template_id').type('{selectall}{backspace}')
