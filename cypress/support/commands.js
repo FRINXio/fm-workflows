@@ -23,6 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+require('@4tw/cypress-drag-drop')
+
 Cypress.Commands.add("unmount_all_devices", () => {
     cy.visit('/') 
     cy.contains('UniConfig').click()	  
