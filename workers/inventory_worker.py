@@ -409,8 +409,8 @@ def add_netconf_device(task):
 def start(cc):
     print('Starting Inventory workers')
 
-    cc.register('INVENTORY_add_device', {
-        "name": "INVENTORY_add_device",
+    cc.register('INVENTORY_add_cli_device', {
+        "name": "INVENTORY_add_cli_device",
         "description": "add a CLI device to inventory database - BASICS,MAIN,INVENTORY,CLI",
         "retryCount": 0,
         "timeoutSeconds": 60,
@@ -435,7 +435,7 @@ def start(cc):
             "response_body"
         ]
     })
-    cc.start('INVENTORY_add_device', add_cli_device, False)
+    cc.start('INVENTORY_add_cli_device', add_cli_device, False)
 
     cc.register('INVENTORY_add_field_to_device', {
         "name": "INVENTORY_add_field_to_device",
@@ -616,8 +616,7 @@ def start(cc):
         "retryDelaySeconds": 0,
         "responseTimeoutSeconds": 10,
         "inputKeys": [
-            "template_id",
-            "command"
+            "template_id"
         ],
         "outputKeys": [
             "url",
