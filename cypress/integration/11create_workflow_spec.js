@@ -85,16 +85,21 @@ describe('Create workflow Read_journal_cli_device', function() {
     cy.contains('In').prev().click().as('in')
     cy.contains('Out').next().click().as('out')
 
-    cy.get('@start',{force:true})
+    cy.get('@start')
       .trigger('mousedown', { which: 1 })
-      .trigger('mousemove', { force:true, clientX: 400 - 20, clientY: 300 })
+      //.trigger('mousemove', { force:true, clientX: 400 - 20, clientY: 300 })
+      .get('@in')
+      .trigger('mousemove')
       .trigger('mouseup', { force: true })
 
     cy.get('@end',{force:true})
       .trigger('mousedown', { which: 1 })
-      .trigger('mousemove', { force:true, clientX: 600 - 135, clientY: 300 })
+      //.trigger('mousemove', { force:true, clientX: 600 - 135, clientY: 300 })
+      .get('@out')
+      .trigger('mousemove')
       .trigger('mouseup', { force: true })
 /*
+    //this does not work
     cy.get('@start',{force:true}).drag('@in',{force:true})
     cy.get('@end',{force:true}).drag('@out',{force:true})
 */
