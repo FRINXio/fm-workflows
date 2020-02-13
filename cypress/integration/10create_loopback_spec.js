@@ -5,19 +5,19 @@ describe('Create loopback address on devices stored in the inventory', function(
     //Make sure you didn’t skip mounting all devices in inventory, otherwise this workflow might not work correctly.
     //
     //This use case does not work with VRP01 and netconf-testtool devices. 
-	  
-    cy.visit('/') 
-    cy.contains('UniConfig').click()	  
-    cy.contains('VRP01').parent().find('td').eq(0).click()
-    cy.contains('netconf-testtool').parent().find('td').eq(0).click()
-    cy.contains('Unmount Devices').click()	  
-    cy.contains('VRP01').should('not.to.exist')
-    cy.contains('netconf-testtool').should('not.to.exist')
+    //cy.visit('/') 
+    //cy.contains('UniConfig').click()	  
+    //cy.contains('VRP01').parent().find('td').eq(0).click()
+    //cy.contains('netconf-testtool').parent().find('td').eq(0).click()
+    //cy.contains('Unmount Devices').click()	  
+    //cy.contains('VRP01').should('not.to.exist')
+    //cy.contains('netconf-testtool').should('not.to.exist')
   })
 
 	
   //prerequisite: not mounted VRP01 and netconf-testtool
-  //TODO: this test fails if it is executed 2 times
+  //this test failed if it was executed 2 times
+  //run the test 03unmount_uncompatible_devices_spec.js before - it unmounts what is problematic
   it('creates loopback700929 on all mounted devices', function() { 
     cy.server({
       method: 'POST',
