@@ -55,11 +55,11 @@
     "host[IP or hostname of the management endpoint on a device][sample-topology]",
     "port[TCP port of the management endpoint of a device][1783]",
     "keepalivedelay[Keepalive delay][100000]",
-    "tcponly[tcp only][true]",
+    "tcponly[tcp only #bool][true]",
     "username[Username credential][cisco]",
     "password[Password credential][cisco]",
     "labels[Device labels]",
-    "uniconfignative[Enable uniconfig-native][true]",
+    "uniconfignative[Enable uniconfig-native #bool][true]",
     "blacklist[List of blacklisted root paths][openconfig-interfaces:interfaces]"
   ],
   "outputParameters": {
