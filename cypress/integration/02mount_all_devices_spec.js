@@ -54,7 +54,7 @@ describe('Mount all devices from inventory', function() {
     //here should be a wait but I did not succeed with waiting for xhr
     cy.get('div.modal-header').contains('Details of Mount_all_from_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
-    cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:90000})
 
     //cy.contains('Children').click()
     //does not work in v1.1.0
