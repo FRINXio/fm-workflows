@@ -1,0 +1,69 @@
+{
+  "name": "Add_cli_device_to_inventory",
+  "description": "add a CLI device to inventory database - BASICS,MAIN,INVENTORY,CLI",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_get_device",
+      "taskReferenceName": "inventory_get_device_ref_YTV5",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}"
+      },
+      "type": "SIMPLE",
+      "optional": true,
+      "startDelay": 0
+    },
+    {
+      "name": "decisionTask",
+      "taskReferenceName": "decisionTaskRef_S4HD",
+      "inputParameters": {
+        "param": "${inventory_get_device_ref_YTV5.output.response_code}"
+      },
+      "type": "DECISION",
+      "caseValueParam": "param",
+      "decisionCases": {
+        "404": [
+          {
+            "name": "INVENTORY_add_cli_device",
+            "taskReferenceName": "INVENTORY_add_cli_device",
+            "inputParameters": {
+              "device_id": "${workflow.input.device_id}",
+              "type": "${workflow.input.type}",
+              "version": "${workflow.input.version}",
+              "host": "${workflow.input.host}",
+              "protocol": "${workflow.input.protocol}",
+              "port": "${workflow.input.port}",
+              "username": "${workflow.input.username}",
+              "password": "${workflow.input.password}",
+              "labels": "${workflow.input.labels}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          }
+        ]
+      },
+      "defaultCase": [],
+      "optional": false,
+      "startDelay": 0
+    }
+  ],
+  "inputParameters": [
+    "device_id[Unique identifier of device across all systems]",
+    "type[Type of device or device IOS e.g. ios, ios xr]",
+    "version[Version of device or device OS e.g. 15.2]",
+    "host[IP or hostname of the management endpoint on a device]",
+    "protocol[CLI management transport protocol e.g. tcp or ssh][ssh]",
+    "port[TCP port of the management endpoint of a device][22]",
+    "username[Username credential]",
+    "password[Password credential]",
+    "labels[Device labels]"
+  ],
+  "outputParameters": {
+    "device_id": "${workflow.input.device_id}"
+  },
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Add_cli_command_template_to_inventory",
+  "description": "add a CLI command template to inventory database - BASICS,MAIN,INVENTORY,CLI",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_get_show_command",
+      "taskReferenceName": "inventory_get_show_command_ref_MV99",
+      "inputParameters": {
+        "template_id": "${workflow.input.template_id}",
+        "command": "${workflow.input.command}"
+      },
+      "type": "SIMPLE",
+      "optional": true,
+      "startDelay": 0
+    },
+    {
+      "name": "decisionTask",
+      "taskReferenceName": "decisionTaskRef_18G5",
+      "inputParameters": {
+        "param": "${inventory_get_show_command_ref_MV99.output.response_code}"
+      },
+      "type": "DECISION",
+      "caseValueParam": "param",
+      "decisionCases": {
+        "404": [
+          {
+            "name": "INVENTORY_add_show_command",
+            "taskReferenceName": "inventory_add_show_command_ref_AR79",
+            "inputParameters": {
+              "template_id": "${workflow.input.template_id}",
+              "command": "${workflow.input.command}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          }
+        ]
+      },
+      "defaultCase": [],
+      "optional": false,
+      "startDelay": 0
+    }
+  ],
+  "inputParameters": [
+    "template_id[Unique command identifier in DB]",
+    "command[command template e.g. show running-config #template]"
+  ],
+  "outputParameters": {
+    "template_id": "${workflow.input.template_id}"
+  },
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false
+}
