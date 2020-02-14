@@ -132,7 +132,7 @@ describe('Create workflow test it and finally delete it', function() {
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device_TEST')	  
-    cy.contains('Read_journal_cli_device').click()	  
+    cy.contains('Read_journal_cli_device_TEST').click()	  
     cy.get('button').contains('Execute').click()	  
 	  
     //label device_id
@@ -140,14 +140,15 @@ describe('Create workflow test it and finally delete it', function() {
     //at first try to click it to see the list of devices
     //then try to choose one e.g. the first like user would do
     //cy.contains('device_id').parent().find('input').type('XR02').clear() //this does not work because there are two inputs - one for autocompletion...
-    cy.get('input[placeholder="Enter the node id"').click() //this is input with autocompletion	  
-    cy.get('input[placeholder="Enter the node id"').clear().type('XR07') //this is input with autocompletion	  
-    cy.contains('No matches found')
+    //cy.get('input[placeholder="Enter the node id"').click() //this is input with autocompletion	  
+    //cy.get('input[placeholder="Enter the node id"').clear().type('XR07') //this is input with autocompletion	  
+    //cy.contains('No matches found')
     //TODO Execute
     //negative test abrakadabra -> No matches found .... try to execute - this will break page
-    cy.get('input[placeholder="Enter the node id"').clear().type('XR02') //this is input with autocompletion	  
-    cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	  
-    cy.contains('XR02').click()
+    //cy.get('input[placeholder="Enter the node id"').clear().type('XR02') //this is input with autocompletion	  
+    //cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	  
+    //cy.contains('XR02').click()
+    cy.get('label').contains('device_id').next().clear().type('XR02')
 
     cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')

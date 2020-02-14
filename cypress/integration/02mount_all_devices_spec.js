@@ -54,7 +54,26 @@ describe('Mount all devices from inventory', function() {
     //here should be a wait but I did not succeed with waiting for xhr
     cy.get('div.modal-header').contains('Details of Mount_all_from_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
+    //cy.get('div.headerInfo').contains('COMPLETED',{timeout:90000})
+
+    cy.contains('SUB_WORKFLOW').next().find('button').click()
+    //cy.contains('create_loopback').click({force:true}) //this did not work
+    //cy.contains('Children').click().get('a') // neither worked
+
+    //cy.wait(5000)
+    cy.contains('Details of Dynamic_fork')
+    cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:90000})
+    cy.get('div.heightWrapper').scrollTo('bottom', { duration: 1000 })
+
+    cy.contains('Input/Output').click()
+    cy.contains('JSON').click()
+    cy.contains('Edit & Rerun').click()
+    cy.contains('Execution Flow').click()
+    cy.get('#detailTabs-tabpane-execFlow > div').scrollTo('bottomRight', { duration: 1000 })
+    cy.contains('Task Details').click()
+
+    cy.contains('Parent').click()
 
     //cy.contains('Children').click()
     //does not work in v1.1.0

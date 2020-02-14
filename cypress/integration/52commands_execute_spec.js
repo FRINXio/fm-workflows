@@ -27,7 +27,10 @@ describe('Save and execute commands on devices', function() {
 
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
-    cy.get('@device_id').type('IOS01')
+    //cy.get('@device_id').type('IOS01') //bug FM-364
+    //cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"] a').contains('IOS01').click()
+    cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
+
 
     cy.contains('params').next().as('params') //label bundle_ether_id become alias of next input
     cy.get('@params').type('{selectall}{backspace}')

@@ -7,7 +7,7 @@ describe('Save and execute commands on devices', function() {
     cy.url({timeout:5000}).should('include', '/app/')
     //this is needed only for the first time
     //cy.contains('Explore on my own',{timeout:10000}).click()
-    cy.contains('Management',{timeout:10000}).click()
+    cy.contains('Management',{timeout:20000}).click()
     cy.contains('Index Patterns',{timeout:10000}).click({force:true})
     cy.get('button[data-test-subj="createIndexPatternButton"]').click({force:true})
     cy.get('input[name="indexPattern"][data-test-subj="createIndexPatternNameInput"]').clear({force:true}).type('inventory-show_cmd{del}',{force:true})

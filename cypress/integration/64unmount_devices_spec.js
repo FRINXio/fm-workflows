@@ -1,9 +1,9 @@
-describe('Unmount VRP01 and netconf-testtool', function() { 
+describe('Unmount added devices', function() { 
   beforeEach(function() {
     cy.login()
   })
 	
-  it('unmounts uncompatible devices', function() { 
+  it('unmounts devices', function() { 
     cy.server()
     cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
     cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
@@ -20,11 +20,13 @@ describe('Unmount VRP01 and netconf-testtool', function() {
       cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     })
 
-    cy.contains('VRP01').parent().find('td').eq(0).click()
-    cy.contains('netconf-testtool').parent().find('td').eq(0).click()
+    var device_id1='BIG_ONE_ROUTER' //: any unique identifier
+    cy.contains(device_id1).parent().find('td').eq(0).click()
+    var device_id2='GREATER_ONE_ROUTER' //: any unique identifier
+    cy.contains(device_id2).parent().find('td').eq(0).click()
     cy.contains('Unmount Devices').click()	  
 
-    cy.contains('VRP01').should('not.to.exist')
-    cy.contains('netconf-testtool').should('not.to.exist')
+    cy.contains(device_id1).should('not.to.exist')
+    cy.contains(device_id2).should('not.to.exist')
   })
 })
