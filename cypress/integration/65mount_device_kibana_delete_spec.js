@@ -12,7 +12,7 @@ describe('Save and execute commands on devices', function() {
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
 
-    cy.contains('Discover',{timeout:10000}).click()
+    cy.contains('Discover',{timeout:20000}).click()
     //cy.get('div.ui-select-match > span > i.caret.pull-right').click({force:true})
     cy.get('i.caret.pull-right').click({force:true})
     cy.contains('inventory-device').click({force:true})
@@ -30,6 +30,8 @@ describe('Save and execute commands on devices', function() {
     // DELETE inventory-device/device/GREATER_ONE_ROUTER
     // DELETE inventory-device/device/BIG_ONE_ROUTER
     cy.get('div.kbnUiAceKeyboardHint').next().invoke('show').type('{selectall}{del} DELETE inventory-device/device/BIG_ONE_ROUTER{ctrl}{enter}',{force:true})
+    cy.wait(1000)
     cy.get('div.kbnUiAceKeyboardHint').next().invoke('show').type('{selectall}{del} DELETE inventory-device/device/GREATER_ONE_ROUTER{ctrl}{enter}',{force:true})
+    cy.wait(1000)
   })
 }) 
