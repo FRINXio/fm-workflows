@@ -2,7 +2,7 @@
 //Obtain LLDP topology data
 //Collect LLDP Information from Devices and Build Topology
 describe('Collect LLDP Information from Devices and Build Topology', function() {
-  it('goes to 3rd party visualization tool', function() {
+  it.skip('goes to 3rd party visualization tool', function() {
     //Finally you can use any 3rd party visualization tool that can support the graphviz format like https://dreampuf.github.io/GraphvizOnline.
     cy.visit('https://dreampuf.github.io/GraphvizOnline')
     cy.wait(1000)
