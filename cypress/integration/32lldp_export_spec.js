@@ -31,7 +31,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Export_LLDP_topology',{timeout:3000})
+    cy.get('div.modal-header').contains('Details of Export_LLDP_topology',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED')
 

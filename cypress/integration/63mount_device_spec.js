@@ -36,7 +36,7 @@ describe('Mount the new device from Inventory', function() {
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Mount_from_inventory',{timeout:3000})
+    cy.get('div.modal-header').contains('Details of Mount_from_inventory',{timeout:30000})
     cy.contains('Execution Flow').click()
     cy.contains('Close').scrollIntoView()
     cy.contains('Task Details').click()
@@ -86,7 +86,7 @@ describe('Mount the new device from Inventory', function() {
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Mount_from_inventory',{timeout:3000})
+    cy.get('div.modal-header').contains('Details of Mount_from_inventory',{timeout:30000})
     cy.contains('Execution Flow').click()
     cy.contains('Close').scrollIntoView()
     cy.contains('Task Details').click()

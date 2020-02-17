@@ -163,7 +163,7 @@ describe('Create workflow test it and finally delete it', function() {
     //click the ID of the previously executed workflow to see the progress of the workflow
     //http://localhost:3000/workflows/exec/bdc20041-0aec-44da-bf69-672d492f1210
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:3000})
+    cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 
     cy.contains('Task Details').click()

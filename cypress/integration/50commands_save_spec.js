@@ -37,7 +37,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Add_cli_command_template_to_inventory',{timeout:3000})
+    cy.get('div.modal-header').contains('Details of Add_cli_command_template_to_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
     //click on the green box with the CLI_get_cli_journal text.
