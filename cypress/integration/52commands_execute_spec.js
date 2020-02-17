@@ -46,7 +46,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:3000})
+    cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
     //TODO
