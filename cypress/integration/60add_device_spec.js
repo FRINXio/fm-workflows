@@ -8,7 +8,7 @@ describe('Add a device to inventory and mount it', function() {
   })
 	
 
-  it('Create a new cli device in the inventory', function() {
+  it.skip('Create a new cli device in the inventory', function() {
     cy.server()
     cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
 
@@ -103,7 +103,7 @@ describe('Add a device to inventory and mount it', function() {
     cy.contains('Close').click()
   })
 
-  it('Create a new netconf device in the inventory', function() {
+  it.skip('Create a new netconf device in the inventory', function() {
     cy.server()
     cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
 

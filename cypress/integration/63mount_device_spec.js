@@ -7,7 +7,7 @@ describe('Mount the new device from Inventory', function() {
   })
 	
 
-  it('mount newly added cli device from the inventory', function() {
+  it.skip('mount newly added cli device from the inventory', function() {
     cy.server()
     cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
 
@@ -57,7 +57,7 @@ describe('Mount the new device from Inventory', function() {
     cy.contains('UniConfig').click()	  
   })
 
-  it('mount newly added netconf device in the inventory', function() {
+  it.skip('mount newly added netconf device in the inventory', function() {
     cy.server()
     cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
 

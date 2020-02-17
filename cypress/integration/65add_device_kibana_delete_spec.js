@@ -1,7 +1,7 @@
 //https://docs.frinx.io/frinx-machine/use-cases/save-and-run-command/save-and-run-command.html
 //Save and execute commands on devices
 describe('Save and execute commands on devices', function() {
-  it('goes to inventory', function() {
+  it.skip('goes to inventory', function() {
     cy.server({
       method: 'POST',
     })
