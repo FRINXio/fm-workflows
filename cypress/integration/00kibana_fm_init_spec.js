@@ -19,7 +19,7 @@ describe('setup kibana', function() {
     */
   })
 
-  it('deletes index', function() {
+  it.skip('deletes index', function() {
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
@@ -29,7 +29,7 @@ describe('setup kibana', function() {
     cy.get('button[data-test-subj="confirmModalConfirmButton"]').click({force:true})
   })
 
-  it('deletes index', function() {
+  it.skip('deletes index', function() {
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
@@ -39,7 +39,7 @@ describe('setup kibana', function() {
     cy.get('button[data-test-subj="confirmModalConfirmButton"]').click({force:true})
   })
 
-  it('deletes index', function() {
+  it.skip('deletes index', function() {
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
