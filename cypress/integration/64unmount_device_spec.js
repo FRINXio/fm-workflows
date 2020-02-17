@@ -3,7 +3,7 @@ describe('Unmount added devices', function() {
     cy.login()
   })
 	
-  it('unmounts devices', function() { 
+  it.skip('unmounts devices', function() { 
     cy.server()
     cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
     cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
