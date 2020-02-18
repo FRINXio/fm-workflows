@@ -41,7 +41,7 @@ describe('Collect platform information from the device and store in the inventor
 
     cy.contains('Execution Flow').click()
     cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
-    cy.get('div.headerInfo').contains('COMPLETED',{timeout:10000})
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
     cy.get('div[role="dialog"]').scrollTo('center', { duration: 1000 })
     cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
