@@ -34,8 +34,12 @@ describe('Save and execute commands on devices', function() {
     cy.contains('inventory-show_cmd').click({force:true})
     cy.wait('@getSearchResults')
     //explicit wait
-    cy.wait(500)
-    cy.get('td').click({force:true,multiple:true})
+    //here was in jenkins regular fail of this test - I am forced to solve that by so high value of wait time !!!!
+    cy.wait(2000)
+    //let us try instead of explicite wait this
+    //cy.get('table tbody tr:nth-child(1)').should('to.exist')
+    //cy.get('td').click({force:true,multiple:true})
+    cy.get('td[data-test-subj="docTableExpandToggleColumn"]').click({force:true,multiple:true})
     cy.get("dd span").contains('show_command').scrollIntoView()
   })
 }) 

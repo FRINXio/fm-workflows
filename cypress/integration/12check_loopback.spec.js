@@ -10,15 +10,20 @@ describe('Retrieve journal of a device', function() {
       method: 'POST',
     })
     cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getXR02')
 
     cy.visit('/')
 
     cy.contains('UniConfig').click()
+    cy.wait('@getXR02')
+    cy.wait('@getXR02')
 
     cy.url().should('include', '/devices')
-    cy.get('table tbody tr').first().find('td').eq(1).should('contain','XR02')
-    cy.get('td#node_id-0').contains('XR02')
+    //cy.get('table tbody tr').first().find('td').eq(1).should('contain','XR02')
+    //cy.get('td#node_id-0').contains('XR02')
     //TODO how to put it into variable?
+    cy.get('table tbody tr:nth-child(8)').should('to.exist')
+    cy.get('table tbody tr').contains('XR02')
 
     cy.get('.navbar-brand').click()	  
     cy.url().should('include', '/')
@@ -118,6 +123,7 @@ describe('Retrieve journal of a device', function() {
     cy.visit('/')
 
     cy.contains('UniConfig').click()
+    cy.wait('@getIOS01')
     cy.wait('@getIOS01')
 
     cy.url().should('include', '/devices')
