@@ -3,7 +3,8 @@
   "description": "Create loopback interface for all devices in unified topology - DEMO,INTERFACES,UNIFIED,OPENCONFIG",
   "version": 1,
   "inputParameters": [
-    "loopback_id[Unique loopback identifier (e.g. 77)]"
+    "loopback_id[Unique loopback identifier (e.g. 77)]",
+    "optional[If one of devices is already mounted, workflow will continue# bool][true]"
   ],
   "tasks": [
     {
