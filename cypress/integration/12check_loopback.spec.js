@@ -34,7 +34,7 @@ describe('Retrieve journal of a device', function() {
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')	  
     cy.contains('Read_journal_cli_device').click()	  
     cy.get('button').contains('Execute').click()	  
-	  
+    /*  
     //label device_id
     //this is input with autocompletion	  
     //at first try to click it to see the list of devices
@@ -48,6 +48,10 @@ describe('Retrieve journal of a device', function() {
     cy.get('input[placeholder="Enter the node id"').clear().type('XR02') //this is input with autocompletion	  
     cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	  
     cy.contains('XR02').click()
+    */
+    cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
+    cy.get('@device_id').type('{selectall}{backspace}')
+    cy.get('@device_id').type('XR02').find('li[aria-label="XR02"]').click()
 
     cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
@@ -139,7 +143,7 @@ describe('Retrieve journal of a device', function() {
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')	  
     cy.contains('Read_journal_cli_device').click()	  
     cy.get('button').contains('Execute').click()	  
-	  
+    /*
     //label device_id
     //this is input with autocompletion	  
     //at first try to click it to see the list of devices
@@ -150,6 +154,10 @@ describe('Retrieve journal of a device', function() {
     cy.get('input[placeholder="Enter the node id"').clear().type('IOS01') //this is input with autocompletion	  
     cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	  
     cy.contains('IOS01').click()
+    */
+    cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
+    cy.get('@device_id').type('{selectall}{backspace}')
+    cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
 
     cy.get('div.modal-content').contains('Execute').click()	  
     cy.wait('@getWorkflowId')
