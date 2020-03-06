@@ -13,6 +13,8 @@ import vll_service_worker
 import vpls_worker
 import vpls_service_worker
 import bi_service_worker
+import parser_worker
+import postgresql_worker
 import common_worker
 
 
@@ -39,6 +41,8 @@ def register_workers(cc):
     # vpls_worker.start(cc)
     # vpls_service_worker.start(cc)
     # bi_service_worker.start(cc)
+    # parser_worker.start(cc)
+    postgresql_worker.start(cc)
     common_worker.start(cc)
 
 
