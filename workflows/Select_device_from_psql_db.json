@@ -1,0 +1,24 @@
+{
+  "name": "Select_device_from_psql_db",
+  "description": "Select device from psql_database - PSQL",
+  "version": 1,
+  "inputParameters": [
+    "device[Name of device]"
+  ],
+  "tasks": [
+    {
+      "name": "PSQL_select_device",
+      "taskReferenceName": "PSQL_select_device",
+      "inputParameters": {
+        "device": "${workflow.input.device}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0
+    }
+  ],
+  "outputParameters": {
+    "json": "${PSQL_select_device.output.result}"
+  },
+  "restartable": true,
+  "schemaVersion": 2
+}

@@ -14,7 +14,7 @@ import vpls_worker
 import vpls_service_worker
 import bi_service_worker
 import common_worker
-
+import psql_worker
 
 def main():
     print('Starting FRINX workers')
@@ -39,6 +39,7 @@ def register_workers(cc):
     # vpls_worker.start(cc)
     # vpls_service_worker.start(cc)
     # bi_service_worker.start(cc)
+    psql_worker.start(cc)
     common_worker.start(cc)
 
 
