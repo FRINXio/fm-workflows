@@ -15,6 +15,7 @@ import vpls_service_worker
 import bi_service_worker
 import common_worker
 import psql_worker
+import http_worker
 
 def main():
     print('Starting FRINX workers')
@@ -41,6 +42,7 @@ def register_workers(cc):
     # bi_service_worker.start(cc)
     psql_worker.start(cc)
     common_worker.start(cc)
+    http_worker.start(cc)
 
 
 if __name__ == '__main__':
