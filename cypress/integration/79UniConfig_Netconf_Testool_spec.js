@@ -208,7 +208,7 @@ describe('Mount devices from UniConfig', function() {
 
     //******************
     //Leave devices/edit page
-    cy.get('button[class~="round"]').click()
+    cy.get('button[class~="round"]').click({force:true})
     cy.url().should('include', '/devices')
   })
 })
