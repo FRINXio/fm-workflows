@@ -51,6 +51,7 @@ Cypress.Commands.add("unmount_incompatible_devices", () => {
     cy.contains('netconf-testtool').should('not.to.exist')
 })
 
+if (!Cypress.env("SKIP_LOGIN")) {
 Cypress.Commands.add("login", () => {
     let login = Cypress.env('login')
     let password= Cypress.env('password')
@@ -60,3 +61,8 @@ Cypress.Commands.add("login", () => {
     cy.get('button').contains('Sign In').click()
     cy.contains('Workflows')
 })
+} else {
+Cypress.Commands.add("login", () => {
+;
+})
+}
