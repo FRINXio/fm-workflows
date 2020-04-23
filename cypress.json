@@ -4,6 +4,7 @@
   "viewportWidth": 1024,
   "env": {
     "inventory": "http://localhost:5601",
+    "SKIP_LOGIN": true,
     "login": "",
     "password": ""
   }
