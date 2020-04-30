@@ -1,6 +1,7 @@
 {
   "name": "Read_components_openconfig",
   "description": "Read components in openconfig format - DEMO,PLATFORM,UNIFIED,OPENCONFIG",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "device_id[Unique device identifier. Example: IOS01 #node_id]"

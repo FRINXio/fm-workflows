@@ -1,6 +1,7 @@
 {
   "name": "Add_netconf_device_to_inventory",
   "description": "add a NETCONF device to inventory database - BASICS,MAIN,INVENTORY,NETCONF",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
     {

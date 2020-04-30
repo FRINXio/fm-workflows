@@ -1,6 +1,7 @@
 {
   "name": "Link_aggregation",
   "description": "Creates a link aggregation between two nodes - DEMO,LINKAGG",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "bundle_ether_id[BundleEtherX][3]",

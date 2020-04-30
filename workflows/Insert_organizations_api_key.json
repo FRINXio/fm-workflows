@@ -1,6 +1,7 @@
 {
   "name": "Insert_organizations_api_key",
   "description": "Insert_organizations_api_key - PSQL",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
   ],

@@ -1,6 +1,7 @@
 {
   "name": "Create_loopback_all_in_uniconfig",
   "description": "Create loopback interface for all devices in uniconfig topology - DEMO,INTERFACES,UNICONFIG,OPENCONFIG",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "loopback_id[Unique loopback identifier (e.g. 77)]",

@@ -1,6 +1,7 @@
 {
   "name": "Dynamic_fork",
   "description": "A dynamic fork + join task - BASICS,UTILS",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
     {

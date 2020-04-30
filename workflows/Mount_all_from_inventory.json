@@ -1,6 +1,7 @@
 {
   "name": "Mount_all_from_inventory",
   "description": "mount and check all labeled devices from inventory - BASICS,CLI,NETCONF,INVENTORY,MAIN",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "labels[Enter one or multiple labels to select devices. Match type is ALL.]",

@@ -1,6 +1,7 @@
 {
   "name": "Select_device_from_psql_db",
   "description": "Select device from psql_database - PSQL",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "device[Name of device]"
