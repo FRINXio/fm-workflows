@@ -1,6 +1,7 @@
 {
   "name": "Execute_all_from_cli_update_inventory",
   "description": "execute a command from inventory for all devices in cli topology and store in inventory - DEMO,INVENTORY,CLI",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "command_id[Unique command identifier]",

@@ -1,6 +1,7 @@
 {
   "name": "Mount_and_check_cli",
   "description": "mount, check and leave device mounted - BASICS,CLI",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "device_id[Unique identifier of device across all systems]",

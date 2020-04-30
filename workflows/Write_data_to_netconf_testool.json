@@ -1,6 +1,7 @@
 {
   "name": "Write_data_to_netconf_testool",
   "description": "Write device configuration data to netconf testtool e.g. openconfig - DEMO,UNICONFIG,NETCONF",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
     {

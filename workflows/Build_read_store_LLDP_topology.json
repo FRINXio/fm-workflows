@@ -1,6 +1,7 @@
 {
   "name": "Build_read_store_LLDP_topology",
   "description": "Build, read and store LLDP topology in database - DEMO,LLDP",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "node-aggregation[Which unique attribute of a device to use in order to identify a device. This reduces node duplicity][system-name]",

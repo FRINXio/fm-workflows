@@ -1,6 +1,7 @@
 {
   "name": "Read_components_update_inventory",
   "description": "Read components in openconfig format and store in inventory - DEMO,PLATFORM,UNIFIED,OPENCONFIG,INVENTORY",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
   	{
