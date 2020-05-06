@@ -19,7 +19,7 @@
         }
       }
     },
-  	{
+    {
       "name": "sub_execute_command",
       "taskReferenceName": "execute_command",
       "inputParameters": {
