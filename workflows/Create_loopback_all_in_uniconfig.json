@@ -17,7 +17,7 @@
         "optional": "${workflow.input.optional}"
       }
     },
-  	{
+    {
       "name": "sub_create_loopback",
       "taskReferenceName": "create_loopback",
       "inputParameters": {
