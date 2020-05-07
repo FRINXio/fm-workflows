@@ -57,9 +57,12 @@ In case you need to test remote FRINX-machine instance
 you can run tests after providing of proper IP and credentials from command line like this:
 ```
 CYPRESS_baseUrl=http://10.103.5.231 \
+CYPRESS_viewportHeight=900 \
+CYPRESS_viewportWidth=1440 \
 CYPRESS_inventory=http://10.103.5.231:5601 \
 CYPRESS_login=example@example.com \
 CYPRESS_password=your_password \
+CYPRESS_SKIP_LOGIN=false \
 ~/node_modules/.bin/cypress run --browser chrome --headless
 ```
 Note: use 'cypress run' for automatic testing

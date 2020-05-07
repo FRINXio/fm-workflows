@@ -9,15 +9,15 @@ describe('Save and execute commands on devices', function() {
     cy.server()
     cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
 
-    //In our example we will use Execute_and_read_rpc_cli_device_from_inventory which will execute a command from inventory on one device without saving the output of this command to inventory.
+    //In our example we will use Execute_and_read_rpc_cli_device_from_inventory_update_inventory which will execute a command from inventory on one device without saving the output of this command to inventory.
 
     cy.visit('/')
 
     cy.contains('Workflows').click()	  
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory')	  
-    cy.contains('Execute_and_read_rpc_cli_device_from_inventory').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory_update_inventory')	  
+    cy.contains('Execute_and_read_rpc_cli_device_from_inventory_update_inventory').click()	  
 
     cy.get('button').contains('Execute').click()	  
 
@@ -46,36 +46,40 @@ describe('Save and execute commands on devices', function() {
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
     cy.url().should('include', '/workflows/exec')	  
-    cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
+    cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory_update_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
 
-    cy.contains('Execution Flow').click()
-    cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
+    cy.contains('Task Details').click()
 
-    //click the second one
-    cy.get('g > rect').eq(1).click({force: true})
-    cy.contains('Summary').click()
+    // ### GOING TO SUB_WORKFLOW ###
+    cy.get('td').contains(/^1$/).next().next().find('button').click()
+    cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
+
+    cy.get('td').contains(/^2$/).next().contains('CLI_execute_and_read_rpc_cli').click()
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(4).find('code > pre').as('OutputBox')
     cy.get('@OutputBox').should(($json) => {
       expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface Loopback')
       expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface GigabitEthernet')
     })
-    //scroll to view text interface ...
-    //this will probably work only in FM v1.1 because in v1.2 output is automatically unescaped and "Unescape" button is removed
-    cy.get('@OutputBox')
-      .children().first()
-      .children().first()
-      .scrollTo('center', { duration: 1000 })
     cy.get('button.close').click()
+    cy.contains('Parent').click()
+    // ### LEAVING SUB_WORKFLOW ###
 
-    cy.contains('Input/Output').click()
-    //curently Workflow Output "output": null - will be fixed
-    //cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','"output": null')
-    cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','interface GigabitEthernet')
+    cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory_update_inventory',{timeout:30000})
 
     cy.contains('Task Details').click()
+    cy.get('td').contains(/^2$/).next().contains('INVENTORY_add_field_to_device').click()
+    cy.contains('INVENTORY_add_field_to_device (COMPLETED)')
+    //TODO in Input Box there is a new field sh_run but its value is set to null 
+    cy.contains('Summary').click()
+    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(2).find('code > pre').as('InputBox')
+    cy.get('@InputBox').should(($json) => {
+      expect($json, 'to expect to find in INPUT box of INVENTORY_add_field_to_device (COMPLETED) workflow:').to.contain('interface Loopback')
+      expect($json, 'to expect to find in INPUT box of INVENTORY_add_field_to_device (COMPLETED) workflow:').to.contain('interface GigabitEthernet')
+    })
+    cy.get('button.close').click()
+
     cy.contains('Close').scrollIntoView()
     cy.contains('Close').click()
   })

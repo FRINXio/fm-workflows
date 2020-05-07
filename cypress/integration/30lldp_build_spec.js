@@ -74,6 +74,32 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
 
+    //Now run of the workflow is COMPLETED
+    //Let us inspect whether we find expected traces in output !!!!
+    //in version FM v1.1 there is a bad definition of workflow - let us detect it - it should be fixed in v1.2
+    cy.contains('Task Details').click()
+
+    cy.get('td').contains(/^2$/).next().contains('LLDP_read_topology').click()
+    cy.contains('LLDP_read_topology (COMPLETED)')
+    cy.contains('Summary').click()
+    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(4).find('code > pre').should('contain','"topology-id": "lldp",') //to expect to find in OUTPUT box
+    cy.get('button.close').click()
+
+    cy.get('td').contains(/^3$/).next().contains('LLDP_store_topology').click()
+    cy.contains('LLDP_store_topology (COMPLETED)')
+    cy.contains('Summary').click()
+    //cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(2).click()
+    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(2).find('code > pre').as('InputBox')
+    cy.get('@InputBox').should(($json) => {
+      expect($json, 'to expect to find in INPUT box of LLDP_store_topology workflow:').to.contain('"topology-id": "lldp",')
+      expect($json, 'to expect to find in INPUT box of LLDP_store_topology workflow:').to.contain('link-id')
+      expect($json, 'to expect to find in INPUT box of LLDP_store_topology workflow:').to.contain('source-tp')
+      expect($json, 'to expect to find in INPUT box of LLDP_store_topology workflow:').to.contain('dest-tp')
+      expect($json, 'to expect to find in INPUT box of LLDP_store_topology workflow:').to.contain('source-node')
+      expect($json, 'to expect to find in INPUT box of LLDP_store_topology workflow:').to.contain('dest-node')
+    })
+    cy.get('button.close').click()
+
     cy.contains('Execution Flow').click()
     //click on the green box with the CLI_get_cli_journal text.
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
@@ -84,6 +110,12 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     //cy.contains('Summary').click()
 
     cy.contains('Close').scrollIntoView()
+
+    cy.contains('Input/Output').click()
+    //here I am unable to detect problem with workflow encountered in FM v1.1
+    cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','"content": null')
+    cy.get('div[role="document"]:not(.modal-lg)').contains('Workflow Output').parent().find('code').should('contain','"content": null')
+
     cy.contains('Close').click()
   })
 })
