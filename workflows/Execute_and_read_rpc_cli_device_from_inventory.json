@@ -29,7 +29,7 @@
     }
   ],
   "outputParameters": {
-    "output": "${execute_template.output.output}"
+    "output": "${execute_template.output.response_body}"
   },
   "schemaVersion": 2
 }

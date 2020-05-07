@@ -29,13 +29,13 @@
       "inputParameters": {
         "device_id": "${workflow.input.device_id}",
         "field": "${workflow.input.template_id}",
-        "value": "${execute_template.output.output}"
+        "value": "${execute_template.output.output.output.output}"
       },
       "type": "SIMPLE"
     }
   ],
   "outputParameters": {
-    "output": "${execute_template.output.output}"
+    "output": "${execute_template.output}"
   },
   "schemaVersion": 2
 }
