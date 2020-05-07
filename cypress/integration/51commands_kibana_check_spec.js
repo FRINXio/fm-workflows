@@ -41,5 +41,7 @@ describe('Save and execute commands on devices', function() {
     //cy.get('td').click({force:true,multiple:true})
     cy.get('td[data-test-subj="docTableExpandToggleColumn"]').click({force:true,multiple:true})
     cy.get("dd span").contains('show_command').scrollIntoView()
+    cy.get("dd span").contains('sh_run').scrollIntoView()
+    cy.get("dd span").contains('show running-config').scrollIntoView()
   })
 }) 

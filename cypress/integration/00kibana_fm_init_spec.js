@@ -1,5 +1,5 @@
 describe('setup kibana', function() {
-  it('being FIRST TIME IN KIBANA prepare indices', function() {
+  it('being FIRST TIME IN KIBANA get rid of introduction screen', function() {
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')

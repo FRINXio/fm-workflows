@@ -73,14 +73,14 @@ describe('Retrieve journal of a device', function() {
     cy.contains('Input/Output').click()
 	  
     //The journal information can be found in the output of the workflow
-    cy.contains('Workflow Output').parent().contains('Unescape').click()
+    //202005 button was removed: cy.contains('Workflow Output').parent().contains('Unescape').click()
     //cy.scrollTo('bottom') // this does not work failed because this element is not scrollable <window>
     //search for interface Loopback700929
     //TODO here code is found 2x one of the found element is hidden - try to identify/locate element unambiguously
     cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','interface Loopback700929') //problem element code is not visible (more exact told one is visible and the second one is hidden)
     cy.get('div[role="document"]:not(.modal-lg)').contains('Workflow Output').parent().find('code').should('contain','interface Loopback700929')
     //Workflow Output  parent() is h4 ... > button with text Escape 
-    cy.contains('Workflow Output').parent().contains('Escape').click()
+    //202005 button was removed: cy.contains('Workflow Output').parent().contains('Escape').click()
 
     cy.contains('JSON').click()
     cy.contains('Edit & Rerun').click()
@@ -104,7 +104,7 @@ describe('Retrieve journal of a device', function() {
 
     //The journal information can be found in the output of the workflow
     //cy.get('div.container > div.row').eq(5).contains('Unescape').click() // obviously there are counted also elements in previous modal window because if I count what I see in above modal window it is on 3rd position
-    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(3).contains('Unescape').click()
+    //202005 button was removed: cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(3).contains('Unescape').click()
     //search for interface Loopback700929
     //cy.get('code').invoke('show').should('contain','interface Loopback700929') //problem element code is not visible // not sure which one I located here It is difficult to craft good path
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(4).find('code > pre').should('contain','interface Loopback700929')
@@ -176,12 +176,12 @@ describe('Retrieve journal of a device', function() {
     cy.contains('Input/Output').click()
 	  
     //The journal information can be found in the output of the workflow
-    cy.contains('Workflow Output').parent().contains('Unescape').click()
+    //202005 button was removed: cy.contains('Workflow Output').parent().contains('Unescape').click()
     //search for interface Loopback700929
     //TODO
     cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','interface Loopback700929') //problem element code is not visible
     //Workflow Output  parent() is h4 ... > button with text Escape 
-    cy.contains('Workflow Output').parent().contains('Escape').click()
+    //202005 button was removed: cy.contains('Workflow Output').parent().contains('Escape').click()
 
     cy.contains('JSON').click()
     cy.contains('Edit & Rerun').click()
@@ -198,7 +198,7 @@ describe('Retrieve journal of a device', function() {
     cy.contains('Summary').click()
 	  
     //The journal information can be found in the output of the workflow
-    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(3).contains('Unescape').click()
+    //202005 button was removed: cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(3).contains('Unescape').click()
     //search for interface Loopback700929
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(4).find('code > pre').should('contain','interface Loopback700929')
 	  
