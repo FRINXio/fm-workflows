@@ -39,8 +39,12 @@ See note designated [Important][4].
 ## Pre-prepare CLI command and re-use it 
 [Save a command to inventory and execute saved command on mounted devices][A]  
 50commands_save_spec.js uses workflow *Add_cli_show_command_to_inventory*  
-51commands_kibana_check_spec.js- you can check in inventory (kibana) using index inventory-show_cmd  
+51commands_kibana_check_spec.js - you can check in inventory (kibana) using index inventory-show_cmd  
 52commands_execute_spec.js uses workflow *Execute_and_read_rpc_cli_device_from_inventory*
+53commands_execute_spec.js uses workflow *Execute_and_read_rpc_cli_device_from_inventory_update_inventory*
+54commands_execute_kibana_check_spec.js - you can check in inventory (kibana) using index inventory-show_cmd  
+55commands_execute_spec.js uses workflow *Execute_all_from_cli_update_inventory*
+56commands_execute_kibana_check_spec.js - you can check in inventory (kibana) using index inventory-show_cmd  
 
 ## Add device to inventory
 60add_device_spec.js  
