@@ -4,7 +4,7 @@
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "command_id[Unique command identifier]",
+    "template_id[Unique command identifier]",
     "params[]"
   ],
   "tasks": [
@@ -15,7 +15,7 @@
       "inputParameters": {
         "task": "Execute_and_read_rpc_cli_device_from_inventory_update_inventory",
         "task_params": {
-          "command_id": "${workflow.input.command_id}",
+          "template_id": "${workflow.input.template_id}",
           "params": "${workflow.input.params}"
         }
       }
