@@ -2,6 +2,46 @@
   "name": "Build_read_store_LLDP_topology",
   "description": "Build, read and store LLDP topology in database - DEMO,LLDP",
   "version": 1,
+  "tasks": [
+    {
+      "name": "LLDP_build_topology",
+      "taskReferenceName": "LLDP_build_topology",
+      "inputParameters": {
+        "node-aggregation": "${workflow.input.node-aggregation}",
+        "link-aggregation": "${workflow.input.link-aggregation}",
+        "per-node-read-timeout": "${workflow.input.per-node-read-timeout}",
+        "concurrent-read-nodes": "${workflow.input.concurrent-read-nodes}",
+        "destination-topology": "${workflow.input.destination-topology}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "LLDP_read_topology",
+      "taskReferenceName": "LLDP_read_topology",
+      "inputParameters": {
+        "destination-topology": "${workflow.input.destination-topology}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "LLDP_store_topology",
+      "taskReferenceName": "LLDP_store_topology",
+      "inputParameters": {
+        "destination-topology": "${workflow.input.destination-topology}",
+        "content": "${LLDP_read_topology.output.response_body.topology}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    }
+  ],
   "inputParameters": [
     "node-aggregation[Which unique attribute of a device to use in order to identify a device. This reduces node duplicity][system-name]",
     "link-aggregation[Which unique attribute of a link to use in order to identify a device e.g. source and destination interfaces][bidirectional-abbreviations]",
@@ -9,40 +49,11 @@
     "concurrent-read-nodes[How many devices to query in parallel][8]",
     "destination-topology[Name of a topology under which the result will be stored][lldp]"
   ],
-  "tasks": [
-    {
-      "name": "LLDP_build_topology",
-      "taskReferenceName": "LLDP_build_topology",
-      "type": "SIMPLE",
-      "inputParameters": {
-        "node-aggregation": "${workflow.input.node-aggregation}",
-        "link-aggregation": "${workflow.input.link-aggregation}",
-        "per-node-read-timeout": "${workflow.input.per-node-read-timeout}",
-        "concurrent-read-nodes": "${workflow.input.concurrent-read-nodes}",
-        "destination-topology": "${workflow.input.destination-topology}"
-      }
-    },
-    {
-      "name": "LLDP_read_topology",
-      "taskReferenceName": "LLDP_read_topology",
-      "type": "SIMPLE",
-      "inputParameters": {
-        "destination-topology": "${workflow.input.destination-topology}"
-      }
-    },
-    {
-      "name": "LLDP_store_topology",
-      "taskReferenceName": "LLDP_store_topology",
-      "type": "SIMPLE",
-      "inputParameters": {
-        "destination-topology": "${workflow.input.destination-topology}",
-        "content": "${workflow.input.content}"
-      }
-    }
-  ],
   "outputParameters": {
     "destination-topology": "${workflow.input.destination-topology}",
     "content": "${LLDP_read_topology.output.response.topology}"
   },
-  "schemaVersion": 2
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false
 }
