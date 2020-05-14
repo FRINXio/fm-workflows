@@ -76,27 +76,56 @@ Cypress.Commands.add("login", () => {
 //this is helper functions to solve very fast xhr on localhost FM server which I am unable to catch
 //and at the same time function to wait for xhr ending on slower connections
 //definition of the function is dependant on the value of CYPRESS_baseUrl=http://10.19.0.5:3000
-//if (!Cypress.env("baseUrl").includes("localhost")) {
-//if (false) {
-if (!Cypress.env("baseUrl")=="http://localhost:3000") {
-Cypress.Commands.add("waitForXHR", () => {
-    cy.server()
-    cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
+if (!Cypress.config().baseUrl.includes("localhost")) {
+
+Cypress.Commands.add("waitForXHR", (xhr1,xhr2) => {
+    //cy.server()
+    //cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
+    //cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
+    //...
+    //...
     //20200514
     //THIS WORKS ON SLOWER NETWORKS BUT NOT LOCALLY
     //WHEN RUNNING FM ON localhost THEN THESE XHRs ARE TOO FAST TO CATCH
     //wait a second for finishing of loading of the list of connected devices
     //there is two xhr we will wait for and after then 3 times bunch of xhrs
-    cy.wait(['@getAllStatusCli', '@getAllStatusNetconf']).then((xhrs) => {
+    //cy.wait(['@getAllStatusCli', '@getAllStatusNetconf']).then((xhrs) => {
+    cy.wait([xhr1, xhr2]).then((xhrs) => {
       const cliDev = xhrs[0].responseBody.topology[0].node
       const netconfDev = xhrs[1].responseBody.topology[0].node
       const rowCount = ((cliDev === undefined) ? 0 : cliDev.length) + ((netconfDev === undefined) ? 0 : netconfDev.length)
       cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     })
 })
+
+Cypress.Commands.add("waitForXHR2", (xhr1) => {
+    //cy.server()
+    //cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
+    //...
+    //...
+    //20200514
+    //THIS WORKS ON SLOWER NETWORKS BUT NOT LOCALLY
+    //WHEN RUNNING FM ON localhost THEN THESE XHRs ARE TOO FAST TO CATCH
+    //wait a second for finishing of loading of the list of connected devices
+    //there is two xhr we will wait for and after then 3 times bunch of xhrs
+    //cy.wait(['@getAllStatusNetconf']).then((xhrs) => {
+    cy.wait([xhr1]).then((xhrs) => {
+      const netconfDev = xhrs.responseBody.topology[0].node
+      const rowCount = ((netconfDev === undefined) ? 0 : netconfDev.length)
+      cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
+    })
+})
+
 } else {
-Cypress.Commands.add("waitForXHR", () => {
+
+Cypress.Commands.add("waitForXHR", (xhr1,xhr2) => {
+  cy.wait(5000)
 ;
 })
+
+Cypress.Commands.add("waitForXHR2", (xhr1) => {
+  cy.wait(5000)
+;
+})
+
 }
