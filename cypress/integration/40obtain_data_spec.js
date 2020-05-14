@@ -40,11 +40,11 @@ describe('Collect platform information from the device and store in the inventor
     cy.get('div.modal-header').contains('Details of Read_components_all_from_unified_update_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
-    cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
+    //cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
-    cy.get('div[role="dialog"]').scrollTo('center', { duration: 1000 })
-    cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
+    //cy.get('div[role="dialog"]').scrollTo('center', { duration: 1000 })
+    //cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
     cy.get('#detailTabs-tabpane-execFlow > div').scrollTo('bottomRight', { duration: 1000 })
     cy.screenshot() 
     //cy.get('#detailTabs-tabpane-execFlow > div').scrollTo('bottomLeft', { duration: 1000 })

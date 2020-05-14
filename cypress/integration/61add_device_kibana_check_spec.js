@@ -16,13 +16,13 @@ describe('Save and execute commands on devices', function() {
     cy.get('button[data-test-subj="createIndexPatternCreateButton"]').contains('Create index pattern',{timeout:10000}).click({force:true})
   })
 
-  it.skip('retrieves data', function() {
+  it('retrieves data', function() {
     cy.server({
       method: 'POST',
     })
     cy.route('/elasticsearch/_msearch?rest_total_hits_as_int=true&ignore_throttled=true').as('getSearchResults')
-	  
-    //After the workflow has completed, go to Kibana and look for an entry called “lldp”. 
+
+    //After the workflow has completed, go to Kibana and look for an entry called “lldp”.
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
@@ -47,4 +47,4 @@ describe('Save and execute commands on devices', function() {
     //cy.get('div.kbnUiAceKeyboardHint').next().invoke('show').type('{selectall}{del} DELETE inventory-device/device/BIG_ONE_ROUTER{ctrl}{enter}',{force:true})
     //cy.get('div.kbnUiAceKeyboardHint').next().invoke('show').type('{selectall}{del} DELETE inventory-device/device/GREATER_ONE_ROUTER{ctrl}{enter}',{force:true})
   })
-}) 
+})
