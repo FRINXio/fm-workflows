@@ -22,7 +22,7 @@ describe('Unmount added devices', function() {
     //  const rowCount = ((cliDev === undefined) ? 0 : cliDev.length) + ((netconfDev === undefined) ? 0 : netconfDev.length)
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
-    cy.waitForXHR()
+    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
 
     var device_id1='BIG_ONE_ROUTER' //: any unique identifier
     cy.contains(device_id1).parent().find('td').eq(0).click()

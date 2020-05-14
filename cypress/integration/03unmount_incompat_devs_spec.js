@@ -22,9 +22,7 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     //  const rowCount = ((cliDev === undefined) ? 0 : cliDev.length) + ((netconfDev === undefined) ? 0 : netconfDev.length)
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
-    //DOES NOT WORK EITHER
-    //cy.wait(['@getOStatusVRP01', '@getCStatusVRP01', '@getOStatusNetconf', '@getCStatusNetconf'])
-    cy.waitForXHR()
+    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
 
     cy.contains('VRP01').parent().find('td').eq(0).click()
     cy.contains('Unmount Devices').click()

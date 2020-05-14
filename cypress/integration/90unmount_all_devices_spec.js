@@ -22,9 +22,9 @@ describe('Unmount all mounted devices', function() {
     //  const rowCount = ((cliDev === undefined) ? 0 : cliDev.length) + ((netconfDev === undefined) ? 0 : netconfDev.length)
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
-    cy.waitForXHR()
+    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
 
-    cy.get('table tbody tr td:first-child').click({multiple:true})
+    cy.get('table tbody tr td:first-child div input').click({multiple:true})
 
     cy.contains('Unmount Devices').click()	  
     cy.get('table tbody tr').should('not.to.exist')
