@@ -26,14 +26,19 @@
 require('@4tw/cypress-drag-drop')
 
 Cypress.Commands.add("unmount_all_devices", () => {
+    cy.server()
+    cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
+    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+
     cy.visit('/') 
     cy.contains('UniConfig').click()	  
     //cy.contains('Refresh').click()
     //cy.get('table tbody tr td:first-child',{timeout:"10000"}).click({multiple:true})
     //cy.contains('connected').parent().find('td').eq(0).click()
     //cy.contains('connected').parent().find('td').eq(0).click()
-    cy.wait(1000)
-    cy.get('table tbody tr td:first-child').click({multiple:true})
+    //cy.wait(1000)
+    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
+    cy.get('table tbody tr td:first-child div input').click({multiple:true})
     cy.contains('Unmount Devices').click()	  
     cy.get('table tbody tr').should('not.to.exist')
 })

@@ -6,7 +6,7 @@ describe('Unmount all mounted devices', function() {
   it('unmounts all devices', function() { 
     cy.server()
     cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
+    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
     cy.visit('/') 
     cy.contains('UniConfig').click()	  
@@ -23,6 +23,9 @@ describe('Unmount all mounted devices', function() {
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
     cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
+    //REPLACE WITH SOMETHING LESS PRONE TO FAIL
+    //cy.get('table tbody tr:nth-child(10)').should('to.exist')
+    //cy.wait(100)
 
     cy.get('table tbody tr td:first-child div input').click({multiple:true})
 
