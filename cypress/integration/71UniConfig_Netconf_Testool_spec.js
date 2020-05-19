@@ -3,12 +3,13 @@ describe('Mount devices from UniConfig', function() {
     cy.login()
   })
 
-  var netconfDev='netconf-testtool'
-  it('Mount netconf device ' + netconfDev, function() {
+  it('Mount netconf device netconf-testtool', function() {
+    var device_id='netconf-testtool'
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + netconfDev).as('getConfig')
+    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfigO')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -23,8 +24,8 @@ describe('Mount devices from UniConfig', function() {
 
     cy.get('#mountnetconfInput-node-id')
       .clear()
-      .type(netconfDev)
-      .should('have.value', netconfDev)
+      .type(device_id)
+      .should('have.value', device_id)
 
     cy.get('#mountnetconfInput-host')
       .clear()
@@ -62,17 +63,19 @@ describe('Mount devices from UniConfig', function() {
     //cy.get('table tbody tr').should('have.length',2)
     cy.get('table tbody tr').should('to.exist')
 
-    cy.contains(netconfDev).parent().find('td').eq(5).click()
-    cy.wait('@getConfig',{timeout:30000})
-    cy.url().should('include', '/devices/edit/' + netconfDev)
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
+    //20200518 wait only for the second xhr
+    cy.wait('@getConfigO',{timeout:30000})
+    cy.url().should('include', '/devices/edit/' + device_id)
 
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
   })
 
-  var cliDev='netconf-testtool'
-  it('Configure - testing of controls  - ' + cliDev, function()  {
-/*  it('Configure - testing of controls  - ' + cliDev, (done) =>  {
+  it('Configure - testing of controls  - netconf-testtool', function()  {
+    var device_id='netconf-testtool'
+/*  it('Configure - testing of controls  - ' + device_id, (done) =>  {
 
   cy.on('uncaught:exception', (err, runnable) => {
     expect(err.message).to.include('something about the error')
@@ -90,8 +93,8 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + cliDev).as('getConfig')
-    cy.route('/api/odl/oper/uniconfig/' + cliDev).as('getConfig')
+    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfigO')
     cy.server({
       method: 'POST',
     })
@@ -104,9 +107,11 @@ describe('Mount devices from UniConfig', function() {
 
     cy.url().should('include', '/devices')
 
-    cy.contains(cliDev).parent().find('td').eq(5).click()
-    cy.wait('@getConfig')
-    cy.url().should('include', '/devices/edit/' + cliDev)
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
+    //20200518 wait only for the second xhr
+    cy.wait('@getConfigO')
+    cy.url().should('include', '/devices/edit/' + device_id)
 
     //******************
     //Display console
@@ -158,7 +163,7 @@ describe('Mount devices from UniConfig', function() {
     //Create snapshot
     var Idx='_001'
     cy.contains('Create snapshot').click()
-    cy.get('#snapshotNameInput').clear().type(cliDev + Idx).should('have.value', cliDev + Idx)
+    cy.get('#snapshotNameInput').clear().type(device_id + Idx).should('have.value', device_id + Idx)
     cy.contains('Save Snapshot').click()
     cy.wait('@postCreateSnapshot')
     cy.contains('Close').click()
@@ -168,7 +173,7 @@ describe('Mount devices from UniConfig', function() {
 
     //Load snapshot
     cy.contains('Load Snapshot').click()
-    cy.contains(cliDev + Idx).click()
+    cy.contains(device_id + Idx).click()
     //close alert
     cy.get('.options ~ div[role="alert"]').contains('REPLACE-CONFIG-WITH-SNAPSHOT:')
     cy.get('.options ~ div[role="alert"]').contains('Node-status: complete')
@@ -182,6 +187,18 @@ describe('Mount devices from UniConfig', function() {
 
     //Show Diff
     cy.contains('Show Diff').click()
+    cy.screenshot() 
+    //here in FM v1.1. there is a bug
+    //after loading snapshot there is native-529687306-Cisco-IOS-XR-ifmgr-cfg:interface-configurations clause in Intended Configuration
+    //which is the reason for unexpected difference
+    cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
+    cy.get('div.operational div.d2h-file-diff').contains('File without changes')
+    //example:
+    //cy.get('@OutputBox').should(($json) => {
+    //  expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface Loopback')
+    //  expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface GigabitEthernet')
+    //})
+    
     //Hide diff
     cy.contains('Hide Diff').click()
     cy.contains('Show Diff').next().click()
@@ -213,8 +230,9 @@ describe('Mount devices from UniConfig', function() {
 
     //******************
     //Leave devices/edit page
-    //cy.get('button[class~="round"]').click({force:true})
-    //cy.wait('@getConfig')
-    //cy.url().should('include', '/devices')
+    cy.get('button[class~="round"]').click({force:true})
+    //20200518 wait only for the second xhr
+    cy.wait('@getConfigO')
+    cy.url().should('include', '/devices')
   })
 })

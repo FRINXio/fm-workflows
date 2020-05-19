@@ -11,33 +11,38 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
 
     cy.wait(5000)
     //https://github.com/cypress-io/cypress/issues/136#issuecomment-328100955
-    //cy.contains('Discover').click()	  
+    //cy.contains('Discover',{timeout:20000}).click()	  
     //cy.get('div.kbnGlobalNavLink__title').click()
     //cy.get('div.iframes-container').click()
     cy.get('iframe').then(($iframe) => {
       const doc = $iframe.contents()
-      //doc.contains('Discover').click(() => {
+      //doc.contains('Discover',{timeout:20000}).click(() => {
       doc.find('div.kbnGlobalNav__links > div > app-switcher > div.kbnGlobalNavLink > a').click(() => {
         console.log('clicked!!!!!!')
       })
-      //cy.wrap(doc.contains('Discover')).click({force:true})
+      //cy.wrap(doc.contains('Discover',{timeout:20000})).click({force:true})
       //cy.wrap(doc.find('div.kbnGlobalNav__links > div > app-switcher > div.kbnGlobalNavLink > a')).click({force:true})
     })
   })
 
   it('prepares index', function() {
+    cy.server()
+    cy.route('**?pattern=inventory-lldp&**').as('getXhr')
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
     //this is needed only for the first time
     //cy.contains('Explore on my own',{timeout:10000}).click()
-    cy.contains('Management',{timeout:10000}).click()
+    cy.contains('Management',{timeout:20000}).click()
     cy.contains('Index Patterns',{timeout:10000}).click({force:true})
     cy.get('button[data-test-subj="createIndexPatternButton"]').click({force:true})
     cy.get('input[name="indexPattern"][data-test-subj="createIndexPatternNameInput"]').clear({force:true}).type('inventory-lldp{del}',{force:true})
     cy.contains('Success! Your index pattern matches 1 index.')
     cy.contains('Next step',{timeout:10000}).click({force:true})
+    cy.wait('@getXhr')
     cy.get('button[data-test-subj="createIndexPatternCreateButton"]').contains('Create index pattern',{timeout:10000}).click({force:true})
+    cy.contains('Creating index pattern…')
+    cy.contains('inventory-lldp')
   })
 
   it('retrieves data', function() {
@@ -49,7 +54,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
-    cy.contains('Discover',{timeout:10000}).click()
+    cy.contains('Discover',{timeout:20000}).click()
     cy.get('div.ui-select-match > span > i.caret.pull-right').click({force:true})
     //cy.contains('*lldp').click({force:true})
     cy.contains('inventory-lldp').click({force:true})

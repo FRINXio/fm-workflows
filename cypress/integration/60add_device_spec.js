@@ -102,7 +102,8 @@ describe('Add a device to inventory and mount it', function() {
        .and('eq', 'rgb(72, 167, 112)')
 
     cy.get('g > rect').eq(1).click()
-    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').scrollTo('bottom',{duration:500})
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2
+    //cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').scrollTo('bottom',{duration:500})
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body > div > div > div > div.row').eq(4).scrollIntoView()
     cy.contains('INVENTORY_add_cli_device (COMPLETED)')
 
@@ -225,7 +226,7 @@ describe('Add a device to inventory and mount it', function() {
 
     var device_id='GREATER_ONE_ROUTER' //: any unique identifier
     var port='830' //: port to connect to
-    var host='192.168.1.212' //: host ip address
+    var host='192.168.1.211' //: host ip address
     var keepalivedelay='50000' //: value of keepalive delay
     //var tcponly='false' //: set type of communication
     var tcponly='Off' //: set type of communication
@@ -305,7 +306,8 @@ describe('Add a device to inventory and mount it', function() {
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
     cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
     cy.get('g > rect').eq(1).click()
-    cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').scrollTo('bottom',{duration:500})
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2
+    //cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').scrollTo('bottom',{duration:500})
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body > div > div > div > div.row').eq(4).scrollIntoView()
     cy.contains('INVENTORY_add_netconf_device (COMPLETED)')
 

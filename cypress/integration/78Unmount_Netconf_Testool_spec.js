@@ -5,7 +5,7 @@ describe('Unmount netconf-testtool', function() {
 	
   it('unmounts netconf-testtool', function() { 
     cy.server()
-    cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
+    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
     cy.visit('/') 
     cy.contains('UniConfig').click()	  
@@ -20,7 +20,9 @@ describe('Unmount netconf-testtool', function() {
     //  const rowCount = ((netconfDev === undefined) ? 0 : netconfDev.length)
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
-    cy.waitForXHR2('@getAllStatusNetconf')
+    //cy.waitForXHR2('@getAllStatusNetconf')
+    //REPLACE WITH SOMETHING LESS PRONE TO FAIL
+    cy.get('table tbody tr:nth-child(1)').should('to.exist')
 
     cy.contains('netconf-testtool').parent().find('td').eq(0).click()
     cy.contains('Unmount Devices').click()	  
