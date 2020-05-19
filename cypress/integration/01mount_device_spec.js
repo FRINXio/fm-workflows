@@ -5,12 +5,14 @@ describe('Mount devices from UniConfig', function() {
 
   //OPTIONAL: this test is run immediatelly after starting of frinx machine
   //OPTIONAL: no device is mounted
-  var cliDev='XR01'
-  it('Mount cli device ' + cliDev, function() {
+  it('Mount a cli device', function() {
+    var device_id='XR01'
+
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + cliDev).as('getConfig')
+    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfigO')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -25,8 +27,8 @@ describe('Mount devices from UniConfig', function() {
 
     cy.get('#mountcliInput-node-id')
       .clear()
-      .type(cliDev)
-      .should('have.value', cliDev)
+      .type(device_id)
+      .should('have.value', device_id)
 
     cy.get('#mountcliInput-host')
       .clear()
@@ -77,7 +79,7 @@ describe('Mount devices from UniConfig', function() {
 
     //cy.get('table tbody tr').should('have.length',1)
     cy.get('table tbody tr').should('to.exist')
-    cy.contains(cliDev).click()
+    cy.contains(device_id).click()
 
     cy.get('div.modal-dialog.modal-lg')
     cy.contains('Basic').click()
@@ -89,25 +91,29 @@ describe('Mount devices from UniConfig', function() {
 
     cy.contains('Close').click()
     cy.get('div.modal-dialog.modal-lg').should('not.to.exist')
-    cy.contains(cliDev).parent().find('td').eq(0).click()
-    cy.contains(cliDev).parent().find('td').eq(0).click()
-    cy.contains(cliDev).parent().find('td').eq(5).click()
-    cy.wait('@getConfig')
-    cy.url().should('include', '/devices/edit/' + cliDev)
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
+    cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
+    cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
+    //20200518 wait only for the second xhr
+    cy.wait('@getConfigO')
+    cy.url().should('include', '/devices/edit/' + device_id)
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
 
-    //cy.contains('XR01').parent().find('td').eq(0).click()
+    //cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
     //cy.contains('Unmount Devices').click()
     //cy.get('table tbody tr').should('not.to.exist')
   })
 
-  var netconfDev='netconf-testtool'
-  it('Mount netconf device ' + netconfDev, function() {
+  it('Mount a netconf device', function() {
+    var device_id='netconf-testtool'
+
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + netconfDev).as('getConfig')
+    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfigO')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -120,8 +126,8 @@ describe('Mount devices from UniConfig', function() {
 
     cy.get('#mountnetconfInput-node-id')
       .clear()
-      .type(netconfDev)
-      .should('have.value', netconfDev)
+      .type(device_id)
+      .should('have.value', device_id)
 
     cy.get('#mountnetconfInput-host')
       .clear()
@@ -157,7 +163,7 @@ describe('Mount devices from UniConfig', function() {
 
     //cy.get('table tbody tr').should('have.length',2)
     cy.get('table tbody tr').should('to.exist')
-    cy.contains(netconfDev).click()
+    cy.contains(device_id).click()
 
     cy.get('div.modal-dialog.modal-lg')
     cy.contains('Basic').click()
@@ -170,16 +176,18 @@ describe('Mount devices from UniConfig', function() {
 
     cy.contains('Close').click()
     cy.get('div.modal-dialog.modal-lg').should('not.to.exist')
-    cy.contains(netconfDev).parent().find('td').eq(0).click()
-    cy.contains(netconfDev).parent().find('td').eq(0).click()
-    cy.contains(netconfDev).parent().find('td').eq(5).click()
-    cy.wait('@getConfig')
-    cy.url().should('include', '/devices/edit/' + netconfDev)
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
+    cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
+    cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
+    //20200518 wait only for the second xhr
+    cy.wait('@getConfigO')
+    cy.url().should('include', '/devices/edit/' + device_id)
 
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
 
-    //cy.contains(netconfDev).parent().find('td').eq(0).click()
+    //cy.contains(device_id).parent().find('td').eq(0).click()
     //cy.contains('Unmount Devices').click()
     //cy.get('table tbody tr').should('not.to.exist')
   })
