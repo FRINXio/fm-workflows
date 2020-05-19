@@ -3,12 +3,12 @@ describe('Mount devices from UniConfig', function() {
     cy.login()
   })
 
-  var netconfDev='netconf-testtool'
-  it('Mount netconf device ' + netconfDev, function() {
+  it('Mount netconf device netconf-testtool', function() {
+    var device_id='netconf-testtool'
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + netconfDev).as('getConfig')
+    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -23,8 +23,8 @@ describe('Mount devices from UniConfig', function() {
 
     cy.get('#mountnetconfInput-node-id')
       .clear()
-      .type(netconfDev)
-      .should('have.value', netconfDev)
+      .type(device_id)
+      .should('have.value', device_id)
 
     cy.get('#mountnetconfInput-host')
       .clear()
@@ -62,21 +62,21 @@ describe('Mount devices from UniConfig', function() {
     //cy.get('table tbody tr').should('have.length',2)
     cy.get('table tbody tr').should('to.exist')
 
-    cy.contains(netconfDev).parent().find('td').eq(5).click()
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
     cy.wait('@getConfig',{timeout:30000})
-    cy.url().should('include', '/devices/edit/' + netconfDev)
+    cy.url().should('include', '/devices/edit/' + device_id)
 
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
   })
 
-  var cliDev='netconf-testtool'
-  it('TEST2 ' + cliDev, function() {
+  it('TEST2 netconf-testtool', function() {
+    var device_id='netconf-testtool'
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + cliDev).as('getConfig')
-    cy.route('/api/odl/oper/uniconfig/' + cliDev).as('getConfig')
+    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfig')
     cy.server({
       method: 'POST',
     })
@@ -89,9 +89,9 @@ describe('Mount devices from UniConfig', function() {
 
     cy.url().should('include', '/devices')
 
-    cy.contains(cliDev).parent().find('td').eq(5).click()
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
     cy.wait('@getConfig', {timeout:30000})
-    cy.url().should('include', '/devices/edit/' + cliDev)
+    cy.url().should('include', '/devices/edit/' + device_id)
 
     //******************
     //--> backup intended config
@@ -112,7 +112,7 @@ describe('Mount devices from UniConfig', function() {
     //Create snapshot
     var Idx='_001' + localtime
     cy.contains('Create snapshot').click()
-    cy.get('#snapshotNameInput').clear().type(cliDev + Idx).should('have.value', cliDev + Idx)
+    cy.get('#snapshotNameInput').clear().type(device_id + Idx).should('have.value', device_id + Idx)
     cy.contains('Save Snapshot').click()
     cy.wait('@postCreateSnapshot')
     cy.contains('Close').click()
@@ -142,7 +142,7 @@ describe('Mount devices from UniConfig', function() {
     //Create snapshot
     var Idx='_002' + localtime
     cy.contains('Create snapshot').click()
-    cy.get('#snapshotNameInput').clear().type(cliDev + Idx).should('have.value', cliDev + Idx)
+    cy.get('#snapshotNameInput').clear().type(device_id + Idx).should('have.value', device_id + Idx)
     cy.contains('Save Snapshot').click()
     cy.wait('@postCreateSnapshot')
     cy.contains('Close').click()
@@ -164,7 +164,7 @@ describe('Mount devices from UniConfig', function() {
 
     //Load snapshot
     cy.contains('Load Snapshot').click()
-    cy.contains(cliDev + Idx).click()
+    cy.contains(device_id + Idx).click()
 
     cy.get('.options ~ div[role="alert"]').contains('REPLACE-CONFIG-WITH-SNAPSHOT:')
     cy.get('.options ~ div[role="alert"]').contains('Node-status: complete')
