@@ -1,6 +1,7 @@
 {
   "name": "Create_L2VPN_P2P_OC_uniconfig",
   "description": "Create P2P L2VPN in uniconfig - DEMO,L2VPN,UNICONFIG,OPENCONFIG",
+  "workflowStatusListenerEnabled": true,
   "version": 2,
   "tasks": [
     {

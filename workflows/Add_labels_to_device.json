@@ -1,6 +1,7 @@
 {
   "name": "Add_labels_to_device",
   "description": "add a labels to device in inventory database - BASICS,INVENTORY",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "device_id[Unique device identifier. Example: IOS01]",

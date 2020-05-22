@@ -1,6 +1,7 @@
 {
   "name": "Mount_netconf_device",
   "description": "mount a Netconf device - BASICS,NETCONF",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
     "device_id[Unique identifier of device across all systems]",
