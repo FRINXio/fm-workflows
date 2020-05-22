@@ -1,6 +1,7 @@
 {
   "name": "Read_interfaces_all_from_unified",
   "description": "read interfaces configuration for all devices in unified topology - DEMO,INTERFACES,UNIFIED",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
     {

@@ -1,6 +1,7 @@
 {
   "name": "Add_cli_device_to_inventory",
   "description": "add a CLI device to inventory database - BASICS,MAIN,INVENTORY,CLI",
+  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
     {
