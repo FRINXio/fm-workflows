@@ -1,15 +1,15 @@
-describe('Unmount all mounted devices', function() { 
+describe('Unmount all mounted devices', function() {
   beforeEach(function() {
     cy.login()
   })
 	
-  it('unmounts all devices', function() { 
+  it('unmounts all devices', function() {
     cy.server()
     cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
     cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
-    cy.visit('/') 
-    cy.contains('UniConfig').click()	  
+    cy.visit('/')
+    cy.contains('UniConfig').click()
 
     //20200514
     //this works on slower networks but not locally
@@ -29,7 +29,7 @@ describe('Unmount all mounted devices', function() {
 
     cy.get('table tbody tr td:first-child div input').click({multiple:true})
 
-    cy.contains('Unmount Devices').click()	  
+    cy.contains('Unmount Devices').click()
     cy.get('table tbody tr').should('not.to.exist')
   })
 })

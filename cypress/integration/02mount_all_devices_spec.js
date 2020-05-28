@@ -1,4 +1,4 @@
-describe('Mount all devices from inventory', function() { 
+describe('Mount all devices from inventory', function() {
   beforeEach(function() {
     cy.login()
 
@@ -6,7 +6,7 @@ describe('Mount all devices from inventory', function() {
   })
 
   //prerequisite: all devices unmounted
-  it('mounts all devices from inventory', function() { 
+  it('mounts all devices from inventory', function() {
     cy.server({
       method: 'POST',
     })
@@ -27,18 +27,19 @@ describe('Mount all devices from inventory', function() {
     cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
 
-    cy.visit('/') 
+    cy.visit('/')
 
-    cy.contains('UniConfig').click()	  
+    cy.contains('UniConfig').click()
     cy.get('table tbody tr').should('not.to.exist')
 
-    cy.get('.navbar-brand').click()	  
-    cy.contains('Workflows').click()	  
+    cy.get('.navbar-brand').click()
+    cy.contains('Workflows').click()
 
-    cy.url().should('include', '/workflows/defs')	  
-    cy.get('input[placeholder="Search by keyword."').type('Mount_all_from_inventory')	  
-    cy.contains('Mount_all_from_inventory').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.url().should('include', '/workflows/defs')
+    cy.get('input[placeholder="Search by keyword."').type('Mount_all_from_inventory')
+    //cy.contains('Mount_all_from_inventory').click()
+    //cy.get('button[title="Execute"]').click()
+    cy.get('button[title="Execute"]').click()
 
     cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
@@ -48,9 +49,9 @@ describe('Mount all devices from inventory', function() {
     cy.wait(3000)
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click()
-    //cy.wait('@getWorkflow') //timeout because unable to match route string 
+    //cy.wait('@getWorkflow') //timeout because unable to match route string
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     //here should be a wait but I did not succeed with waiting for xhr
     cy.get('div.modal-header').contains('Details of Mount_all_from_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
@@ -86,8 +87,8 @@ describe('Mount all devices from inventory', function() {
 
     cy.contains('Close').click()
     cy.get('span.navbar-brand a').click()
-    cy.contains('UniConfig').click()	  
-	  
+    cy.contains('UniConfig').click()
+
     cy.get('table tbody tr:nth-child(8)').should('to.exist')
   })
 })

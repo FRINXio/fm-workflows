@@ -29,8 +29,8 @@ describe('Save and execute commands on devices', function() {
       method: 'POST',
     })
     cy.route('/elasticsearch/_msearch?rest_total_hits_as_int=true&ignore_throttled=true').as('getSearchResults')
-	  
-    //After the workflow has completed, go to Kibana and look for an entry called “lldp”. 
+
+    //After the workflow has completed, go to Kibana and look for an entry called “lldp”.
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
@@ -50,4 +50,4 @@ describe('Save and execute commands on devices', function() {
     cy.get("dd span").contains('sh_run').scrollIntoView()
     cy.get("dd span").contains('show running-config').scrollIntoView()
   })
-}) 
+})

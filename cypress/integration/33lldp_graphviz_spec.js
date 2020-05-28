@@ -14,7 +14,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
       cy.get('textarea.ace_text-input').invoke('show').type('{selectall}{del}',{force:true})
 
       console.log(json.export.output.export)
-	    
+
       //https://github.com/cypress-io/cypress/issues/1123
       cy.get('textarea.ace_text-input').invoke('show').type(json.export.output.export.replace(/\\n/g, ''),{force:true, delay: 0})
 
@@ -23,7 +23,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
       //console.log(myValue)
       //cy.get('textarea.ace_text-input').then($span => {
       //      $span.val('really long text');
-      //});	   
+      //});
       //cy.get('textarea.ace_text-input').clear({force:true}).trigger('blur',{force:true})
       //cy.get('textarea.ace_text-input').invoke('val', myValue).trigger('change',{force:true})
       //Cypress.$('textarea.ace_text-input').val(json.export.output.export).keypress()

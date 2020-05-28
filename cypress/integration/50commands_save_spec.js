@@ -11,13 +11,13 @@ describe('Save and execute commands on devices', function() {
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')	  
-    cy.contains('Add_cli_command_template_to_inventory').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')
+    cy.contains('Add_cli_command_template_to_inventory').click()
 
-    cy.get('button').contains('Execute').click()	  
+    cy.get('button[title="Execute"]').click()
 
     cy.contains('template_id').next().as('template_id')
     cy.get('@template_id').type('{selectall}{backspace}')
@@ -29,7 +29,7 @@ describe('Save and execute commands on devices', function() {
     //cy.get('@command').type('{selectall}{backspace}',{force:true})
     cy.get('@command').type('show running-config')
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
@@ -38,14 +38,14 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Add_cli_command_template_to_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
     //click on the green box with the CLI_get_cli_journal text.
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
-    //this stopped to work because Tomas added some test of presency and suddenly there are two rect's there 
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
+    //this stopped to work because Tomas added some test of presency and suddenly there are two rect's there
     //I tried to specify the second rect by selector eq(1) but no success because when the command exists then this second  rect is shadowed/nonactive
     //cy.get('g > rect').eq(1).click()
     //cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').scrollTo('bottom',{duration:500})
@@ -69,13 +69,13 @@ describe('Save and execute commands on devices', function() {
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')	  
-    cy.contains('Add_cli_command_template_to_inventory').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')
+    cy.contains('Add_cli_command_template_to_inventory').click()
 
-    cy.get('button').contains('Execute').click()	  
+    cy.get('button[title="Execute"]').click()
 
     cy.contains('template_id').next().as('template_id')
     cy.get('@template_id').type('{selectall}{backspace}')
@@ -87,7 +87,7 @@ describe('Save and execute commands on devices', function() {
     //cy.get('@command').type('{selectall}{backspace}',{force:true})
     cy.get('@command').type('show running-config')
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
@@ -96,14 +96,14 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Add_cli_command_template_to_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
     //click on the green box with the CLI_get_cli_journal text.
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
-    //this stopped to work because Tomas added some test of presency and suddenly there are two rect's there 
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
+    //this stopped to work because Tomas added some test of presency and suddenly there are two rect's there
     //I tried to specify the second rect by selector eq(1) but no success because when the command exists then this second  rect is shadowed/nonactive
     //cy.get('g > rect').eq(1).click()
     //cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').scrollTo('bottom',{duration:500})

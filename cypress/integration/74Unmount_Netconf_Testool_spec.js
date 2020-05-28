@@ -1,14 +1,14 @@
-describe('Unmount netconf-testtool', function() { 
+describe('Unmount netconf-testtool', function() {
   beforeEach(function() {
     cy.login()
   })
 	
-  it('unmounts netconf-testtool', function() { 
+  it('unmounts netconf-testtool', function() {
     cy.server()
     cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
 
-    cy.visit('/') 
-    cy.contains('UniConfig').click()	  
+    cy.visit('/')
+    cy.contains('UniConfig').click()
 
     //20200514
     //THIS WORKS ON SLOWER NETWORKS BUT NOT LOCALLY
@@ -27,7 +27,7 @@ describe('Unmount netconf-testtool', function() {
     //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
     //cy.contains('netconf-testtool').parent().find('td').eq(0).click()
     cy.contains('netconf-testtool').parent().find('td div input').click()
-    cy.contains('Unmount Devices').click()	  
+    cy.contains('Unmount Devices').click()
 
     cy.contains('netconf-testtool').should('not.to.exist')
   })

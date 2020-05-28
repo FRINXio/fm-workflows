@@ -42,18 +42,18 @@ describe('Unmount added devices', function() {
     cy.route('/api/conductor/workflow').as('getWorkflowId')
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Unmount_netconf_device')	  
-    cy.contains('Unmount_netconf_device').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Unmount_netconf_device')
+    cy.contains('Unmount_netconf_device').click()
+    cy.get('button[title="Execute"]').click()
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
     cy.get('@device_id').type('GREATER_ONE_ROUTER').find('li[aria-label="GREATER_ONE_ROUTER"]').click()
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
@@ -62,7 +62,7 @@ describe('Unmount added devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Unmount_netconf_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 
@@ -77,18 +77,18 @@ describe('Unmount added devices', function() {
     cy.route('/api/conductor/workflow').as('getWorkflowId')
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Unmount_cli_device')	  
-    cy.contains('Unmount_cli_device').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Unmount_cli_device')
+    cy.contains('Unmount_cli_device').click()
+    cy.get('button[title="Execute"]').click()
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
     cy.get('@device_id').type('BIG_ONE_ROUTER').find('li[aria-label="BIG_ONE_ROUTER"]').click()
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
@@ -97,7 +97,7 @@ describe('Unmount added devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Unmount_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 

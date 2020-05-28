@@ -99,7 +99,7 @@ describe('Mount devices from UniConfig', function() {
     cy.get('div.config > div > div > div.ReactCodeMirror > textarea').as('intended_conf')
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       console.log(txt)
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false }).split(':').join('');
@@ -175,7 +175,7 @@ describe('Mount devices from UniConfig', function() {
     cy.contains('Close').click()
     //--> Show Diff
     cy.contains('Show Diff').click()
-    cy.screenshot() 
+    cy.screenshot()
     //--> Hide diff
     cy.contains('Hide Diff').click()
 
@@ -183,7 +183,7 @@ describe('Mount devices from UniConfig', function() {
     //--> backup intended config
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false }).split(':').join('');
       cy.writeFile('cypress/fixtures/intendedConf' +  localtime +  '.json', txt)
@@ -193,14 +193,14 @@ describe('Mount devices from UniConfig', function() {
     cy.contains('Replace with Operational').click()
     //--> Show Diff
     cy.contains('Show Diff').click()
-    cy.screenshot() 
+    cy.screenshot()
     //--> Hide diff
     cy.contains('Hide Diff').click()
 
     //--> backup intended config
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false }).split(':').join('');
       cy.writeFile('cypress/fixtures/intendedConf' +  localtime +  '.json', txt)

@@ -46,7 +46,7 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Unmount_netconf_device')
     cy.contains('Unmount_netconf_device').click()
-    cy.get('button').contains('Execute').click()
+    cy.get('button[title="Execute"]').click()
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
     cy.get('@device_id').type('netconf-testtool').find('li[aria-label="netconf-testtool"]').click()
@@ -82,7 +82,7 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Unmount_cli_device')	
     cy.contains('Unmount_cli_device').click()
-    cy.get('button').contains('Execute').click()
+    cy.get('button[title="Execute"]').click()
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
     cy.get('@device_id').type('VRP01').find('li[aria-label="VRP01"]').click()

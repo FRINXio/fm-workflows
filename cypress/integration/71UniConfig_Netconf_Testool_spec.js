@@ -187,7 +187,7 @@ describe('Mount devices from UniConfig', function() {
 
     //Show Diff
     cy.contains('Show Diff').click()
-    cy.screenshot() 
+    cy.screenshot()
     //here in FM v1.1. there is a bug
     //after loading snapshot there is native-529687306-Cisco-IOS-XR-ifmgr-cfg:interface-configurations clause in Intended Configuration
     //which is the reason for unexpected difference
@@ -198,7 +198,7 @@ describe('Mount devices from UniConfig', function() {
     //  expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface Loopback')
     //  expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface GigabitEthernet')
     //})
-    
+
     //Hide diff
     cy.contains('Hide Diff').click()
     cy.contains('Show Diff').next().click()
