@@ -20,15 +20,15 @@ describe('LACP workflows', function() {
     cy.server()
     cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
 
-    cy.get('.navbar-brand').click()	  
+    cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Link_aggregation')	  
-    cy.contains('Link_aggregation').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Link_aggregation')
+    cy.contains('Link_aggregation').click()
+    cy.get('button[title="Execute"]').click()
 
     cy.contains('node1').next().click() //label node1
     //cy.contains('node1').next().type('sss').clear() //label node1 // I tried to clear div element - not possible
@@ -64,7 +64,7 @@ describe('LACP workflows', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Link_aggregation',{timeout:30000})
     //cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
     //instead of waiting to COMPLETED try to examine process running e.g. on Execution Flow tab

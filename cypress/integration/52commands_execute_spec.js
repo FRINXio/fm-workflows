@@ -13,13 +13,16 @@ describe('Save and execute commands on devices', function() {
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory')	  
-    cy.contains('Execute_and_read_rpc_cli_device_from_inventory').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory')
+    cy.contains('Execute_and_read_rpc_cli_device_from_inventory').click()
 
-    cy.get('button').contains('Execute').click()	  
+    cy.screenshot()
+    //this does not work because there are two workflows begening with the same string
+    //cy.get('button[title="Execute"]').click()
+    cy.get('#executeBtn-Execute_and_read_rpc_cli_device_from_inventory').click()
 
     cy.contains('template_id').next().as('template_id') //label bundle_ether_id become alias of next input
     cy.get('@template_id').type('{selectall}{backspace}')
@@ -36,7 +39,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('@params').type('{selectall}{backspace}')
     //cy.get('@params').type('')
 
-    cy.get('div.modal-content > div.modal-footer').contains('Execute').click()	  
+    cy.get('div.modal-content > div.modal-footer').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content > div.modal-footer').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content > div.modal-footer').contains('OK')
@@ -45,14 +48,14 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
 
     cy.contains('Execution Flow').click()
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
 
     //click the second one
     cy.get('g > rect').eq(1).click({force: true})

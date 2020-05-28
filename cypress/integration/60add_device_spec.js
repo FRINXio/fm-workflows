@@ -20,7 +20,7 @@ describe('Add a device to inventory and mount it', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_device_to_inventory')
     cy.contains('Add_cli_device_to_inventory').click()
-    cy.get('button').contains('Execute').click()
+    cy.get('button[title="Execute"]').click()
 
     var device_id='BIG_ONE_ROUTER' //: any unique identifier
     var type='ios' //: type of device (e.g. ios, ios xr)
@@ -124,7 +124,7 @@ describe('Add a device to inventory and mount it', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_device_to_inventory')
     cy.contains('Add_cli_device_to_inventory').click()
-    cy.get('button').contains('Execute').click()
+    cy.get('button[title="Execute"]').click()
 
     var device_id='BIG_ONE_ROUTER' //: any unique identifier
     var type='ios' //: type of device (e.g. ios, ios xr)
@@ -222,7 +222,7 @@ describe('Add a device to inventory and mount it', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_netconf_device_to_inventory')
     cy.contains('Add_netconf_device_to_inventory').click()
-    cy.get('button').contains('Execute').click()
+    cy.get('button[title="Execute"]').click()
 
     var device_id='GREATER_ONE_ROUTER' //: any unique identifier
     var port='830' //: port to connect to

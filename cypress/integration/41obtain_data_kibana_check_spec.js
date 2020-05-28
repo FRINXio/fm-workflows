@@ -29,13 +29,13 @@ describe('Collect platform information from the device and store in the inventor
     })
     cy.route('/elasticsearch/_msearch?rest_total_hits_as_int=true&ignore_throttled=true').as('getSearchResults')
     //this is there only for the first time cy.route('/api/index_patterns/_fields_for_wildcard?pattern=inventory-device&meta_fields=[').as('getInventoryDeviceData')
-	  
-    //After the workflow has completed, go to Kibana and look for an entry called “inventory-device”. 
+
+    //After the workflow has completed, go to Kibana and look for an entry called “inventory-device”.
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
     cy.contains('Discover',{timeout:20000}).click()
-	  
+
     //cy.get('div.ui-select-match > span > i.caret.pull-right').click({force:true})
     cy.get('i.caret.pull-right').click({force:true})
     //cy.contains('inventory-device*').click({force:true})
@@ -46,7 +46,7 @@ describe('Collect platform information from the device and store in the inventor
     //this would work maybe for the first time - but will time out later - why? some caching for the first time ?- cy.wait('@getInventoryDeviceData')
     //let us try instead of explicite wait this
     cy.get('table tbody tr:nth-child(8)').should('to.exist')
-	  
+
     //cy.get('button.kbnDocTableOpen__button').click({multiple:true})
     //cy.get('td[ng-click="toggleRow()"]').click({multiple:true})
     cy.get('td[data-test-subj="docTableExpandToggleColumn"]').click({force:true,multiple:true})

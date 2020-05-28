@@ -17,18 +17,18 @@ describe('Collect platform information from the device and store in the inventor
     cy.url().should('include', '/devices')
     cy.get('table tbody tr:nth-child(8)').should('to.exist')
 
-    cy.get('.navbar-brand').click()	  
+    cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Read_components_all_from_unified_update_inventory')	  
-    cy.contains('Read_components_all_from_unified_update_inventory').click()	  
-    //cy.contains('Read_components_update_inventory').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Read_components_all_from_unified_update_inventory')
+    cy.contains('Read_components_all_from_unified_update_inventory').click()
+    //cy.contains('Read_components_update_inventory').click()
+    cy.get('button[title="Execute"]').click()
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
     //this explicit wait is needed to wait for completing of procesing on chain ConductorServer<->ElasticSearch<->Dyn
@@ -36,7 +36,7 @@ describe('Collect platform information from the device and store in the inventor
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click()
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Read_components_all_from_unified_update_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
@@ -46,7 +46,7 @@ describe('Collect platform information from the device and store in the inventor
     //cy.get('div[role="dialog"]').scrollTo('center', { duration: 1000 })
     //cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
     cy.get('#detailTabs-tabpane-execFlow > div').scrollTo('bottomRight', { duration: 1000 })
-    cy.screenshot() 
+    cy.screenshot()
     //cy.get('#detailTabs-tabpane-execFlow > div').scrollTo('bottomLeft', { duration: 1000 })
     //cy.get('#detailTabs-tabpane-execFlow > div').scrollTo('75%', '25%')
     //does not work cy.get('div.overflow.scroll').scrollTo('bottom', { duration: 5000 })

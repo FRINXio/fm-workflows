@@ -133,7 +133,7 @@ describe('Create workflow test it and finally delete it', function() {
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device_TEST')
     cy.contains('Read_journal_cli_device_TEST').click()
-    cy.get('button').contains('Execute').click()
+    cy.get('button[title="Execute"]').click()
 
     //label device_id
     //this is input with autocompletion
@@ -213,7 +213,7 @@ describe('Create workflow test it and finally delete it', function() {
     cy.contains('Close').click()
   })
 
-  it('deletes workflow Read_journal_cli_devicei_TEST', function() {
+  it('deletes workflow Read_journal_cli_device_TEST', function() {
     cy.visit('/')
     cy.contains('Workflows').click()
 
@@ -223,7 +223,7 @@ describe('Create workflow test it and finally delete it', function() {
     cy.contains('Workflows').click()
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device_TEST')
     cy.contains('Read_journal_cli_device_TEST').click()
-    cy.get('button.btn-outline-danger').click()
+    cy.get('button[title="Delete"]').click()
   })
 
   //TODO make a test: to import the neeeded workflow as json

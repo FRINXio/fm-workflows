@@ -13,15 +13,15 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     //Exporting the IETF topology information in graphviz format
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Export_LLDP_topology')	  
-    cy.contains('Export_LLDP_topology').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Export_LLDP_topology')
+    cy.contains('Export_LLDP_topology').click()	
+    cy.get('button[title="Execute"]').click()
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
@@ -30,7 +30,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Export_LLDP_topology',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED')
@@ -39,7 +39,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     //TODO
     //cy.contains('Workflow Output').parent().find('code > pre#wfoutput').invoke('show').type('{selectall}{ctrl}c')
     cy.contains('Workflow Output').parent().find('code > pre#wfoutput').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       console.log(txt)
       cy.writeFile('cypress/fixtures/lldp_export.json', txt)
     })
@@ -48,7 +48,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.contains('Execution Flow').click()
     //click on the green box with the CLI_get_cli_journal text.
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
     cy.get('g > rect').click()
     cy.contains('LLDP_export_topology (COMPLETED)')
     cy.contains('Summary').click()

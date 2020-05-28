@@ -3,15 +3,15 @@
 //Collect LLDP Information from Devices and Build Topology
 describe('Collect LLDP Information from Devices and Build Topology', function() {
   it.skip('goes to inventory (via iframe)', function() {
-    //After the workflow has completed, go to Kibana and look for an entry called “lldp”. 
-    cy.get('.navbar-brand').click()	  
+    //After the workflow has completed, go to Kibana and look for an entry called “lldp”.
+    cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Inventory & Logs').click()	  
+    cy.contains('Inventory & Logs').click()
     cy.url().should('include', '/inventory')
 
     cy.wait(5000)
     //https://github.com/cypress-io/cypress/issues/136#issuecomment-328100955
-    //cy.contains('Discover',{timeout:20000}).click()	  
+    //cy.contains('Discover',{timeout:20000}).click()
     //cy.get('div.kbnGlobalNavLink__title').click()
     //cy.get('div.iframes-container').click()
     cy.get('iframe').then(($iframe) => {
@@ -50,7 +50,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
       method: 'POST',
     })
     cy.route('/elasticsearch/_msearch?rest_total_hits_as_int=true&ignore_throttled=true').as('getSearchResults')
-	  
+
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
