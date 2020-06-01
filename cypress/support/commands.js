@@ -37,8 +37,13 @@ Cypress.Commands.add("unmount_all_devices", () => {
     //cy.contains('connected').parent().find('td').eq(0).click()
     //cy.contains('connected').parent().find('td').eq(0).click()
     //cy.wait(1000)
-    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
-    cy.get('table tbody tr td:first-child div input').click({multiple:true})
+    //20200522 DOES NOT WORK CypressError: `cy.wait()` timed out waiting `5000ms` for the 1st request to the route: `getAllStatusNetconf`. No request ever occurred.
+    //cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
+    //cy.get('table tbody tr td:first-child div input').click({multiple:true})
+    //K.I.S.S.
+    cy.contains('XR01').parent().find('td').eq(0).find('div input').click()
+    cy.contains('Unmount Devices').click()	  
+    cy.contains('netconf-testtool').parent().find('td').eq(0).find('div input').click()
     cy.contains('Unmount Devices').click()	  
     cy.get('table tbody tr').should('not.to.exist')
 })
