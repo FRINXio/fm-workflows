@@ -25,28 +25,28 @@ describe('Retrieve journal of a device', function() {
     cy.get('table tbody tr:nth-child(8)').should('to.exist')
     cy.get('table tbody tr').contains('XR02')
 
-    cy.get('.navbar-brand').click()	  
+    cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')	  
-    cy.contains('Read_journal_cli_device').click()	  
-    cy.get('button').contains('Execute').click()	  
-    /*  
+    cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')
+    cy.contains('Read_journal_cli_device').click()
+    cy.get('button[title="Execute"]').click()
+    /*
     //label device_id
-    //this is input with autocompletion	  
+    //this is input with autocompletion
     //at first try to click it to see the list of devices
     //then try to choose one e.g. the first like user would do
     //cy.contains('device_id').parent().find('input').type('XR02').clear() //this does not work because there are two inputs - one for autocompletion...
-    cy.get('input[placeholder="Enter the node id"').click() //this is input with autocompletion	  
-    cy.get('input[placeholder="Enter the node id"').clear().type('XR07') //this is input with autocompletion	  
+    cy.get('input[placeholder="Enter the node id"').click() //this is input with autocompletion
+    cy.get('input[placeholder="Enter the node id"').clear().type('XR07') //this is input with autocompletion
     cy.contains('No matches found')
     //TODO Execute
     //negative test abrakadabra -> No matches found .... try to execute - this will break page
-    cy.get('input[placeholder="Enter the node id"').clear().type('XR02') //this is input with autocompletion	  
-    cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	  
+    cy.get('input[placeholder="Enter the node id"').clear().type('XR02') //this is input with autocompletion
+    cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	
     cy.contains('XR02').click()
     */
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
@@ -61,17 +61,17 @@ describe('Retrieve journal of a device', function() {
     cy.wait(1000)
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
-	  
+
     //TODO skusit dat do premennej
     //click the ID of the previously executed workflow to see the progress of the workflow
     //http://localhost:3000/workflows/exec/bdc20041-0aec-44da-bf69-672d492f1210
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 
     cy.contains('Task Details').click()
     cy.contains('Input/Output').click()
-	  
+
     //The journal information can be found in the output of the workflow
     //202005 button was removed: cy.contains('Workflow Output').parent().contains('Unescape').click()
     //cy.scrollTo('bottom') // this does not work failed because this element is not scrollable <window>
@@ -79,7 +79,7 @@ describe('Retrieve journal of a device', function() {
     //TODO here code is found 2x one of the found element is hidden - try to identify/locate element unambiguously
     cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','interface Loopback700929') //problem element code is not visible (more exact told one is visible and the second one is hidden)
     cy.get('div[role="document"]:not(.modal-lg)').contains('Workflow Output').parent().find('code').should('contain','interface Loopback700929')
-    //Workflow Output  parent() is h4 ... > button with text Escape 
+    //Workflow Output  parent() is h4 ... > button with text Escape
     //202005 button was removed: cy.contains('Workflow Output').parent().contains('Escape').click()
 
     cy.contains('JSON').click()
@@ -93,7 +93,7 @@ describe('Retrieve journal of a device', function() {
     //CypressError: Timed out retrying: cy.click() failed because this element is detached from the DOM.
     //<rect rx="5" ry="5" x="-61.34375" y="-27.5" width="122.6875" height="55" style="stroke: #48a770; fill: #48a770"></rect>
     //Cypress requires elements be attached in the DOM to interact with them.
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
     cy.get('g > rect').click()
     cy.contains('CLI_get_cli_journal (COMPLETED)')
     cy.contains('Summary').click()
@@ -134,32 +134,32 @@ describe('Retrieve journal of a device', function() {
     cy.get('table tbody tr:nth-child(8)').should('to.exist')
     cy.get('table tbody tr').contains('IOS01')
 
-    cy.get('.navbar-brand').click()	  
+    cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
 
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')	  
-    cy.contains('Read_journal_cli_device').click()	  
-    cy.get('button').contains('Execute').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')
+    cy.contains('Read_journal_cli_device').click()
+    cy.get('button[title="Execute"]').click()
     /*
     //label device_id
-    //this is input with autocompletion	  
+    //this is input with autocompletion
     //at first try to click it to see the list of devices
     //then try to choose one e.g. the first like user would do
-    cy.get('input[placeholder="Enter the node id"').click() //this is input with autocompletion	  
-    cy.get('input[placeholder="Enter the node id"').clear().type('XR07') //this is input with autocompletion	  
+    cy.get('input[placeholder="Enter the node id"').click() //this is input with autocompletion
+    cy.get('input[placeholder="Enter the node id"').clear().type('XR07') //this is input with autocompletion
     cy.contains('No matches found')
-    cy.get('input[placeholder="Enter the node id"').clear().type('IOS01') //this is input with autocompletion	  
-    cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion	  
+    cy.get('input[placeholder="Enter the node id"').clear().type('IOS01') //this is input with autocompletion
+    cy.get('input[placeholder="Enter the node id"').clear().click() //this is input with autocompletion
     cy.contains('IOS01').click()
     */
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
     cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
 
-    cy.get('div.modal-content').contains('Execute').click()	  
+    cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content').contains('OK')
@@ -168,19 +168,19 @@ describe('Retrieve journal of a device', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 
     cy.contains('Task Details').click()
     cy.contains('Input/Output').click()
-	  
+
     //The journal information can be found in the output of the workflow
     //202005 button was removed: cy.contains('Workflow Output').parent().contains('Unescape').click()
     //search for interface Loopback700929
     //TODO
     cy.contains('Workflow Output').parent().find('code').invoke('show').should('contain','interface Loopback700929') //problem element code is not visible
-    //Workflow Output  parent() is h4 ... > button with text Escape 
+    //Workflow Output  parent() is h4 ... > button with text Escape
     //202005 button was removed: cy.contains('Workflow Output').parent().contains('Escape').click()
 
     cy.contains('JSON').click()
@@ -188,7 +188,7 @@ describe('Retrieve journal of a device', function() {
     cy.contains('Execution Flow').click()
     //click on the green box with the CLI_get_cli_journal text.
     cy.get('#detailTabs-tabpane-execFlow').scrollIntoView()
-    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached 
+    cy.wait(500) //wait - this element is detached from the DOM. - wait until attached
     cy.get('g > rect').click()
     cy.contains('CLI_get_cli_journal (COMPLETED)')
     cy.contains('Summary').click()
@@ -196,12 +196,12 @@ describe('Retrieve journal of a device', function() {
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('JSON').click()
     cy.contains('Logs').click()
     cy.contains('Summary').click()
-	  
+
     //The journal information can be found in the output of the workflow
     //202005 button was removed: cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(3).contains('Unescape').click()
     //search for interface Loopback700929
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(4).find('code > pre').should('contain','interface Loopback700929')
-	  
+
     cy.get('button.close').click()
 
     cy.contains('Task Details').click()
