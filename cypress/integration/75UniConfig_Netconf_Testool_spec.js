@@ -92,6 +92,7 @@ describe('Mount devices from UniConfig', function() {
     cy.contains('UniConfig').click()
 
     cy.url().should('include', '/devices')
+    cy.get('table tbody tr:nth-child(1)').should('to.exist', {timeout:30000})
 
     //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
     cy.contains(device_id).parent().find('td').eq(5).find('button').click()
@@ -104,7 +105,7 @@ describe('Mount devices from UniConfig', function() {
     cy.get('div.config > div > div > div.ReactCodeMirror > textarea').as('intended_conf')
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       console.log(txt)
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false });
@@ -181,7 +182,7 @@ describe('Mount devices from UniConfig', function() {
 2222	            "shutdown": [
 */
     cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
-    cy.screenshot() 
+    cy.screenshot()
     //--> TODO probably this should be good after fixing
     //cy.get('div.operational div.d2h-file-header').contains('File without changes')
     //--> Hide diff
@@ -205,7 +206,7 @@ describe('Mount devices from UniConfig', function() {
     //-->  Show Diff
     cy.contains('Show Diff').click()
     //-->  Expect
-    cy.screenshot() 
+    cy.screenshot()
     //--> TODO probably this should be good after fixing
     //cy.get('div.operational div.d2h-file-header').contains('File without changes')
     //--> Hide diff
@@ -225,13 +226,13 @@ describe('Mount devices from UniConfig', function() {
     cy.contains('Console output of Replace-config-with-operational')
     cy.contains('"overall-status": "complete"')
     cy.contains('Close').click()
-    
+
     //--> Hide diff
     cy.contains('Hide Diff').click()
     //--> Show Diff
     cy.contains('Show Diff').click()
     //-->  Expect
-    cy.screenshot() 
+    cy.screenshot()
     cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
     cy.get('div.operational div.d2h-file-diff').contains('File without changes')
     //-->  Hide diff
@@ -241,7 +242,7 @@ describe('Mount devices from UniConfig', function() {
     //--> backup intended config
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false });
       cy.writeFile('cypress/fixtures/intendedConf' +  localtime +  '.json', txt)
@@ -258,7 +259,7 @@ describe('Mount devices from UniConfig', function() {
     //--> backup intended config
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false });
       cy.writeFile('cypress/fixtures/intendedConf' +  localtime +  '.json', txt)
@@ -300,7 +301,7 @@ describe('Mount devices from UniConfig', function() {
     cy.get('div.config > div > div > div.ReactCodeMirror > textarea').as('intended_conf')
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       console.log(txt)
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false });
@@ -377,14 +378,18 @@ describe('Mount devices from UniConfig', function() {
 2222	            "shutdown": [
 */
     cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
-    cy.screenshot() 
+    cy.screenshot()
     //--> TODO probably this should be good after fixing
     //cy.get('div.operational div.d2h-file-header').contains('File without changes')
     //here in FM v1.1. there is a bug
-    //after change and commiting there is bad order  
+    //after change and commiting there is bad order
     //which is the reason for unexpected difference
     cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
-    cy.get('div.operational div.d2h-file-diff').contains('File without changes')
+    //20200528 cy.get('div.operational div.d2h-file-diff').contains('File without changes')
+    //here assertion with explanation is better
+    cy.get('div.operational div.d2h-file-diff').should(($message) => {
+      expect($message, 'BAD ORDER - this is expected to fail in v1.1').to.contain('File without changes')
+    })
     //--> Hide diff
     cy.contains('Hide Diff').click()
 
@@ -406,7 +411,7 @@ describe('Mount devices from UniConfig', function() {
     //-->  Show Diff
     cy.contains('Show Diff').click()
     //-->  Expect
-    cy.screenshot() 
+    cy.screenshot()
     //--> TODO probably this should be good after fixing
     //cy.get('div.operational div.d2h-file-header').contains('File without changes')
     //--> Hide diff
@@ -426,13 +431,13 @@ describe('Mount devices from UniConfig', function() {
     cy.contains('Console output of Replace-config-with-operational')
     cy.contains('"overall-status": "complete"')
     cy.contains('Close').click()
-    
+
     //--> Hide diff
     cy.contains('Hide Diff').click()
     //--> Show Diff
     cy.contains('Show Diff').click()
     //-->  Expect
-    cy.screenshot() 
+    cy.screenshot()
     cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
     cy.get('div.operational div.d2h-file-diff').contains('File without changes')
     //-->  Hide diff
@@ -442,7 +447,7 @@ describe('Mount devices from UniConfig', function() {
     //--> backup intended config
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false });
       cy.writeFile('cypress/fixtures/intendedConf' +  localtime +  '.json', txt)
@@ -459,7 +464,7 @@ describe('Mount devices from UniConfig', function() {
     //--> backup intended config
     //write content to file
     cy.get('@intended_conf').then(($code) => {
-      const txt = $code.text() 
+      const txt = $code.text()
       const d = new Date();
       const localtime = d.toLocaleTimeString('en-US', { hour12: false });
       cy.writeFile('cypress/fixtures/intendedConf' +  localtime +  '.json', txt)

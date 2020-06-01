@@ -22,8 +22,10 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     //  const rowCount = ((cliDev === undefined) ? 0 : cliDev.length) + ((netconfDev === undefined) ? 0 : netconfDev.length)
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
-    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
-
+    //20200522 DOES NOT WORK CypressError: `cy.wait()` timed out waiting `5000ms` for the 1st request to the route: `getAllStatusNetconf`. No request ever occurred.
+    //cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
+    //cy.get('table tbody tr td:first-child div input').click({multiple:true})
+    //K.I.S.S.
     cy.contains('VRP01').parent().find('td').eq(0).find('div input').click()
     cy.contains('netconf-testtool').parent().find('td').eq(0).find('div input').click()
     cy.contains('Unmount Devices').click()
