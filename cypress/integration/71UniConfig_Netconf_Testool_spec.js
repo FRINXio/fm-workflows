@@ -187,18 +187,16 @@ describe('Mount devices from UniConfig', function() {
 
     //Show Diff
     cy.contains('Show Diff').click()
-    cy.screenshot() 
+    cy.screenshot()
     //here in FM v1.1. there is a bug
     //after loading snapshot there is native-529687306-Cisco-IOS-XR-ifmgr-cfg:interface-configurations clause in Intended Configuration
     //which is the reason for unexpected difference
     cy.get('div.operational div.d2h-file-header').contains('Operational CHANGED')
-    cy.get('div.operational div.d2h-file-diff').contains('File without changes')
-    //example:
-    //cy.get('@OutputBox').should(($json) => {
-    //  expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface Loopback')
-    //  expect($json, 'to expect to find in OUTPUT box of CLI_execute_and_read_rpc_cli (COMPLETED) workflow:').to.contain('interface GigabitEthernet')
-    //})
-    
+    //cy.get('div.operational div.d2h-file-diff').contains('File without changes')
+    //here assertion with explanation is better
+    cy.get('div.operational div.d2h-file-diff').should(($message) => {
+      expect($message, 'BAD PREFIX AFTER LOADING SNAPSHOT - this is expected to fail in v1.1').to.contain('File without changes')
+    })
     //Hide diff
     cy.contains('Hide Diff').click()
     cy.contains('Show Diff').next().click()

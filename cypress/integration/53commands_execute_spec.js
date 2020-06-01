@@ -13,13 +13,13 @@ describe('Save and execute commands on devices', function() {
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()	  
+    cy.contains('Workflows').click()
     cy.url().should('include', '/workflows/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
-    cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory_update_inventory')	  
-    cy.contains('Execute_and_read_rpc_cli_device_from_inventory_update_inventory').click()	  
+    cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory_update_inventory')
+    cy.contains('Execute_and_read_rpc_cli_device_from_inventory_update_inventory').click()
 
-    cy.get('button').contains('Execute').click()	  
+    cy.get('button').contains('Execute').click()
 
     cy.contains('template_id').next().as('template_id') //label bundle_ether_id become alias of next input
     cy.get('@template_id').type('{selectall}{backspace}')
@@ -36,7 +36,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('@params').type('{selectall}{backspace}')
     //cy.get('@params').type('')
 
-    cy.get('div.modal-content > div.modal-footer').contains('Execute').click()	  
+    cy.get('div.modal-content > div.modal-footer').contains('Execute').click()
     cy.wait('@getWorkflowId')
     cy.get('div.modal-content > div.modal-footer').contains('Execute').should('not.to.exist')
     cy.get('div.modal-content > div.modal-footer').contains('OK')
@@ -45,7 +45,7 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')	  
+    cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory_update_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
@@ -53,7 +53,7 @@ describe('Save and execute commands on devices', function() {
     cy.contains('Task Details').click()
 
     // ### GOING TO SUB_WORKFLOW ###
-    cy.get('td').contains(/^1$/).next().next().find('button').click()
+    cy.get('div#detailTabs-tabpane-taskDetails td').contains(/^1$/).next().next().find('button').click()
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
 
     cy.get('td').contains(/^2$/).next().contains('CLI_execute_and_read_rpc_cli').click()
@@ -71,7 +71,7 @@ describe('Save and execute commands on devices', function() {
     cy.contains('Task Details').click()
     cy.get('td').contains(/^2$/).next().contains('INVENTORY_add_field_to_device').click()
     cy.contains('INVENTORY_add_field_to_device (COMPLETED)')
-    //TODO in Input Box there is a new field sh_run but its value is set to null 
+    //TODO in Input Box there is a new field sh_run but its value is set to null
     cy.contains('Summary').click()
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(2).find('code > pre').as('InputBox')
     cy.get('@InputBox').should(($json) => {
