@@ -82,8 +82,9 @@ describe('Create workflow test it and finally delete it', function() {
     cy.contains('Out').next().click().as('out')
     */
 
-    //20200601 cy.get('g > circle').next().contains('Start').parent().parent().next().click().as('start')
-    cy.get('g > circle').next().contains('Start').parent().parent().parent().next().click().as('start')
+    cy.get('g > circle').next().contains('Start').parent().parent().next().click().as('start')
+    //FOLLOWING DOES NOT WORK IN FM v1.1 combined with UniConfig 4.2.4
+    //cy.get('g > circle').next().contains('Start').parent().parent().parent().next().click().as('start')
     cy.get('div.port[data-nodeid="end"]').as('end')
     cy.get('div.srd-default-port--in').children('.port').first().as('in')
     cy.get('div.srd-default-port--out').children('.port').as('out')
