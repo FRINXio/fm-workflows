@@ -26,7 +26,9 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
   })
 
   it('prepares index', function() {
-    cy.server()
+    cy.server({
+      method: 'GET',
+    })
     cy.route('**?pattern=inventory-lldp&**').as('getXhr')
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)

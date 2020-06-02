@@ -4,7 +4,9 @@ describe('Unmount all mounted devices', function() {
   })
 	
   it('unmounts all devices', function() { 
-    cy.server()
+    cy.server({
+      method: 'GET',
+    })
     cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
     cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
 

@@ -4,7 +4,9 @@ describe('Unmount netconf-testtool', function() {
   })
 	
   it('unmounts netconf-testtool', function() { 
-    cy.server()
+    cy.server({
+      method: 'GET',
+    })
     cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
 
     cy.visit('/') 
