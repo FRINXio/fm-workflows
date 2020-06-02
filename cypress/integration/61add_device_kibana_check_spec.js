@@ -2,7 +2,9 @@
 //Save and execute commands on devices
 describe('Save and execute commands on devices', function() {
   it.skip('prepares index', function() {
-    cy.server()
+    cy.server({
+      method: 'GET',
+    })
     cy.route('**?pattern=inventory-device&**').as('getXhr')
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)

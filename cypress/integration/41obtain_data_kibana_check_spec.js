@@ -3,7 +3,9 @@
 //Collect platform information from the device and store in the inventory
 describe('Collect platform information from the device and store in the inventory', function() {
   it('prepares index', function() {
-    cy.server()
+    cy.server({
+      method: 'GET',
+    })
     cy.route('**?pattern=inventory-device&**').as('getXhr')
     let inventory = Cypress.env('inventory')
     cy.visit(inventory)
