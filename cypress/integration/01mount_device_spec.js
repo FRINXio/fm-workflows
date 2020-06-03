@@ -98,6 +98,15 @@ describe('Mount devices from UniConfig', function() {
     //20200518 wait only for the second xhr
     cy.wait('@getConfigO')
     cy.url().should('include', '/devices/edit/' + device_id)
+
+    cy.get('div.config').should(($message) => {
+      expect($message, ' IF 404:  WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
+    })
+
+    cy.get('div.operational').should(($message) => {
+      expect($message, 'IF 404: WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
+    })
+
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
 
@@ -183,6 +192,14 @@ describe('Mount devices from UniConfig', function() {
     //20200518 wait only for the second xhr
     cy.wait('@getConfigO')
     cy.url().should('include', '/devices/edit/' + device_id)
+
+    cy.get('div.config').should(($message) => {
+      expect($message, 'IF 404: NETCONF-TESTTOOL WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
+    })
+
+    cy.get('div.operational').should(($message) => {
+      expect($message, 'IF 404: NETCONF-TESTTOOL WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
+    })
 
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
