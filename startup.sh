@@ -56,6 +56,9 @@ import_workflows
 import_devices
 
 #Write config to netconf-testtool
+echo "waiting 3 minutes for netconf-device get started..."
+sleep 180
+echo "execute workflow Write_data_to_netconf_testool..."
 curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/ &>/dev/null
 
 echo -e '\nDemo workers/workflows/devices successfully imported!\n'
