@@ -62,9 +62,9 @@ describe('Mount all devices from inventory', function() {
     //cy.contains('Children').click().get('a') // neither worked
 
     //cy.wait(5000)
-    cy.contains('Details of Dynamic_fork')
+    cy.contains('Details of Dynamic_fork',{timeout:90000})
     cy.contains('Close').scrollIntoView()
-    cy.get('div.headerInfo').contains('COMPLETED',{timeout:90000})
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:300000})
     cy.get('div.heightWrapper').scrollTo('bottom', { duration: 1000 })
 
     cy.contains('Input/Output').click()

@@ -56,7 +56,7 @@ describe('Save and execute commands on devices', function() {
 
     //cy.get('button.close').click()
 
-    cy.get('div.headerInfo').contains('COMPLETED')
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
     cy.contains('Task Details').click()
     cy.contains('Close').scrollIntoView()

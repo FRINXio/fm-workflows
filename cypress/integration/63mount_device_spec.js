@@ -58,7 +58,12 @@ describe('Mount the new device from Inventory', function() {
     cy.contains('Execution Flow').click()
     cy.get('div[role="dialog"]').scrollTo('bottom', { duration: 1000 })
     //cy.contains('Close').scrollIntoView()
-    cy.get('div.headerInfo').contains('COMPLETED',{timeout:80000})
+
+    //cy.get('div.headerInfo').contains('COMPLETED',{timeout:80000})
+    cy.get('div.headerInfo',{timeout:80000}).should(($message) => {
+      expect($message, ' IF NOT COMPLETED: CHECK IF FRINX VPN IS UP').to.contain('COMPLETED')
+    })
+
     cy.get('div[role="dialog"]').scrollTo('top', { duration: 1000 })
 
     cy.contains('Close').click()

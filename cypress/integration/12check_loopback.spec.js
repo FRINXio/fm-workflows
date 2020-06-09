@@ -67,7 +67,7 @@ describe('Retrieve journal of a device', function() {
     //http://localhost:3000/workflows/exec/bdc20041-0aec-44da-bf69-672d492f1210
     cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
-    cy.get('div.headerInfo').contains('COMPLETED')
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
     cy.contains('Task Details').click()
     cy.contains('Input/Output').click()
@@ -170,7 +170,7 @@ describe('Retrieve journal of a device', function() {
 
     cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
-    cy.get('div.headerInfo').contains('COMPLETED')
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
     cy.contains('Task Details').click()
     cy.contains('Input/Output').click()

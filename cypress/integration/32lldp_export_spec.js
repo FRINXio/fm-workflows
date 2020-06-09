@@ -33,7 +33,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     cy.url().should('include', '/workflows/exec')
     cy.get('div.modal-header').contains('Details of Export_LLDP_topology',{timeout:30000})
     cy.contains('Close').scrollIntoView()
-    cy.get('div.headerInfo').contains('COMPLETED')
+    cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
     cy.contains('Input/Output').click()
     //TODO
