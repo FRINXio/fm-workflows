@@ -85,7 +85,6 @@ while :; do
   fi
 done
 
-if [ $c -eq 3 ]; then
+if [[ $c -eq 3 ]]; then
   echo -e '\nnetconf-testtool configuration failed!\n'
 fi
-"startup.sh" 90L, 2895C                                                                                                                                                                                                                                90,1          Bot
