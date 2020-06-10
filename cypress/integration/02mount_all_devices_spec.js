@@ -57,6 +57,9 @@ describe('Mount all devices from inventory', function() {
     cy.contains('Close').scrollIntoView()
     //cy.get('div.headerInfo').contains('COMPLETED',{timeout:90000})
 
+    //20200610 add this wait before clicking because it seems that sometimes when button is clicked nothing is going to happen
+    //so next assert waiting for appearing of dialog with title "Details of Dynamic_fork" would fail
+    cy.wait(4000)
     cy.contains('SUB_WORKFLOW').next().find('button').click()
     //cy.contains('create_loopback').click({force:true}) //this did not work
     //cy.contains('Children').click().get('a') // neither worked
