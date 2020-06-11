@@ -68,6 +68,9 @@ describe('Mount devices from UniConfig', function() {
       .type('cisco')
 
     cy.contains('Advanced').click()
+    //set reconcile to true to prevent not loading configuration (code 404)
+    cy.contains('true').click()
+
     cy.contains('Basic').click()
 
     cy.get('button[class="btn btn-primary"]').contains('Mount Device').click()
