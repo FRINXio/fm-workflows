@@ -1,7 +1,6 @@
 {
   "name": "Read_interfaces_all_from_unified",
   "description": "read interfaces configuration for all devices in unified topology - DEMO,INTERFACES,UNIFIED",
-  "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [
     {
@@ -12,24 +11,34 @@
         "task_params": "${workflow.input.task_params}",
         "optional": "${workflow.input.optional}"
       },
-      "type": "SIMPLE"
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
     },
     {
-      "name": "sub_read_components",
-      "taskReferenceName": "read_ifcs",
+      "name": "DYNAMIC_FORK",
+      "taskReferenceName": "dynamicForkRef78BN",
       "inputParameters": {
+        "expectedName": "sub_task",
+        "expectedType": "SUB_WORKFLOW",
         "dynamic_tasks": "${read_unified.output.dynamic_tasks}",
         "dynamic_tasks_i": "${read_unified.output.dynamic_tasks_i}"
       },
       "type": "SUB_WORKFLOW",
+      "startDelay": 0,
       "subWorkflowParam": {
         "name": "Dynamic_fork",
         "version": 1
-      }
+      },
+      "optional": false,
+      "asyncComplete": false
     }
   ],
   "outputParameters": {
     "interfaces": "${read_ifcs.output}"
   },
-  "schemaVersion": 2
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": true
 }

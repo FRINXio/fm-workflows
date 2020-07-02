@@ -1,16 +1,7 @@
 {
   "name": "Link_aggregation",
   "description": "Creates a link aggregation between two nodes - DEMO,LINKAGG",
-  "workflowStatusListenerEnabled": true,
   "version": 1,
-  "inputParameters": [
-    "bundle_ether_id[BundleEtherX][3]",
-    "bundle_ether_enabled[enabled][true]",
-    "node1[First node to create a link aggregation with #node_id][XR01]",
-    "node2[Second node to create a link aggregation with #node_id][XR02]",
-    "node1_ifaces[Interfaces for node1][[GigabitEthernet0/0/0/0, GigabitEthernet0/0/0/1]]",
-    "node2_ifaces[Interfaces for node2][[GigabitEthernet0/0/0/1, GigabitEthernet0/0/0/2, GigabitEthernet0/0/0/3]]"
-  ],
   "tasks": [
     {
       "name": "fork_join",
@@ -28,7 +19,9 @@
               "params": "{}"
             },
             "type": "SIMPLE",
-            "startDelay": 0
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
           }
         ],
         [
@@ -42,19 +35,27 @@
               "params": "{}"
             },
             "type": "SIMPLE",
-            "startDelay": 0
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
           }
         ]
-      ]
+      ],
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
     },
     {
       "name": "join",
       "taskReferenceName": "join1",
       "type": "JOIN",
+      "startDelay": 0,
       "joinOn": [
         "UNICONFIG_write_bundle_ether_node1",
         "UNICONFIG_write_bundle_ether_node2"
-      ]
+      ],
+      "optional": false,
+      "asyncComplete": false
     },
     {
       "name": "fork_join",
@@ -72,21 +73,27 @@
               "task_params": "${workflow.input.node1_ifaces}"
             },
             "type": "SIMPLE",
-            "startDelay": 0
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
           },
           {
-            "name": "sub_write",
-            "taskReferenceName": "write1",
+            "name": "DYNAMIC_FORK",
+            "taskReferenceName": "dynamicForkRefY8W8",
             "inputParameters": {
+              "expectedName": "UNICONFIG_write_structured_device_data",
+              "expectedType": "SIMPLE",
               "dynamic_tasks": "${UNICONFIG_write_structured_data_as_tasks_node1.output.dynamic_tasks}",
               "dynamic_tasks_i": "${UNICONFIG_write_structured_data_as_tasks_node1.output.dynamic_tasks_i}"
             },
             "type": "SUB_WORKFLOW",
-            "start-delay": 0,
+            "startDelay": 0,
             "subWorkflowParam": {
               "name": "Dynamic_fork",
               "version": 1
-            }
+            },
+            "optional": false,
+            "asyncComplete": false
           }
         ],
         [
@@ -100,47 +107,70 @@
               "task_params": "${workflow.input.node2_ifaces}"
             },
             "type": "SIMPLE",
-            "startDelay": 0
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
           },
           {
-            "name": "sub_write",
-            "taskReferenceName": "write2",
+            "name": "DYNAMIC_FORK",
+            "taskReferenceName": "dynamicForkRefCEF8",
             "inputParameters": {
+              "expectedName": "UNICONFIG_write_structured_device_data",
+              "expectedType": "SIMPLE",
               "dynamic_tasks": "${UNICONFIG_write_structured_data_as_tasks_node2.output.dynamic_tasks}",
               "dynamic_tasks_i": "${UNICONFIG_write_structured_data_as_tasks_node2.output.dynamic_tasks_i}"
             },
             "type": "SUB_WORKFLOW",
-            "start-delay": 0,
+            "startDelay": 0,
             "subWorkflowParam": {
               "name": "Dynamic_fork",
               "version": 1
-            }
+            },
+            "optional": false,
+            "asyncComplete": false
           }
         ]
-      ]
+      ],
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
     },
     {
       "name": "join",
       "taskReferenceName": "join2",
       "type": "JOIN",
+      "startDelay": 0,
       "joinOn": [
-        "write1",
-        "write2"
-      ]
+        "dynamicForkRefY8W8",
+        "dynamicForkRefCEF8"
+      ],
+      "optional": false,
+      "asyncComplete": false
     },
     {
       "name": "UNICONFIG_commit",
       "taskReferenceName": "UNICONFIG_commit_ifaces",
-      "type": "SIMPLE",
-      "startDelay": 0,
       "inputParameters": {
         "devices": "${workflow.input.node1}, ${workflow.input.node2}"
-      }
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
     }
+  ],
+  "inputParameters": [
+    "bundle_ether_id[BundleEtherX][3]",
+    "bundle_ether_enabled[enabled][true]",
+    "node1[First node to create a link aggregation with #node_id][XR01]",
+    "node2[Second node to create a link aggregation with #node_id][XR02]",
+    "node1_ifaces[Interfaces for node1][[GigabitEthernet0/0/0/0, GigabitEthernet0/0/0/1]]",
+    "node2_ifaces[Interfaces for node2][[GigabitEthernet0/0/0/1, GigabitEthernet0/0/0/2, GigabitEthernet0/0/0/3]]"
   ],
   "outputParameters": {
     "Aggregation link ID": "${workflow.input.bundle_ether_id}"
   },
+  "schemaVersion": 2,
   "restartable": true,
-  "schemaVersion": 2
+  "workflowStatusListenerEnabled": true
 }
