@@ -55,7 +55,36 @@ import_workflows
 # Import devices
 import_devices
 
-#Write config to netconf-testtool
-curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/ &>/dev/null
-
 echo -e '\nDemo workers/workflows/devices successfully imported!\n'
+
+#Write config to netconf-testtool
+echo "waiting 1 minute for netconf-device get started..."
+sleep 60
+echo "execute workflow Write_data_to_netconf_testool..."
+workflow_id=`curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/`
+echo 0:   $workflow_id
+
+while :; do
+  while :; do
+    curl --silent -H "Content-Type: application/json"  -X GET http://localhost:8080/api/workflow/$workflow_id | json_pp > OUTPUT
+    grep -q '^   "status".*:.*"FAILED",' OUTPUT  && break
+    grep -q '^   "status".*:.*"COMPLETED",' OUTPUT  && break
+  done
+  echo Found:
+  grep '^   "status"' OUTPUT
+  if cat OUTPUT | grep -q '^   "status".*:.*"FAILED",'; then
+    echo "waiting 1 minute for netconf-device get started..."
+    sleep 60
+    echo "execute workflow Write_data_to_netconf_testool..."
+    workflow_id=`curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/`
+    ((c++)) && ((c==3)) && break
+    echo $c:   $workflow_id
+  else
+    echo -e '\nnetconf-testtool configuration OK!\n'
+    break
+  fi
+done
+
+if [[ $c -eq 3 ]]; then
+  echo -e '\nnetconf-testtool configuration failed!\n'
+fi
