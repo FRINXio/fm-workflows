@@ -343,5 +343,6 @@ describe('Unmount added devices', function() {
     cy.get('input[placeholder="Search by keyword."').type('Remove_device_from_inventory')
     cy.contains('Remove_device_from_inventory').click()
     cy.get('button[title="Delete"]').click()
+    cy.get('button').contains('Delete').click()
   })
 })
