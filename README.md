@@ -1,7 +1,8 @@
 # fm-workflows
 
 ## Usage
-Make sure FRINX-machine is running, navigate to `cd /fm-workflows` and execute `./startup.sh`. Imported workflows and tasks will appear in FRINX-Machine UI, right after importing finishes.
+Make sure FRINX-machine is running, navigate to `cd /fm-workflows` and execute `./startup.sh`. Imported workflows and tasks will appear in FRINX-Machine UI, right after importing finishes. 
+To work with workflows, the docker container with sample-topology is launched with startup. To turn off the docker container, use the command `./teardown.sh`.
 
 Note:
 If you use FRINX-machine v1.1 please issue the command

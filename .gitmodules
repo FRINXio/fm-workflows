@@ -1,0 +1,4 @@
+[submodule "sample-topology/cli-testtool"]
+	path = sample-topology/cli-testtool
+	url = https://github.com/FRINXio/cli-testtool.git
+	branch = master
