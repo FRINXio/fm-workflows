@@ -1,28 +1,49 @@
 {
+  "updateTime": 1593520012704,
   "name": "Dynamic_fork",
-  "description": "A dynamic fork + join task - BASICS,UTILS",
-  "workflowStatusListenerEnabled": true,
+  "description": "A dynamic fork + join task with input validation - BASICS,UTILS",
   "version": 1,
   "tasks": [
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambdaValidator",
+      "type": "LAMBDA",
+      "inputParameters": {
+        "lambdaValue": "${workflow.input.dynamic_tasks}",
+        "scriptExpression": "for (var i = 0; i < $.lambdaValue.length; i = i + 1) {\n  if ($.lambdaValue[i].name !== $.expectedName || $.lambdaValue[i].type !== $.expectedType) {\n    return false\n  }\n}\n\nreturn $.lambdaValue",
+        "expectedName": "${workflow.input.expectedName}",
+        "expectedType": "${workflow.input.expectedType}"
+      },
+      "optional": false,
+      "startDelay": 0
+    },
     {
       "name": "dynamic_fork",
       "taskReferenceName": "fork",
       "inputParameters": {
-        "dynamic_tasks": "${workflow.input.dynamic_tasks}",
+        "dynamic_tasks": "${lambdaValidator.output.result}",
         "dynamic_tasks_i": "${workflow.input.dynamic_tasks_i}"
       },
       "type": "FORK_JOIN_DYNAMIC",
       "dynamicForkTasksParam": "dynamic_tasks",
-      "dynamicForkTasksInputParamName": "dynamic_tasks_i"
+      "dynamicForkTasksInputParamName": "dynamic_tasks_i",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
     },
     {
       "name": "join",
       "taskReferenceName": "join",
-      "type": "JOIN"
+      "type": "JOIN",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
     }
   ],
   "outputParameters": {
     "forkedTasks": "${fork.input.forkedTasks}"
   },
-  "schemaVersion": 2
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false
 }
