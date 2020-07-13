@@ -224,6 +224,7 @@ describe('Create workflow test it and finally delete it', function() {
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device_TEST')
     cy.contains('Read_journal_cli_device_TEST').click()
     cy.get('button[title="Delete"]').click()
+    cy.get('button').contains('Delete').click()
   })
 
   //TODO make a test: to import the neeeded workflow as json
