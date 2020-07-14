@@ -14,7 +14,7 @@ function help {
     usage
     echo -e "OPTIONS:"
     echo -e "  -v | --volumes             Removes volumes specified in the docker-compose.*.yml file"
-    echo -e "  -i | --images              Removes all images used by any service specified in the docker-compose.*.yml file"
+    echo -e "  -i | --images              Removes sample-topology image used by service specified in the docker-compose.*.yml file"
     echo -e "\n"
 }
 
