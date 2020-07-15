@@ -59,6 +59,7 @@ describe('Create loopback address on devices stored in the inventory', function(
     //here were again a lot of problems how to achieve clicking of subworkflow .... solutiion - invoke(show) on div which has set display:none:
     //cy.contains('Children').click().parent().find('div.dropdown-menu').invoke('show').contains('create_loopback').click()
     //^^^does not work in v1.1.0
+    cy.get('#row-1',{timeout:30000})
     cy.contains('SUB_WORKFLOW').next().find('button').click()
     //cy.contains('create_loopback').click({force:true}) //this did not work
     //cy.contains('Children').click().get('a') // neither worked
