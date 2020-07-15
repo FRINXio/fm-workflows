@@ -46,11 +46,13 @@ describe('Save and execute commands on devices', function() {
     cy.contains('Task Details').click()
 
     // ### GOING TO SUB_WORKFLOW ###
+    cy.get('#row-1',{timeout:30000})
     cy.get('td').contains(/^2$/).next().next().find('button').click()
     cy.get('div.modal-header').contains('Details of Dynamic_fork',{timeout:30000})
     cy.contains('Execution Flow').click()
     cy.contains('Task Details').click()
     //     ### GOING TO SUB_WORKFLOW ###
+    cy.get('#row-2',{timeout:30000})
     cy.get('td').contains(/^3$/).next().next().find('button').click()
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory_update_inventory',{timeout:30000})
     cy.contains('Parent').click()

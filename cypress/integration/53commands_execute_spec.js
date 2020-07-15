@@ -53,9 +53,11 @@ describe('Save and execute commands on devices', function() {
     cy.contains('Task Details').click()
 
     // ### GOING TO SUB_WORKFLOW ###
+    cy.get('#row-0',{timeout:30000})
     cy.get('div#detailTabs-tabpane-taskDetails td').contains(/^1$/).next().next().find('button').click()
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
 
+    cy.get('#row-1',{timeout:30000})
     cy.get('td').contains(/^2$/).next().contains('CLI_execute_and_read_rpc_cli').click()
     cy.get('div[role="document"].modal-lg > div.modal-content > div.modal-body').contains('Summary').parent().parent().find('div > div > div.container > div.row').eq(4).find('code > pre').as('OutputBox')
     cy.get('@OutputBox').should(($json) => {
@@ -69,6 +71,7 @@ describe('Save and execute commands on devices', function() {
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory_update_inventory',{timeout:30000})
 
     cy.contains('Task Details').click()
+    cy.get('#row-1',{timeout:30000})
     cy.get('td').contains(/^2$/).next().contains('INVENTORY_add_field_to_device').click()
     cy.contains('INVENTORY_add_field_to_device (COMPLETED)')
     //TODO in Input Box there is a new field sh_run but its value is set to null

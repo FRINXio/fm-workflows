@@ -79,6 +79,8 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     //in version FM v1.1 there is a bad definition of workflow - let us detect it - it should be fixed in v1.2
     cy.contains('Task Details').click()
 
+    // ### GOING TO SUB_WORKFLOW ###
+    cy.get('#row-1',{timeout:30000})
     cy.get('td').contains(/^2$/).next().contains('LLDP_read_topology').click()
     cy.contains('LLDP_read_topology (COMPLETED)')
     cy.contains('Summary').click()
