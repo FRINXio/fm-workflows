@@ -1,6 +1,6 @@
 {
   "name": "Read_interfaces_all_from_unified",
-  "description": "read interfaces configuration for all devices in unified topology - DEMO,INTERFACES,UNIFIED",
+  "description": "{\"description\": \"read interfaces configuration for all devices in unified topology\", \"labels\": [\"DEMO\",\"INTERFACES\",\"UNIFIED\"]}",
   "version": 1,
   "tasks": [
     {

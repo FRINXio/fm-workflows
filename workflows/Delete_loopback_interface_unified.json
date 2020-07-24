@@ -1,6 +1,6 @@
 {
   "name": "Delete_loopback_interface_unified",
-  "description": "Delete loopback interface - DEMO,INTERFACES,UNIFIED,OPENCONFIG",
+  "description": "{\"description\": \"Delete loopback interface\", \"labels\": [\"DEMO\",\"INTERFACES\",\"UNIFIED\",\"OPENCONFIG\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

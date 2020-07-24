@@ -1,6 +1,6 @@
 {
   "name": "Read_components_openconfig",
-  "description": "Read components in openconfig format - DEMO,PLATFORM,UNIFIED,OPENCONFIG",
+  "description": "{\"description\": \"Read components in openconfig format\", \"labels\": [\"DEMO\",\"PLATFORM\",\"UNIFIED\",\"OPENCONFIG\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

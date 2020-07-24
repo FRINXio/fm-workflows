@@ -1,7 +1,7 @@
 {
   "updateTime": 1593520012704,
   "name": "Dynamic_fork",
-  "description": "A dynamic fork + join task with input validation - BASICS,UTILS",
+  "description": "{\"description\": \"A dynamic fork + join task with input validation\", \"labels\": [\"BASICS\",\"UTILS\"]}",
   "version": 1,
   "tasks": [
     {
