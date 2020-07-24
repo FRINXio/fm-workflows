@@ -1,7 +1,78 @@
 #!/bin/bash
 
+#Install sample-topology------------------------
+
+set -e
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
+
+input_containers=("sample-topology")
+
+cd ${DIR}
+
+echo 'Pull images'
+docker-compose -f docker-compose.bridge.yml pull "${input_containers[@]}"
+
+# Clean up
+docker system prune -f
+
+#Startup sample-topology------------------------
+
+# Common functions
+script="startup.sh"
+
+function start_bridge_container {
+  docker-compose -f docker-compose.bridge.yml up -d "$1"
+}
+
+function start_host_container {
+  docker-compose -f docker-compose.host.yml up -d "$1"
+}
+
+function start_containers {
+local containers_to_start=("sample-topology")
+
+for i in "${containers_to_start[@]}"; do
+
+if [ "$networking" = "host" ]; then
+start_host_container $i
+elif [ -z "$networking" ]; then
+start_bridge_container $i
+else
+     echo "Only host is allowed"
+     exit  
+fi
+echo "################"
+done
+}
+
+# Loop arguments
+
+while [ "$1" != "" ];
+do
+case $1 in
+    -n | --networking)
+    networking="$2"
+    shift
+    shift
+    ;;
+    *)    # unknown option
+    echo "$script: illegal option $1"
+    exit 1 #error
+    ;;
+esac
+done
+
+# Clean up docker
+docker system prune -f
+
+# Starts containers
+start_containers
+
+echo -e 'Startup sample-topology finished!\n'
+
+#Startup workflows------------------------
 
 function copy_workers {
   docker cp workers/. micros:/home/app/netinfra_utils/workers

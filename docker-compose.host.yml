@@ -1,0 +1,27 @@
+version: "3.7"
+
+x-extra_hosts: &extra_hosts_entries
+        - "sample-topology:127.0.0.1"
+        - "sample-topology:::1"
+
+services:
+  sample-topology:
+    build:
+      context: ./
+      dockerfile: ./sample-topology/Dockerfile
+    image: frinx/fm-sample-topology:${RELEASE_VERSION}
+    container_name: sample-topology
+    volumes:
+        - uniconfig_pass:/opt/uniconfig_pass:ro
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "3"
+            max-size: "10m"
+    network_mode: "host"
+    extra_hosts: *extra_hosts_entries
+
+networks:
+  default:
+    external:
+      name: FRINX-machine
