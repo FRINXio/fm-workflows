@@ -90,7 +90,7 @@ describe('Mount all devices from inventory', function() {
     cy.contains('Task Details').click()
 
     cy.contains('Close').click()
-    cy.get('span.navbar-brand a').click()
+    cy.get('span.navbar-brand img').click()
     cy.contains('UniConfig').click()
 
     cy.get('table tbody tr:nth-child(8)').should('to.exist')

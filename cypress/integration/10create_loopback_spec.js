@@ -93,7 +93,7 @@ describe('Create loopback address on devices stored in the inventory', function(
     cy.contains('Task Details').click()
 
     cy.contains('Close').click()
-    cy.get('span.navbar-brand a').click()
+    cy.get('span.navbar-brand img').click()
 
     cy.contains('UniConfig').click()
 
