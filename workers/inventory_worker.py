@@ -286,8 +286,11 @@ def get_all_devices_as_dynamic_fork_tasks(task):
             task_body = copy.deepcopy(task_body_template)
             if optional == "true":
                 task_body['optional'] = True
+                
             task_body["taskReferenceName"] = device_id
-            task_body["subWorkflowParam"]["name"] = task
+            task_body["name"] = task
+            task_body["type"] = "SIMPLE"
+            del task_body["subWorkflowParam"]
             dynamic_tasks.append(task_body)
 
         return {'status': 'COMPLETED', 'output': {'url': inventory_all_devices_url,
