@@ -21,6 +21,10 @@ services:
     network_mode: "host"
     extra_hosts: *extra_hosts_entries
 
+volumes:
+  uniconfig_pass:
+      name: uniconfig_pass
+
 networks:
   default:
     external:
