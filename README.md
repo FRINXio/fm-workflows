@@ -9,7 +9,7 @@ If you use FRINX-machine v1.1 please issue the command
 ```
 git checkout 8a611581b3d8b7f75e3348e4723dbf756c3ea02e #valid for downloaded FRINX-machine v1.1
 ```
-to avoid of error messages connected with later incompatible changes.
+to avoid error messages related to later incompatible changes.
 
 ## Cypress e2e tests
 In the cypress folder there are GUI tests.
