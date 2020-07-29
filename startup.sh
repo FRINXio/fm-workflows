@@ -30,23 +30,6 @@ function start_host_container {
   docker-compose -f docker-compose.host.yml up -d "$1"
 }
 
-function start_containers {
-local containers_to_start=("$1")
-
-for i in "${containers_to_start[@]}"; do
-
-if [ "$networking" = "host" ]; then
-start_host_container $i
-elif [ -z "$networking" ]; then
-start_bridge_container $i
-else
-     echo "Only host is allowed"
-     exit  
-fi
-echo "################"
-done
-}
-
 # Loop arguments
 
 while [ "$1" != "" ];
@@ -68,15 +51,22 @@ done
 docker system prune -f
 
 # Starts containers
-start_containers "sample-topology"
-echo -e 'Startup sample-topology finished!\n'
-# Restart containers to allow add the record for "sample-topology" to /etc/host table
-docker stop "uniconfig"
-docker rm "uniconfig"
-echo -e 'Stopping uniconfig finished!\n'
-start_containers "uniconfig"
-echo -e 'Startup uniconfig finished!\n'
-
+if [ "$networking" = "host" ]; then
+    start_host_container "sample-topology"
+    echo -e 'Startup sample-topology finished!\n'
+    # Restart container to allow add the record for "sample-topology" to /etc/host table
+    docker stop "uniconfig"
+    docker rm "uniconfig"
+    echo -e 'Stopping uniconfig finished!\n'
+    start_host_container "uniconfig"
+    echo -e 'Startup uniconfig finished!\n'
+elif [ -z "$networking" ]; then
+    start_bridge_container "sample-topology"
+    echo -e 'Startup sample-topology finished!\n'
+else
+    echo "Only host is allowed"
+    exit
+fi
 
 #Startup workflows------------------------
 
