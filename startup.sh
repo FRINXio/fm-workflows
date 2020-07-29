@@ -31,7 +31,7 @@ function start_host_container {
 }
 
 function start_containers {
-local containers_to_start=("sample-topology")
+local containers_to_start=("$1")
 
 for i in "${containers_to_start[@]}"; do
 
@@ -68,9 +68,15 @@ done
 docker system prune -f
 
 # Starts containers
-start_containers
-
+start_containers "sample-topology"
 echo -e 'Startup sample-topology finished!\n'
+# Restart containers to allow add the record for "sample-topology" to /etc/host table
+docker stop "uniconfig"
+docker rm "uniconfig"
+echo -e 'Stopping uniconfig finished!\n'
+start_containers "uniconfig"
+echo -e 'Startup uniconfig finished!\n'
+
 
 #Startup workflows------------------------
 
@@ -133,7 +139,9 @@ echo "waiting 1 minute for netconf-device get started..."
 sleep 60
 echo "execute workflow Write_data_to_netconf_testool..."
 workflow_id=`curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/`
-echo 0:   $workflow_id
+# counter c - we try to execute workflow max 3 times untill success
+c=1
+echo $c:   $workflow_id
 
 while :; do
   while :; do
@@ -144,11 +152,9 @@ while :; do
   echo Found:
   grep '^   "status"' OUTPUT
   if cat OUTPUT | grep -q '^   "status".*:.*"FAILED",'; then
-    echo "waiting 1 minute for netconf-device get started..."
-    sleep 60
+    ((c++)) && ((c==4)) && break
     echo "execute workflow Write_data_to_netconf_testool..."
     workflow_id=`curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/`
-    ((c++)) && ((c==3)) && break
     echo $c:   $workflow_id
   else
     echo -e '\nnetconf-testtool configuration OK!\n'
@@ -156,6 +162,8 @@ while :; do
   fi
 done
 
-if [[ $c -eq 3 ]]; then
+if [[ $c -eq 4 ]]; then
   echo -e '\nnetconf-testtool configuration failed!\n'
 fi
+
+rm OUTPUT
