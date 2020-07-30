@@ -30,23 +30,6 @@ function start_host_container {
   docker-compose -f docker-compose.host.yml up -d "$1"
 }
 
-function start_containers {
-local containers_to_start=("sample-topology")
-
-for i in "${containers_to_start[@]}"; do
-
-if [ "$networking" = "host" ]; then
-start_host_container $i
-elif [ -z "$networking" ]; then
-start_bridge_container $i
-else
-     echo "Only host is allowed"
-     exit  
-fi
-echo "################"
-done
-}
-
 # Loop arguments
 
 while [ "$1" != "" ];
@@ -68,9 +51,22 @@ done
 docker system prune -f
 
 # Starts containers
-start_containers
-
-echo -e 'Startup sample-topology finished!\n'
+if [ "$networking" = "host" ]; then
+    start_host_container "sample-topology"
+    echo -e 'Startup sample-topology finished!\n'
+    # Restart container to allow add the record for "sample-topology" to /etc/host table
+    docker stop "uniconfig"
+    docker rm "uniconfig"
+    echo -e 'Stopping uniconfig finished!\n'
+    start_host_container "uniconfig"
+    echo -e 'Startup uniconfig finished!\n'
+elif [ -z "$networking" ]; then
+    start_bridge_container "sample-topology"
+    echo -e 'Startup sample-topology finished!\n'
+else
+    echo "Only host is allowed"
+    exit
+fi
 
 #Startup workflows------------------------
 
@@ -133,7 +129,9 @@ echo "waiting 1 minute for netconf-device get started..."
 sleep 60
 echo "execute workflow Write_data_to_netconf_testool..."
 workflow_id=`curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/`
-echo 0:   $workflow_id
+# counter c - we try to execute workflow max 3 times untill success
+c=1
+echo $c:   $workflow_id
 
 while :; do
   while :; do
@@ -144,11 +142,9 @@ while :; do
   echo Found:
   grep '^   "status"' OUTPUT
   if cat OUTPUT | grep -q '^   "status".*:.*"FAILED",'; then
-    echo "waiting 1 minute for netconf-device get started..."
-    sleep 60
+    ((c++)) && ((c==4)) && break
     echo "execute workflow Write_data_to_netconf_testool..."
     workflow_id=`curl --silent -H "Content-Type: application/json"  -X POST -d "{\"name\":\"Write_data_to_netconf_testool\",\"version\":1,\"input\":{}}" http://localhost:8080/api/workflow/`
-    ((c++)) && ((c==3)) && break
     echo $c:   $workflow_id
   else
     echo -e '\nnetconf-testtool configuration OK!\n'
@@ -156,6 +152,8 @@ while :; do
   fi
 done
 
-if [[ $c -eq 3 ]]; then
+if [[ $c -eq 4 ]]; then
   echo -e '\nnetconf-testtool configuration failed!\n'
 fi
+
+rm OUTPUT
