@@ -4,6 +4,16 @@
 Make sure FRINX-machine is running, navigate to `cd /fm-workflows` and execute `./startup.sh`. Imported workflows and tasks will appear in FRINX-Machine UI, right after importing finishes. 
 To work with workflows, the docker container with sample-topology is launched with startup. To turn off the docker container, use the command `./teardown.sh`.
 
+If FRINX-machine is running in host networking mode you must start also the sample-topology container in the same networking mode:
+```
+./startup.sh -n host
+```
+
+To build sample-topology docker image issue the command:
+```
+docker-compose -f docker-compose.bridge.yml build sample-topology
+```
+
 Note:
 If you use FRINX-machine v1.1 please issue the command
 ```
