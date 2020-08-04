@@ -136,7 +136,7 @@ def start(cc):
 
     cc.register('LLDP_build_topology', {
         "name": "LLDP_build_topology",
-        "description": "Build lldp topology - DEMO,LLDP",
+        "description": "{\"description\": \"Build lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -162,7 +162,7 @@ def start(cc):
 
     cc.register('LLDP_export_topology', {
         "name": "LLDP_export_topology",
-        "description": "Export lldp topology - DEMO,LLDP",
+        "description": "{\"description\": \"Export lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -183,7 +183,7 @@ def start(cc):
 
     cc.register('LLDP_read_topology', {
         "name": "LLDP_read_topology",
-        "description": "Read lldp topology - DEMO,LLDP",
+        "description": "{\"description\": \"Read lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -204,7 +204,7 @@ def start(cc):
 
     cc.register('LLDP_store_topology', {
         "name": "LLDP_store_topology",
-        "description": "Store lldp topology in database - DEMO,LLDP",
+        "description": "{\"description\": \"Store lldp topology in database\", \"labels\": [\"DEMO\",\"LLDP\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",

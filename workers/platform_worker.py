@@ -34,7 +34,7 @@ def start(cc):
 
     cc.register('OC-PLATFORM_read_components', {
         "name": "OC-PLATFORM_read_components",
-        "description": "Read components in openconfig format - DEMO,PLATFORM,UNIFIED,OPENCONFIG",
+        "description": "{\"description\": \"Read components in openconfig format\", \"labels\": [\"DEMO\",\"PLATFORM\",\"UNIFIED\",\"OPENCONFIG\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
