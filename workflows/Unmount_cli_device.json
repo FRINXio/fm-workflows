@@ -1,6 +1,6 @@
 {
   "name": "Unmount_cli_device",
-  "description": "unmount a CLI device - BASICS,CLI",
+  "description": "{\"description\": \"unmount a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

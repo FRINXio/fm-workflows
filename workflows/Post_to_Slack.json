@@ -1,7 +1,6 @@
 {
   "name": "Post_to_Slack",
-  "description": "Post a message to your favorite Slack channel - SLACK,HTTP",
-  "workflowStatusListenerEnabled": true,
+  "description": "{\"description\": \"Post a message to your favorite Slack channel\", \"labels\": [\"SLACK\",\"HTTP\"]}",
   "version": 1,
   "tasks": [
     {

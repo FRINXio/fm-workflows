@@ -1,6 +1,6 @@
 {
   "name": "Add_labels_to_device",
-  "description": "add a labels to device in inventory database - BASICS,INVENTORY",
+  "description": "{\"description\": \"add a labels to device in inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

@@ -1,6 +1,6 @@
 {
   "name": "Link_aggregation",
-  "description": "Creates a link aggregation between two nodes - DEMO,LINKAGG",
+  "description": "{\"description\": \"Creates a link aggregation between two nodes\", \"labels\": [\"DEMO\",\"LINKAGG\"]}",
   "version": 1,
   "tasks": [
     {

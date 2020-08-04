@@ -1,7 +1,6 @@
 {
   "name": "Build_read_store_LLDP_topology",
-  "description": "Build, read and store LLDP topology in database - DEMO,LLDP",
-  "workflowStatusListenerEnabled": true,
+  "description": "{\"description\": \"Build, read and store LLDP topology in database\", \"labels\": [\"DEMO\",\"LLDP\"]}",
   "version": 1,
   "tasks": [
     {

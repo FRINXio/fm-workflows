@@ -1,6 +1,6 @@
 {
   "name": "Export_LLDP_topology",
-  "description": "Export lldp topology - DEMO,LLDP",
+  "description": "{\"description\": \"Export lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [

@@ -203,7 +203,7 @@ def start(cc):
 
     cc.register('UNIFIED_read_unified_topology_operational', {
         "name": "UNIFIED_read_unified_topology_operational",
-        "description": "Read operational state of Unified - BASICS,UNIFIED",
+        "description": "{\"description\": \"Read operational state of Unified\", \"labels\": [\"BASICS\",\"UNIFIED\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -223,7 +223,7 @@ def start(cc):
 
     cc.register('UNIFIED_get_all_devices_as_dynamic_fork_tasks', {
         "name": "UNIFIED_get_all_devices_as_dynamic_fork_tasks",
-        "description": "get all devices in unified topology as workflow tasks - BASICS,UNIFIED",
+        "description": "{\"description\": \"get all devices in unified topology as workflow tasks\", \"labels\": [\"BASICS\",\"UNIFIED\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -246,7 +246,7 @@ def start(cc):
 
     cc.register('UNIFIED_read_structured_device_data', {
         "name": "UNIFIED_read_structured_device_data",
-        "description": "Read device configuration or operational data in structured format e.g. openconfig - BASICS,UNIFIED,OPENCONFIG",
+        "description": "{\"description\": \"Read device configuration or operational data in structured format e.g. openconfig\", \"labels\": [\"BASICS\",\"UNIFIED\",\"OPENCONFIG\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -268,7 +268,7 @@ def start(cc):
 
     cc.register('UNIFIED_write_structured_device_data', {
         "name": "UNIFIED_write_structured_device_data",
-        "description": "Write device configuration data in structured format e.g. openconfig - BASICS,UNIFIED",
+        "description": "{\"description\": \"Write device configuration data in structured format e.g. openconfig\", \"labels\": [\"BASICS\",\"UNIFIED\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -293,7 +293,7 @@ def start(cc):
 
     cc.register('UNIFIED_delete_structured_device_data', {
         "name": "UNIFIED_delete_structured_device_data",
-        "description": "Delete device configuration data in structured format e.g. openconfig - BASICS,UNIFIED,OPENCONFIG",
+        "description": "{\"description\": \"Delete device configuration data in structured format e.g. openconfig\", \"labels\": [\"BASICS\",\"UNIFIED\",\"OPENCONFIG\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -316,7 +316,7 @@ def start(cc):
 
     cc.register('UNIFIED_check_unified_node_exists', {
         "name": "UNIFIED_check_unified_node_exists",
-        "description": "check unified node exists - BASICS,UNIFIED",
+        "description": "{\"description\": \"check unified node exists\", \"labels\": [\"BASICS\",\"UNIFIED\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",

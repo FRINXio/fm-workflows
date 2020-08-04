@@ -1,6 +1,6 @@
 {
   "name": "Create_loopback_interface_uniconfig",
-  "description": "Create loopback interface in uniconfig - DEMO,INTERFACES,UNICONFIG,OPENCONFIG",
+  "description": "{\"description\": \"Create loopback interface in uniconfig\", \"labels\": [\"DEMO\",\"INTERFACES\",\"UNICONFIG\",\"OPENCONFIG\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

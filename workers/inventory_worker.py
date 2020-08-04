@@ -412,7 +412,7 @@ def start(cc):
 
     cc.register('INVENTORY_add_cli_device', {
         "name": "INVENTORY_add_cli_device",
-        "description": "add a CLI device to inventory database - BASICS,MAIN,INVENTORY,CLI",
+        "description": "{\"description\": \"add a CLI device to inventory database\", \"labels\": [\"BASICS\",\"MAIN\",\"INVENTORY\",\"CLI\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -440,7 +440,7 @@ def start(cc):
 
     cc.register('INVENTORY_add_field_to_device', {
         "name": "INVENTORY_add_field_to_device",
-        "description": "add a field key/value to device in inventory database - BASICS,INVENTORY",
+        "description": "{\"description\": \"add a field key/value to device in inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -462,7 +462,7 @@ def start(cc):
 
     cc.register('INVENTORY_add_nested_field_to_device', {
         "name": "INVENTORY_add_nested_field_to_device",
-        "description": "add a nested field (nested json structure) to device in inventory database - BASICS,INVENTORY",
+        "description": "{\"description\": \"add a nested field (nested json structure) to device in inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -484,7 +484,7 @@ def start(cc):
 
     cc.register('INVENTORY_add_array_to_field', {
         "name": "INVENTORY_add_array_to_field",
-        "description": "add an array to field on device in inventory database - BASICS,INVENTORY",
+        "description": "{\"description\": \"add an array to field on device in inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -506,7 +506,7 @@ def start(cc):
 
     cc.register('INVENTORY_remove_device', {
         "name": "INVENTORY_remove_device",
-        "description": "remove a device to inventory database - BASICS,INVENTORY",
+        "description": "{\"description\": \"remove a device to inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -526,7 +526,7 @@ def start(cc):
 
     cc.register('INVENTORY_get_device', {
         "name": "INVENTORY_get_device",
-        "description": "get 1 device from inventory database - BASICS,INVENTORY",
+        "description": "{\"description\": \"get 1 device from inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -546,7 +546,7 @@ def start(cc):
 
     cc.register('INVENTORY_get_all_devices', {
         "name": "INVENTORY_get_all_devices",
-        "description": "get all devices in inventory database - BASICS,INVENTORY",
+        "description": "{\"description\": \"get all devices in inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -566,7 +566,7 @@ def start(cc):
 
     cc.register('INVENTORY_get_all_devices_as_dynamic_fork_tasks', {
         "name": "INVENTORY_get_all_devices_as_dynamic_fork_tasks",
-        "description": "get all devices as dynamic fork tasks - BASICS,INVENTORY",
+        "description": "{\"description\": \"get all devices as dynamic fork tasks\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -589,7 +589,7 @@ def start(cc):
 
     cc.register('INVENTORY_add_show_command', {
         "name": "INVENTORY_add_show_command",
-        "description": "add a CLI command template to inventory database - BASICS,MAIN,INVENTORY,CLI",
+        "description": "{\"description\": \"add a CLI command template to inventory database\", \"labels\": [\"BASICS\",\"MAIN\",\"INVENTORY\",\"CLI\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",

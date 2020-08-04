@@ -1,6 +1,6 @@
 {
   "name": "Create_loopback_interface_unified",
-  "description": "Create loopback interface - DEMO,INTERFACES,UNIFIED,OPENCONFIG",
+  "description": "{\"description\": \"Create loopback interface\", \"labels\": [\"DEMO\",\"INTERFACES\",\"UNIFIED\",\"OPENCONFIG\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

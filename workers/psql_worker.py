@@ -94,7 +94,7 @@ def start(cc):
 
     cc.register('PSQL_select_device', {
         "name": "PSQL_select_device",
-        "description": "Select device - PSQL",
+        "description": "{\"description\": \"Select device\", \"labels\": [\"PSQL\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
@@ -112,7 +112,7 @@ def start(cc):
 
     cc.register('PSQL_insert_organizations', {
         "name": "PSQL_insert_organizations",
-        "description": "Select insert_organizations - PSQL",
+        "description": "{\"description\": \"Select insert_organizations\", \"labels\": [\"PSQL\"]}",
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",

@@ -1,6 +1,6 @@
 {
   "name": "Unmount_netconf_device",
-  "description": "unmount a CLI device - BASICS,NETCONF",
+  "description": "{\"description\": \"unmount a CLI device\", \"labels\": [\"BASICS\",\"NETCONF\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

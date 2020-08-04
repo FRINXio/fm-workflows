@@ -1,6 +1,6 @@
 {
   "name": "Get_cli_command_template_from_inventory",
-  "description": "get 1 command template from inventory database - BASICS,INVENTORY,CLI",
+  "description": "{\"description\": \"get 1 command template from inventory database\", \"labels\": [\"BASICS\",\"INVENTORY\",\"CLI\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

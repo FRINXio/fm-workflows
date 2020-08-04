@@ -1,7 +1,6 @@
 {
   "name": "Read_journal_cli_device",
-  "description": "Read cli journal for a device - BASICS,CLI",
-  "workflowStatusListenerEnabled": true,
+  "description": "{\"description\": \"Read cli journal for a device\", \"labels\": [\"BASICS\",\"CLI\"]}",
   "version": 1,
   "tasks": [
     {
