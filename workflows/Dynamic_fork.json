@@ -45,5 +45,8 @@
   },
   "schemaVersion": 2,
   "restartable": true,
-  "workflowStatusListenerEnabled": false
+  "workflowStatusListenerEnabled": false,
+  "inputParameters": [
+    "{\"dynamic_tasks\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"expectedName\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"expectedType\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"dynamic_tasks_i\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
+  ]
 }

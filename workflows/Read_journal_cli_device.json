@@ -16,7 +16,7 @@
     }
   ],
   "inputParameters": [
-    "device_id[Unique identifier of device. Example: IOS01 #node_id]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique identifier of device. Example: IOS01\",\"type\":\"node_id\"}}"
   ],
   "outputParameters": {
     "journal": "${CLI_get_cli_journal.output.response_body.output.journal}"

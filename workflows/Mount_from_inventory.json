@@ -3,7 +3,7 @@
   "description": "{\"description\": \"Get device from inventory and decide to mount cli or netconf\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
   "version": 1,
   "inputParameters": [
-    "device_id[Unique device identifier. Example: IOS01]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"string\"}}"
   ],
   "tasks": [
     {
@@ -85,7 +85,8 @@
                 "type": "SIMPLE",
                 "optional": false,
                 "startDelay": 0
-              },{
+              },
+              {
                 "name": "Netconf_mount_netconf",
                 "taskReferenceName": "mount_netconf_device_ref_16F0",
                 "inputParameters": {

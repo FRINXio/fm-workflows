@@ -4,7 +4,7 @@
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "device[Name of device]"
+    "{\"device\":{\"value\":\"\",\"description\":\"Name of device\",\"type\":\"string\"}}"
   ],
   "tasks": [
     {

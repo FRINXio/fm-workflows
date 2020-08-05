@@ -50,15 +50,7 @@
     }
   ],
   "inputParameters": [
-    "device_id[Unique identifier of device across all systems]",
-    "type[Type of device or device IOS e.g. ios, ios xr]",
-    "version[Version of device or device OS e.g. 15.2]",
-    "host[IP or hostname of the management endpoint on a device]",
-    "protocol[CLI management transport protocol e.g. tcp or ssh][ssh]",
-    "port[TCP port of the management endpoint of a device][22]",
-    "username[Username credential]",
-    "password[Password credential]",
-    "labels[Device labels]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique identifier of device across all systems\",\"type\":\"string\"},\"type\":{\"value\":\"\",\"description\":\"Type of device or device IOS e.g. ios, ios xr\",\"type\":\"string\"},\"version\":{\"value\":\"\",\"description\":\"Version of device or device OS e.g. 15.2\",\"type\":\"string\"},\"host\":{\"value\":\"\",\"description\":\"IP or hostname of the management endpoint on a device\",\"type\":\"string\"},\"protocol\":{\"value\":\"ssh\",\"description\":\"CLI management transport protocol e.g. tcp or ssh\",\"type\":\"string\"},\"port\":{\"value\":\"22\",\"description\":\"TCP port of the management endpoint of a device\",\"type\":\"string\"},\"username\":{\"value\":\"\",\"description\":\"Username credential\",\"type\":\"string\"},\"password\":{\"value\":\"\",\"description\":\"Password credential\",\"type\":\"string\"},\"labels\":{\"value\":\"\",\"description\":\"Device labels\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "device_id": "${workflow.input.device_id}"

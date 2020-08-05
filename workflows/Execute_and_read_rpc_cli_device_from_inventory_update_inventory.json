@@ -4,9 +4,7 @@
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "device_id[Unique device identifier. Example: IOS01 #node_id]",
-    "template_id[Unique command template identifier]",
-    "params[]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"node_id\"},\"template_id\":{\"value\":\"\",\"description\":\"Unique command template identifier\",\"type\":\"string\"},\"params\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
   ],
   "tasks": [
     {

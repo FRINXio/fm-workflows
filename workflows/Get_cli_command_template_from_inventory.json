@@ -4,7 +4,7 @@
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "template_id[Unique command template identifier in DB]"
+    "{\"template_id\":{\"value\":\"\",\"description\":\"Unique command template identifier in DB\",\"type\":\"string\"}}"
   ],
   "tasks": [
     {

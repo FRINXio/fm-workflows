@@ -38,8 +38,7 @@
     }
   ],
   "inputParameters": [
-    "template_id[Unique command identifier]",
-    "params[]"
+    "{\"template_id\":{\"value\":\"\",\"description\":\"Unique command identifier\",\"type\":\"string\"},\"params\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "device_ids": "${execute_command.output.forkedTasks}"
