@@ -44,8 +44,7 @@
     }
   ],
   "inputParameters": [
-    "template_id[Unique command identifier in DB]",
-    "command[command template e.g. show running-config #template]"
+    "{\"template_id\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"command\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "template_id": "${workflow.input.template_id}"

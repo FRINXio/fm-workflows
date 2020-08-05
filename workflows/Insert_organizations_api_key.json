@@ -3,14 +3,12 @@
   "description": "{\"description\": \"Insert_organizations_api_key\", \"labels\": [\"PSQL\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
-  "inputParameters": [
-  ],
+  "inputParameters": [],
   "tasks": [
     {
       "name": "PSQL_insert_organizations",
       "taskReferenceName": "PSQL_insert_organizations",
-      "inputParameters": {
-      },
+      "inputParameters": {},
       "type": "SIMPLE",
       "startDelay": 0
     }

@@ -4,8 +4,7 @@
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "device_id[Unique device identifier. Example: IOS01]",
-    "labels[Value of the labels (e.g. EDGE or a list like EDGE, PRODUCTION, ACTIVE)]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"string\"},\"labels\":{\"value\":\"\",\"description\":\"Value of the labels (e.g. EDGE or a list like EDGE, PRODUCTION, ACTIVE)\",\"type\":\"string\"}}"
   ],
   "tasks": [
     {

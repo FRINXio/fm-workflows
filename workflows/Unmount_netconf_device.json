@@ -4,7 +4,7 @@
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "device_id[Unique device identifier. Example: IOS01 #node_id]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"node_id\"}}"
   ],
   "tasks": [
     {

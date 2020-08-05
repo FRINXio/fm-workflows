@@ -30,5 +30,8 @@
   "outputParameters": {
     "components": "${read_unified.output.components.components}"
   },
-  "schemaVersion": 2
+  "schemaVersion": 2,
+  "inputParameters": [
+    "{\"device_id\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
+  ]
 }

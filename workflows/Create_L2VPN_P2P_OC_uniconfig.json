@@ -56,7 +56,7 @@
       "inputParameters": {
         "devices": "${workflow.input.node01}, ${workflow.input.node02}"
       },
-       "type": "SIMPLE"
+      "type": "SIMPLE"
     },
     {
       "name": "decisionTask",
@@ -122,11 +122,7 @@
     }
   ],
   "inputParameters": [
-    "node01[First node of P2P connection #node_id][IOS01]",
-    "interface01[Customer facing service interface on first node][GigabitEthernet1]",
-    "node02[Second node of P2P connection #node_id][IOS02]",
-    "interface02[Customer facing service interface on second node][GigabitEthernet3]",
-    "VCID[Virtual Circuit Identifier (globally unique)][444]"
+    "{\"node01\":{\"value\":\"IOS01\",\"description\":\"First node of P2P connection\",\"type\":\"node_id\"},\"node02\":{\"value\":\"IOS02\",\"description\":\"Second node of P2P connection\",\"type\":\"node_id\"},\"interface01\":{\"value\":\"GigabitEthernet1\",\"description\":\"Customer facing service interface on first node\",\"type\":\"string\"},\"vcid\":{\"value\":\"444\",\"description\":\"Virtual Circuit Identifier (globally unique)\",\"type\":\"string\"},\"interface02\":{\"value\":\"GigabitEthernet3\",\"description\":\"Customer facing service interface on second node\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "response_body": "Journal for ${workflow.input.node01}:  ${read_journal_cli_device_ref_LJUO.output.journal} --------  Journal for ${workflow.input.node02}:  ${read_journal_cli_device_ref_CDGP.output.journal}"

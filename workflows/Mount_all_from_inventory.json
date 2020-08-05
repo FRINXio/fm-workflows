@@ -36,8 +36,7 @@
     }
   ],
   "inputParameters": [
-    "labels[Enter one or multiple labels to select devices. Match type is ALL.]",
-    "optional[If one of devices is already mounted, workflow will continue #bool][true]"
+    "{\"labels\":{\"value\":\"\",\"description\":\"Enter one or multiple labels to select devices. Match type is ALL.\",\"type\":\"string\"},\"optional\":{\"value\": true,\"description\":\"If one of devices is already mounted, workflow will continue\",\"type\":\"toggle\", \"options\": [true,false]}}"
   ],
   "outputParameters": {
     "ids": "${mount.output.forkedTasks}"

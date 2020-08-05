@@ -40,5 +40,8 @@
   },
   "schemaVersion": 2,
   "restartable": true,
-  "workflowStatusListenerEnabled": true
+  "workflowStatusListenerEnabled": true,
+  "inputParameters": [
+    "{\"task_params\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"optional\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
+  ]
 }

@@ -51,16 +51,7 @@
     }
   ],
   "inputParameters": [
-    "device_id[Unique identifier of device across all systems][n1]",
-    "host[IP or hostname of the management endpoint on a device][sample-topology]",
-    "port[TCP port of the management endpoint of a device][1783]",
-    "keepalivedelay[Keepalive delay][100000]",
-    "tcponly[tcp only #bool][true]",
-    "username[Username credential][cisco]",
-    "password[Password credential][cisco]",
-    "labels[Device labels]",
-    "uniconfignative[Enable uniconfig-native #bool][true]",
-    "blacklist[List of blacklisted root paths][openconfig-interfaces:interfaces]"
+    "{\"device_id\":{\"value\":\"n1\",\"description\":\"Unique identifier of device across all systems\",\"type\":\"string\"},\"port\":{\"value\":\"1783\",\"description\":\"TCP port of the management endpoint of a device\",\"type\":\"string\"},\"host\":{\"value\":\"sample-topology\",\"description\":\"IP or hostname of the management endpoint on a device\",\"type\":\"string\"},\"keepalivedelay\":{\"value\":\"100000\",\"description\":\"Keepalive delay\",\"type\":\"string\"},\"tcponly\":{\"value\":true,\"description\":\"tcp only\",\"type\":\"toggle\", \"options\": [true,false] },\"username\":{\"value\":\"cisco\",\"description\":\"Username credential\",\"type\":\"string\"},\"password\":{\"value\":\"cisco\",\"description\":\"Password credential\",\"type\":\"string\"},\"labels\":{\"value\":\"\",\"description\":\"Device labels\",\"type\":\"string\"},\"uniconfignative\":{\"value\": true,\"description\":\"Enable uniconfig-native\",\"type\":\"toggle\", \"options\": [true,false]},\"blacklist\":{\"value\":\"openconfig-interfaces:interfaces\",\"description\":\"List of blacklisted root paths\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "device_id": "${workflow.input.device_id}"

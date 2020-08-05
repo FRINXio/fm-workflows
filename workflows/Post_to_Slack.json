@@ -11,10 +11,10 @@
           "uri": "https://hooks.slack.com/services/${workflow.input.slack_webhook_id}",
           "contentType": "application/json",
           "body": {
-            "text" : "${workflow.input.message_text}"
+            "text": "${workflow.input.message_text}"
           },
-          "connectionTimeOut":"3600",
-          "readTimeOut":"3600",
+          "connectionTimeOut": "3600",
+          "readTimeOut": "3600",
           "method": "POST"
         }
       },
@@ -22,8 +22,7 @@
     }
   ],
   "inputParameters": [
-    "slack_webhook_id[The Slack webhook ID that you want to send this message to][T7UQ7KATX/BP8M0S3EH/W3YpmbUr2fQDEA7WIoWcJIXX]",
-    "message_text[The message that you want to send to Slack][I am sitting in a room ]"
+    "{\"slack_webhook_id\":{\"value\":\"T7UQ7KATX/BP8M0S3EH/W3YpmbUr2fQDEA7WIoWcJIXX\",\"description\":\"The Slack webhook ID that you want to send this message to\",\"type\":\"string\"},\"message_text\":{\"value\":\"I am sitting in a room \",\"description\":\"The message that you want to send to Slack\",\"type\":\"string\"}}"
   ],
   "schemaVersion": 2,
   "restartable": true,

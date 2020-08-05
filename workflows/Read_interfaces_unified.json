@@ -15,7 +15,7 @@
     }
   ],
   "inputParameters": [
-    "device_id[Unique device identifier. Example: IOS01 #node_id]"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"node_id\"}}"
   ],
   "outputParameters": {
     "data": "${UNIFIED_read_structured_device_data.output.response_body}"
