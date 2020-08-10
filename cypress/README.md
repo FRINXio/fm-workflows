@@ -16,7 +16,7 @@ See note designated [Important][4].
 
 ## Loopback use case
 [Creating loopback address and retrieving journals of devices][4]  
-10create_loopback_spec.js uses workflow *Create_loopback_all_in_unified*  
+10create_loopback_spec.js  
 12check_loopback.spec.js uses workflow *Read_journal_cli_device* to check loopback at two chosen devices.
 
 ### Loopback use case - demonstrate creating of workflow in Workflow designer
