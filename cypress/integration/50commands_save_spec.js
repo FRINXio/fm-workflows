@@ -25,8 +25,10 @@ describe('Save and execute commands on devices', function() {
 
     //cy.get('div.form-group > textarea').as('command')
     //20200415 ^^^ this stopped to work
-    cy.contains('command template e.g. show running-config').prev().as('command')
-    //cy.get('@command').type('{selectall}{backspace}',{force:true})
+    //cy.contains('command template e.g. show running-config').prev().as('command')
+    //20200813 ^^^ this stopped to work
+    cy.contains(/^command$/).next().as('command')
+    cy.get('@command').type('{selectall}{backspace}',{force:true})
     cy.get('@command').type('show running-config')
 
     cy.get('div.modal-content').contains('Execute').click()
@@ -83,8 +85,10 @@ describe('Save and execute commands on devices', function() {
 
     //cy.get('div.form-group > textarea').as('command')
     //20200415 ^^^ this stopped to work
-    cy.contains('command template e.g. show running-config').prev().as('command')
-    //cy.get('@command').type('{selectall}{backspace}',{force:true})
+    //cy.contains('command template e.g. show running-config').prev().as('command')
+    //20200813 ^^^ this stopped to work
+    cy.contains(/^command$/).next().as('command')
+    cy.get('@command').type('{selectall}{backspace}',{force:true})
     cy.get('@command').type('show running-config')
 
     cy.get('div.modal-content').contains('Execute').click()

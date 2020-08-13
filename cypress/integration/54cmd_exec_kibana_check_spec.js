@@ -2,7 +2,7 @@
 //Execute saved command on mounted devicesa - workflow Execute_and_read_rpc_cli_device_from_inventory_update_inventory
 //put to inventory new field named after command_id and its value should be output of the command
 describe('Check that executed command is stored in the inventory', function() {
-  it.skip('prepares index inventory-device', function() {
+  it('prepares index inventory-device', function() {
     cy.server()
     cy.route('**?pattern=inventory-device&**').as('getXhr')
     let inventory = Cypress.env('inventory')
