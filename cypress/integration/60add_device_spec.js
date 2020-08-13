@@ -229,12 +229,15 @@ describe('Add a device to inventory and mount it', function() {
     var host='192.168.1.211' //: host ip address
     var keepalivedelay='50000' //: value of keepalive delay
     //var tcponly='false' //: set type of communication
-    var tcponly='Off' //: set type of communication
+    //20200813 this stopped to work var tcponly='Off' //: set type of communication
+    //20200813 instead of ^^^^ this began
+    var tcponly='false' //: set type of communication
     var username='cisco' //: credentials to use
     var password='cisco' //: credentials to use
     var labels='TEST ADDED_THROUGH_WORKHLOW GREATER_ONE_ROUTER XR612-212' //: label of device (optional)
     //var uniconfignative='true' //: enable uniconfig-native
-    var uniconfignative='On' //: enable uniconfig-native
+    //20200813 this stopped to work var uniconfignative='On' //: enable uniconfig-native
+    var uniconfignative='true' //: enable uniconfig-native
     var blacklist='openconfig-interfaces:interfaces,ietf-interfaces:interfaces,openconfig-vlan:vlans,openconfig-routing-policy:routing-policy' //: List of blacklisted root paths
 
     cy.get('label').contains('device_id').next().as('device_id') //label  become alias of next input
