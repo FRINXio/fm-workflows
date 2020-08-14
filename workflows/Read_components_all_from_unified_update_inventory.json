@@ -42,6 +42,6 @@
   "restartable": true,
   "workflowStatusListenerEnabled": true,
   "inputParameters": [
-    "{\"task_params\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"optional\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
+    "{\"task_params\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"optional\":{\"value\": true,\"description\":\"If one of devices doesn't use openconfig model, workflow will continue\",\"type\":\"toggle\", \"options\": [true,false]}}"
   ]
 }
