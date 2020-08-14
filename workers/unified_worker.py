@@ -38,7 +38,7 @@ def read_all_devices(url, uniconfig_tx_id):
     filtered_nodes = []
 
     for node in actual_nodes:
-        if node['unified-topology:connection-status'] == "connected":
+        if node['unified-topology:connection-status'] == "installed":
             filtered_nodes.append(node)
 
     response_json['topology'][0].pop('node')
@@ -62,7 +62,7 @@ def get_all_devices_as_dynamic_fork_tasks(task):
     subworkflow = task['inputData']['task']
     add_params = task['inputData']['task_params']
     optional = task['inputData']['optional'] if 'optional' in task['inputData'] else "false"
-    add_params = json.loads(add_params) if isinstance(add_params, str) else (add_params if add_params else {})
+    add_params = json.loads(add_params) if isinstance(add_params, str) and add_params is not '' else (add_params if add_params else {})
     uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
     response_code, response_json = read_all_devices(odl_url_unified_oper_shallow, uniconfig_tx_id)
