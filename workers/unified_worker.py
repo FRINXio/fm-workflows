@@ -6,11 +6,13 @@ import copy
 from string import Template
 from frinx_rest import odl_url_base, odl_credentials, parse_response, add_uniconfig_tx_cookie
 import uniconfig_worker
+import logging
 
 odl_url_unified_oper_shallow = odl_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig&depth=3"
 odl_url_unified_oper = odl_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig"
 odl_url_unified_oper_mount = odl_url_base + "/data/network-topology:network-topology/topology=unified/node=$id?content=nonconfig"
 odl_url_unified_mount = odl_url_base + "/data/network-topology:network-topology/topology=unified/node=$id"
+log = logging.getLogger(__name__)
 
 
 def execute_read_unified_topology_operational(task):
@@ -199,7 +201,7 @@ def execute_check_unified_node_exists(task):
 
 
 def start(cc):
-    print('Starting Unified workers')
+    log.info('Starting Unified workers')
 
     cc.register('UNIFIED_read_unified_topology_operational', {
         "name": "UNIFIED_read_unified_topology_operational",

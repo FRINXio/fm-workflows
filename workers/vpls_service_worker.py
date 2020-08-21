@@ -1,12 +1,14 @@
 from __future__ import print_function
 
 import itertools
-
+import logging
 from vpls_model import Service
 import uniconfig_worker
 import vpls_worker
 import common_worker
 import vll_service_worker
+
+log = logging.getLogger(__name__)
 
 
 def default_filter_strategy():
@@ -405,7 +407,7 @@ def extract_network_instances(node, strategy):
 
 
 def start(cc):
-    print('Starting VPLS service workers')
+    log.info('Starting VPLS service workers')
 
     # Service level configuration (spanning multiple devices)
 

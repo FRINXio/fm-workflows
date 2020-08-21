@@ -6,10 +6,12 @@ from vll_model import Device, Service, LocalService, RemoteService, ServiceDelet
 import uniconfig_worker
 import vll_worker
 import common_worker
+import logging
 
 odl_url_uniconfig_ifc_config = '/frinx-openconfig-interfaces:interfaces/interface=escape($ifc)'
 odl_url_uniconfig_ifc_policy_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/policy-forwarding/interfaces/interface=escape($ifc)'
 odl_url_uniconfig_ifc_stp_config = '/frinx-stp:stp/interfaces/interface=escape($ifc)'
+log = logging.getLogger(__name__)
 
 
 def default_filter_strategy():
@@ -586,7 +588,7 @@ def extract_network_instances(node, strategy):
 
 
 def start(cc):
-    print('Starting VLL service workers')
+    log.info('Starting VLL service workers')
 
     # Service level configuration (spanning multiple devices)
 

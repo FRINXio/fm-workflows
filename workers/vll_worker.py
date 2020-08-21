@@ -2,10 +2,11 @@ from __future__ import print_function
 
 import copy
 from string import Template
-
+import logging
 import uniconfig_worker
 
 odl_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vll'
+log = logging.getLogger(__name__)
 
 
 vll_local_template = {
@@ -255,7 +256,7 @@ def create_vll_local_request(task):
 
 
 def start(cc):
-    print('Starting VLL workers')
+    log.info('Starting VLL workers')
 
     # Single device level configuration
 

@@ -1,12 +1,15 @@
 import vll_worker
 import vll_model
 import vll_service_worker
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def test_create_snapshot():
     request = vll_worker.create_vll_remote_request(
         {"inputData": {"service_id": "abcd", "interface": "ethernet 1/2", "remote_ip": "14.14.14.14", "vccid": 194545}})
-    print(request)
+    log.debug(request)
     assert request["network-instance"][0]["name"] == "abcd"
     assert request["network-instance"][0]["name"] == "abcd"
     assert request["network-instance"][0]["interfaces"]["interface"][0]["id"] == "ethernet 1/2"
@@ -29,7 +32,7 @@ def test_create_snapshot():
 
 def test_parse_device():
     device = vll_model.LocalDevice.parse({"id": "B21", "interface": "ethernet 3/4", "auto_negotiate": False}, 0)
-    print(device)
+    log.debug(device)
     assert False
 
 
@@ -60,13 +63,13 @@ def test_aggregate_remote_l2p2p():
           {'id': 'abcd2', 'vccid': 1255, 'devices': [{'id': 'B29', 'interface': 'e 2/3'}]}]
 
     aggregated = vll_service_worker.aggregate_l2p2p_remote(partial_services)
-    print(aggregated)
+    log.debug(aggregated)
     assert len(aggregated) is 2
 
     aggregated = vll_service_worker.aggregate_l2p2p_remote(partial_services, lambda x: x['vccid'])
-    print(aggregated)
+    log.debug(aggregated)
     assert len(aggregated) is 2
 
     aggregated = vll_service_worker.aggregate_l2p2p_remote(partial_services, lambda x: x)
-    print(aggregated)
+    log.debug(aggregated)
     assert len(aggregated) is 3

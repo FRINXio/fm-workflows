@@ -3,10 +3,12 @@ from __future__ import print_function
 import json
 import copy
 from string import Template
-
+import logging
 import requests
 
 from frinx_rest import elastic_url_base, parse_response, elastic_headers
+
+log = logging.getLogger(__name__)
 
 inventory_device_url = elastic_url_base + "/inventory-device/device/$id"
 inventory_device_get_url = elastic_url_base + "/inventory-device/device/$id/_source"
@@ -408,7 +410,7 @@ def add_netconf_device(task):
 
 
 def start(cc):
-    print('Starting Inventory workers')
+    log.info('Starting Inventory workers')
 
     cc.register('INVENTORY_add_cli_device', {
         "name": "INVENTORY_add_cli_device",

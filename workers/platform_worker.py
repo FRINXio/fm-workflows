@@ -2,10 +2,11 @@ from __future__ import print_function
 
 import requests
 from frinx_rest import odl_url_base, odl_credentials, parse_response, add_uniconfig_tx_cookie
-
+import logging
 from string import Template
 
 odl_url_components = odl_url_base + "/data/network-topology:network-topology/topology=unified/node=$id/yang-ext:mount/frinx-openconfig-platform:components?content=nonconfig"
+log = logging.getLogger(__name__)
 
 
 def read_components(task):
@@ -30,7 +31,7 @@ def read_components(task):
 
 
 def start(cc):
-    print('Starting Platform workers')
+    log.info('Starting Platform workers')
 
     cc.register('OC-PLATFORM_read_components', {
         "name": "OC-PLATFORM_read_components",

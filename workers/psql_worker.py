@@ -2,11 +2,12 @@ import psycopg2
 import random
 import requests
 import string
-
+import logging
 
 from configparser import ConfigParser
 
 pool = None
+log = logging.getLogger(__name__)
 
 
 def config(filename='/home/app/netinfra_utils/workers/database.ini', section='postgresql'):
@@ -27,18 +28,18 @@ def _open_conn():
     try:
         params = config()
         # connect to the PostgreSQL server
-        print('Connecting to the PostgreSQL database...')
+        log.info('Connecting to the PostgreSQL database...')
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        log.debug(error)
     return conn, cur
 
 
 def _close_conn(conn):
     if conn is not None:
         conn.close()
-        print('Database connection closed.')
+        log.debug('Database connection closed.')
 
 
 def exec_command(command, conn=None):
@@ -49,12 +50,12 @@ def exec_command(command, conn=None):
             cur.execute(command)
             mobile_records = command if "SELECT" not in command else cur.fetchall()
             conn.commit()
-            print(mobile_records)
+            log.debug(mobile_records)
             return 200, mobile_records
         else:
             raise Exception('No connection')
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        log.debug(error)
         return 400, error
     finally:
         if cur is not None:
@@ -90,7 +91,7 @@ def insert_organizations(task):
 
 
 def start(cc):
-    print('Start PSQL workers')
+    log.info('Start PSQL workers')
 
     cc.register('PSQL_select_device', {
         "name": "PSQL_select_device",

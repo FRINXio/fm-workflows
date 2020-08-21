@@ -5,8 +5,10 @@ import copy
 
 import requests
 from string import Template
-
+import logging
 from frinx_rest import elastic_url_base, odl_url_base, odl_credentials, parse_response, elastic_headers, add_uniconfig_tx_cookie
+
+log = logging.getLogger(__name__)
 
 build_lldp_url = odl_url_base + "/operations/lldptopo:build"
 export_lldp_url = odl_url_base + "/operations/lldptopo:export"
@@ -132,7 +134,7 @@ def store_lldp(task):
 
 
 def start(cc):
-    print('Starting LLDP topology workers')
+    log.info('Starting LLDP topology workers')
 
     cc.register('LLDP_build_topology', {
         "name": "LLDP_build_topology",

@@ -2,10 +2,11 @@ from __future__ import print_function
 
 import copy
 from string import Template
-
+import logging
 import uniconfig_worker
 
 odl_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vpls'
+log = logging.getLogger(__name__)
 
 
 vpls_response_template = {
@@ -153,7 +154,7 @@ def create_vpls_base_request(task, template):
 
 
 def start(cc):
-    print('Start VPLS workers')
+    log.info('Start VPLS workers')
 
     # Single device level configuration
 

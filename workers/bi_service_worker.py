@@ -7,10 +7,12 @@ import uniconfig_worker
 from bi_model import Service
 import vll_service_worker
 from vll_model import Device
+import logging
 
 odl_url_uniconfig_vlan_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/vlans/vlan=escape($vlan)'
 odl_url_uniconfig_isis_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/protocols/protocol=frinx-openconfig-policy-types%3AISIS,default/isis/interfaces/interface=escape($ifc)'
 
+log = logging.getLogger(__name__)
 
 # Vlan updates
 
@@ -421,7 +423,7 @@ def extract_network_instances(node):
 
 
 def start(cc):
-    print('Starting bi service workers')
+    log.info('Starting bi service workers')
 
     cc.register('bi_service_delete')
     cc.start('bi_service_delete', device_delete_bi_instance, False)
