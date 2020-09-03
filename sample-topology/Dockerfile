@@ -10,6 +10,7 @@ COPY ./sample-topology/sample-topology-wrapper.sh .
 
 WORKDIR /home/topology/cli-testtool/topologies
 
+RUN pip install cryptography==2.1.4
 RUN pip install MockSSH==1.4.5
 RUN cat *.sh | grep python > sample-topology.sh \
   && printf "\nwait\n" >> sample-topology.sh \
