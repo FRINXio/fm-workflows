@@ -10,7 +10,7 @@ describe('Mount all devices from inventory', function() {
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.server({
       method: 'GET',
@@ -23,8 +23,8 @@ describe('Mount all devices from inventory', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
 
     cy.visit('/')
@@ -33,9 +33,9 @@ describe('Mount all devices from inventory', function() {
     cy.get('table tbody tr').should('not.to.exist')
 
     cy.get('.navbar-brand').click()
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.get('input[placeholder="Search by keyword."').type('Mount_all_from_inventory')
     //cy.contains('Mount_all_from_inventory').click()
     //cy.get('button[title="Execute"]').click()
@@ -51,7 +51,7 @@ describe('Mount all devices from inventory', function() {
     cy.get('div.modal-footer a:first-child').click()
     //cy.wait('@getWorkflow') //timeout because unable to match route string
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     //here should be a wait but I did not succeed with waiting for xhr
     cy.get('div.modal-header').contains('Details of Mount_all_from_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()

@@ -7,12 +7,12 @@ describe('Save and execute commands on devices', function() {
 	
   it('Save a command to inventory', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
-    cy.url().should('include', '/workflows/defs')
+    cy.contains('UniFlow').click()
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')
     cy.contains('Add_cli_command_template_to_inventory').click()
@@ -40,7 +40,7 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Add_cli_command_template_to_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()
@@ -67,12 +67,12 @@ describe('Save and execute commands on devices', function() {
 
   it('Save a command to inventory SECOND TIME', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
-    cy.url().should('include', '/workflows/defs')
+    cy.contains('UniFlow').click()
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_command_template_to_inventory')
     cy.contains('Add_cli_command_template_to_inventory').click()
@@ -100,7 +100,7 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Add_cli_command_template_to_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()

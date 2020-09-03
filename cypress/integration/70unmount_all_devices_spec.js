@@ -5,8 +5,8 @@ describe('Unmount all mounted devices', function() {
 	
   it('unmounts all devices', function() {
     cy.server()
-    cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
     cy.visit('/')
     cy.contains('UniConfig').click()

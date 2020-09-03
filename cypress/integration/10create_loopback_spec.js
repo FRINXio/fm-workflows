@@ -22,7 +22,7 @@ describe('Create loopback address on devices stored in the inventory', function(
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
@@ -30,9 +30,9 @@ describe('Create loopback address on devices stored in the inventory', function(
     cy.get('table tbody tr:nth-child(8)').should('to.exist')
 
     cy.get('.navbar-brand').click()
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.get('input[placeholder="Search by keyword."').type('Create_loopback_all_in_uniconfig')
     cy.contains('Create_loopback_all_in_uniconfig').click()
     cy.get('button[title="Execute"]').click()
@@ -47,7 +47,7 @@ describe('Create loopback address on devices stored in the inventory', function(
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click()
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Create_loopback_all_in_uniconfig',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     //cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})

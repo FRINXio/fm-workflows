@@ -11,8 +11,8 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
-    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfigO')
+    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -124,8 +124,8 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
-    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfigO')
+    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
 
     cy.visit('/')
     cy.contains('UniConfig').click()

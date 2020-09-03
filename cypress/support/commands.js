@@ -27,8 +27,8 @@ require('@4tw/cypress-drag-drop')
 
 Cypress.Commands.add("unmount_all_devices", () => {
     cy.server()
-    cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
     cy.visit('/') 
     cy.contains('UniConfig').click()	  
@@ -85,7 +85,7 @@ if (!Cypress.config().baseUrl.includes("localhost")) {
 
 Cypress.Commands.add("waitForXHR", (xhr1,xhr2) => {
     //cy.server()
-    //cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
+    //cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
     //cy.route('/api/odl/oper/all/status//topology-netconf').as('getAllStatusNetconf')
     //...
     //...

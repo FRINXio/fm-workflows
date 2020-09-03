@@ -8,14 +8,14 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
 	
   it('exports the IETF topology information in graphviz format', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     //Exporting the IETF topology information in graphviz format
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Export_LLDP_topology')
     cy.contains('Export_LLDP_topology').click()	
@@ -30,7 +30,7 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Export_LLDP_topology',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})

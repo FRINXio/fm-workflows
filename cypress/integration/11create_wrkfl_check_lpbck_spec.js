@@ -8,13 +8,13 @@ describe('Create workflow test it and finally delete it', function() {
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('New').click()
     //cy.wait('@getWorkflowId')
     cy.contains('name:').parent().next().click().clear().type('Read_journal_cli_device_TEST')
@@ -114,7 +114,7 @@ describe('Create workflow test it and finally delete it', function() {
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
@@ -127,9 +127,9 @@ describe('Create workflow test it and finally delete it', function() {
 
     cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device_TEST')
     cy.contains('Read_journal_cli_device_TEST').click()
@@ -162,7 +162,7 @@ describe('Create workflow test it and finally delete it', function() {
     //TODO skusit dat do premennej
     //click the ID of the previously executed workflow to see the progress of the workflow
     //http://localhost:3000/workflows/exec/bdc20041-0aec-44da-bf69-672d492f1210
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 
@@ -215,12 +215,12 @@ describe('Create workflow test it and finally delete it', function() {
 
   it('deletes workflow Read_journal_cli_device_TEST', function() {
     cy.visit('/')
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
 
     //here workflow Read_journal_cli_device_TEST should be deleted
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device_TEST')
     cy.contains('Read_journal_cli_device_TEST').click()
     cy.get('button[title="Delete"]').click()
@@ -234,9 +234,9 @@ describe('Create workflow test it and finally delete it', function() {
   it.skip('imports workflow', function() {
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
 
     cy.contains('Import').click()
 

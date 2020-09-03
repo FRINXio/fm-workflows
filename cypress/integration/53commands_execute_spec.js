@@ -7,14 +7,14 @@ describe('Save and execute commands on devices', function() {
 	
   it('Execute saved command on mounted devices', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     //In our example we will use Execute_and_read_rpc_cli_device_from_inventory_update_inventory which will execute a command from inventory on one device without saving the output of this command to inventory.
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
-    cy.url().should('include', '/workflows/defs')
+    cy.contains('UniFlow').click()
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Execute_and_read_rpc_cli_device_from_inventory_update_inventory')
     cy.contains('Execute_and_read_rpc_cli_device_from_inventory_update_inventory').click()
@@ -29,7 +29,8 @@ describe('Save and execute commands on devices', function() {
     cy.get('@device_id').type('{selectall}{backspace}')
     //cy.get('@device_id').type('IOS01') //bug FM-364
     //cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"] a').contains('IOS01').click()
-    cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
+    //20200903 FM-499  cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
+    cy.get('@device_id').type('IOS01').click()
 
 
     cy.contains('params').next().as('params') //label bundle_ether_id become alias of next input
@@ -45,7 +46,7 @@ describe('Save and execute commands on devices', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory_update_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
