@@ -9,7 +9,7 @@ describe('Collect platform information from the device and store in the inventor
 
   it('Collect', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
@@ -19,9 +19,9 @@ describe('Collect platform information from the device and store in the inventor
 
     cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Read_components_all_from_unified_update_inventory')
     cy.contains('Read_components_all_from_unified_update_inventory').click()
@@ -36,7 +36,7 @@ describe('Collect platform information from the device and store in the inventor
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click()
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Read_components_all_from_unified_update_inventory',{timeout:30000})
 
     cy.contains('Execution Flow').click()

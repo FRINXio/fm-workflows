@@ -10,13 +10,13 @@ describe('Add a device to inventory and mount it', function() {
 
   it('Create a new cli device in the inventory', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_device_to_inventory')
     cy.contains('Add_cli_device_to_inventory').click()
@@ -84,7 +84,7 @@ describe('Add a device to inventory and mount it', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Add_cli_device_to_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
@@ -114,13 +114,13 @@ describe('Add a device to inventory and mount it', function() {
 
   it('Create a new cli device in the inventory REPEAT to test CONDITION', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_cli_device_to_inventory')
     cy.contains('Add_cli_device_to_inventory').click()
@@ -188,7 +188,7 @@ describe('Add a device to inventory and mount it', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Add_cli_device_to_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})
@@ -212,13 +212,13 @@ describe('Add a device to inventory and mount it', function() {
 
   it('Create a new netconf device in the inventory', function() {
     cy.server()
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Add_netconf_device_to_inventory')
     cy.contains('Add_netconf_device_to_inventory').click()
@@ -299,7 +299,7 @@ describe('Add a device to inventory and mount it', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Add_netconf_device_to_inventory',{timeout:30000})
     cy.contains('Close').scrollIntoView()
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:40000})

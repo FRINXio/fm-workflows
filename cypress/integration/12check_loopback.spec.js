@@ -9,8 +9,9 @@ describe('Retrieve journal of a device', function() {
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
-    cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getXR02')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
+    //cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getXR02')
+    cy.route('GET', '/uniconfig/api/uniconfig/conf/status/cli/XR02').as('getXR02')
 
     cy.visit('/')
 
@@ -27,9 +28,9 @@ describe('Retrieve journal of a device', function() {
 
     cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')
     cy.contains('Read_journal_cli_device').click()
@@ -51,7 +52,8 @@ describe('Retrieve journal of a device', function() {
     */
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
-    cy.get('@device_id').type('XR02').find('li[aria-label="XR02"]').click()
+    //20200903 FM-499  cy.get('@device_id').type('XR02').find('li[aria-label="XR02"]').click()
+    cy.get('@device_id').type('XR02').click()
 
     cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
@@ -65,7 +67,7 @@ describe('Retrieve journal of a device', function() {
     //TODO skusit dat do premennej
     //click the ID of the previously executed workflow to see the progress of the workflow
     //http://localhost:3000/workflows/exec/bdc20041-0aec-44da-bf69-672d492f1210
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 
@@ -121,8 +123,9 @@ describe('Retrieve journal of a device', function() {
 	
   it('retrieves journal for IOS01', function() {
     cy.server()
-    cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getIOS01')
-    cy.route('POST', '/api/conductor/workflow').as('getWorkflowId')
+    //cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getIOS01')
+    cy.route('GET', '/uniconfig/api/uniconfig/conf/status/cli/IOS01').as('getIOS01')
+    cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
 
@@ -136,9 +139,9 @@ describe('Retrieve journal of a device', function() {
 
     cy.get('.navbar-brand').click()
     cy.url().should('include', '/')
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Read_journal_cli_device')
     cy.contains('Read_journal_cli_device').click()
@@ -157,7 +160,8 @@ describe('Retrieve journal of a device', function() {
     */
     cy.contains('device_id').next().as('device_id') //label bundle_ether_id become alias of next input
     cy.get('@device_id').type('{selectall}{backspace}')
-    cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
+    //20200903 FM-499  cy.get('@device_id').type('IOS01').find('li[aria-label="IOS01"]').click()
+    cy.get('@device_id').type('IOS01').click()
 
     cy.get('div.modal-content').contains('Execute').click()
     cy.wait('@getWorkflowId')
@@ -168,7 +172,7 @@ describe('Retrieve journal of a device', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Read_journal_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED',{timeout:30000})
 

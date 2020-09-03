@@ -4,7 +4,7 @@ describe('setup kibana', function() {
     cy.visit(inventory)
     cy.url({timeout:5000}).should('include', '/app/')
     //this is needed only for the first time
-    cy.contains('Explore on my own',{timeout:10000}).click()
+    cy.contains('Explore on my own',{timeout:20000}).click()
 
     /*
     cy.contains('Management',{timeout:20000}).click()

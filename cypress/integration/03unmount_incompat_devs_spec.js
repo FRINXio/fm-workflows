@@ -5,8 +5,8 @@ describe('Unmount VRP01 and netconf-testtool', function() {
 	
   it('unmounts incompatible devices', function() {
     cy.server()
-    cy.route('/api/odl/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/api/odl/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
+    cy.route('/uniconfig/api/uniconfig/oper/all/status/topology-netconf').as('getAllStatusNetconf')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -37,12 +37,12 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Unmount_netconf_device')
     cy.contains('Unmount_netconf_device').click()
@@ -60,7 +60,7 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Unmount_netconf_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 
@@ -73,12 +73,12 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
     cy.visit('/')
 
-    cy.contains('Workflows').click()
+    cy.contains('UniFlow').click()
 
-    cy.url().should('include', '/workflows/defs')
+    cy.url().should('include', '/uniflow/ui/defs')
     cy.contains('Definitions').click() //there are three tabs: Definitions Executed and Scheduled
     cy.get('input[placeholder="Search by keyword."').type('Unmount_cli_device')	
     cy.contains('Unmount_cli_device').click()
@@ -96,7 +96,7 @@ describe('Unmount VRP01 and netconf-testtool', function() {
     //hopufully now we are ready to go - let us click the workflow id link
     cy.get('div.modal-footer a:first-child').click() //click the ID of the previously executed workflow to see the progress of the workflow
 
-    cy.url().should('include', '/workflows/exec')
+    cy.url().should('include', '/uniflow/ui/exec')
     cy.get('div.modal-header').contains('Details of Unmount_cli_device',{timeout:30000})
     cy.get('div.headerInfo').contains('COMPLETED')
 

@@ -8,7 +8,7 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -75,14 +75,14 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/api/odl/conf/uniconfig/' + device_id).as('getConfig')
-    cy.route('/api/odl/oper/uniconfig/' + device_id).as('getConfig')
+    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfig')
     cy.server({
       method: 'POST',
     })
-    cy.route('/api/odl/operations/sync-from-network').as('getConfigFromNetwork')
-    cy.route('/api/odl/operations/replace-config-with-operational').as('getConfigFromOperational')
-    cy.route('/api/odl/operations/create-snapshot').as('postCreateSnapshot')
+    cy.route('/uniconfig/api/uniconfig/operations/sync-from-network').as('getConfigFromNetwork')
+    cy.route('/uniconfig/api/uniconfig/operations/replace-config-with-operational').as('getConfigFromOperational')
+    cy.route('/uniconfig/api/uniconfig/operations/create-snapshot').as('postCreateSnapshot')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
