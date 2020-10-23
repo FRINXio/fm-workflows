@@ -27,8 +27,10 @@ require('@4tw/cypress-drag-drop')
 
 Cypress.Commands.add("unmount_all_devices", () => {
     cy.server()
-    cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
-    cy.route('/uniconfig/api/uniconfig/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+    //20201022 cy.route('/uniconfig/api/uniconfig/oper/all/status/cli').as('getAllStatusCli')
+    //20201022 cy.route('/uniconfig/api/uniconfig/oper/all/status/topology-netconf').as('getAllStatusNetconf')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=cli?content=nonconfig').as('getAllStatusCli')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=topology-netconf?content=nonconfig').as('getAllStatusNetconf')
 
     cy.visit('/') 
     cy.contains('UniConfig').click()	  
@@ -38,6 +40,7 @@ Cypress.Commands.add("unmount_all_devices", () => {
     //cy.contains('connected').parent().find('td').eq(0).click()
     //cy.wait(1000)
     cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
+    cy.wait(5000)
     cy.get('table tbody tr td:first-child div input').click({multiple:true})
     cy.contains('Unmount Devices').click()	  
     cy.get('table tbody tr').should('not.to.exist')

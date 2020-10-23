@@ -15,8 +15,10 @@ describe('Mount the new device from Inventory', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfigC')
-    cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
+    //20201022 cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfigC')
+    //20201022 cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=config').as('getConfigC')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=nonconfig').as('getConfigO')
 
     cy.visit('/')
 
@@ -144,8 +146,10 @@ describe('Mount the new device from Inventory', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfigC')
-    cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
+    //20201022 cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfigC')
+    //20201022 cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=config').as('getConfigC')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=nonconfig').as('getConfigO')
 
     cy.visit('/')
 

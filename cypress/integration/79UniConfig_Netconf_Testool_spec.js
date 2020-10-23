@@ -8,7 +8,8 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
+    //20201022 cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=config').as('getConfig')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
@@ -75,14 +76,19 @@ describe('Mount devices from UniConfig', function() {
     cy.server({
       method: 'GET',
     })
-    cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
-    cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfig')
+    //20201022 cy.route('/uniconfig/api/uniconfig/conf/uniconfig/' + device_id).as('getConfig')
+    //20201022 cy.route('/uniconfig/api/uniconfig/oper/uniconfig/' + device_id).as('getConfigO')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=config').as('getConfig')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=nonconfig').as('getConfigO')
     cy.server({
       method: 'POST',
     })
-    cy.route('/uniconfig/api/uniconfig/operations/sync-from-network').as('getConfigFromNetwork')
-    cy.route('/uniconfig/api/uniconfig/operations/replace-config-with-operational').as('getConfigFromOperational')
-    cy.route('/uniconfig/api/uniconfig/operations/create-snapshot').as('postCreateSnapshot')
+    //20201022 cy.route('/uniconfig/api/uniconfig/operations/sync-from-network').as('getConfigFromNetwork')
+    //20201022 cy.route('/uniconfig/api/uniconfig/operations/replace-config-with-operational').as('getConfigFromOperational')
+    //20201022 cy.route('/uniconfig/api/uniconfig/operations/create-snapshot').as('postCreateSnapshot')
+    cy.route('/uniconfig/api/rests/operations/uniconfig-manager:sync-from-network').as('getConfigFromNetwork')
+    cy.route('/uniconfig/api/rests/operations/uniconfig-manager:replace-config-with-operational').as('getConfigFromOperational')
+    cy.route('/uniconfig/api/rests/operations/snapshot-manager:create-snapshot').as('postCreateSnapshot')
 
     cy.visit('/')
     cy.contains('UniConfig').click()
