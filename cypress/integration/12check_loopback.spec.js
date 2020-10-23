@@ -11,7 +11,8 @@ describe('Retrieve journal of a device', function() {
     })
     cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
     //cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getXR02')
-    cy.route('GET', '/uniconfig/api/uniconfig/conf/status/cli/XR02').as('getXR02')
+    //20201022 cy.route('GET', '/uniconfig/api/uniconfig/conf/status/cli/XR02').as('getXR02')
+    cy.route('GET', '/uniconfig/api/rests/data/network-topology:network-topology/topology=cli/node=XR02?content=config').as('getXR02')
 
     cy.visit('/')
 
@@ -124,7 +125,8 @@ describe('Retrieve journal of a device', function() {
   it('retrieves journal for IOS01', function() {
     cy.server()
     //cy.route('GET', '/api/odl/conf/status/cli/IOS01').as('getIOS01')
-    cy.route('GET', '/uniconfig/api/uniconfig/conf/status/cli/IOS01').as('getIOS01')
+    //20201022 cy.route('GET', '/uniconfig/api/uniconfig/conf/status/cli/IOS01').as('getIOS01')
+    cy.route('GET', '/uniconfig/api/rests/data/network-topology:network-topology/topology=cli/node=IOS01?content=config').as('getIOS01')
     cy.route('POST', '/uniflow/api/conductor/workflow').as('getWorkflowId')
 
     cy.visit('/')
