@@ -1,14 +1,19 @@
 # fm-workflows
 
 ## Usage
-Make sure FRINX-machine is running. <br>
+Make sure FRINX-machine (https://github.com/FRINXio/FRINX-machine) is running. <br>
 <br>To attach containers to running FM swarm deployment
 ```
 cd swarm-deployment/
 ./attach-to-swarm.sh
 ```
 
-<br>To remove service fomr deployment
+<br>To stop and remove all services
+```
+docker stack rm fm
+```
+
+<br>To remove a service from deployment
 ```
 docker service rm <swarm-service-name>
 ```
@@ -22,7 +27,7 @@ git submodule update --init --recursive
 
 <br>To build a custom docker image issue the command:
 ```
-docker-compose build <compsoe-service-name>
+docker-compose build <compose-service-name>
 ```
 
 

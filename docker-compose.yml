@@ -6,12 +6,12 @@ services:
     build:
       context: ./sample-topology
       dockerfile: ./Dockerfile
-    image: frinx/fm-sample-topology:${RELEASE_VERSION}
+    image: frinx/fm-sample-topology:latest
 
 
   micros-demo:
     build:
       context: ./micros-demo
       dockerfile: ./Dockerfile
-    image: frinx/demo-workflows:${RELEASE_VERSION}
+    image: frinx/demo-workflows:latest
 
