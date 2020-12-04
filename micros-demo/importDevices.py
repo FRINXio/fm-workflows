@@ -7,9 +7,13 @@ import json
 
 
 def main():
-
     DEVICE_DATA_CSV = argv[1]
     DEVICE_DATA_JSON = argv[2]
+
+    import_devices(DEVICE_DATA_CSV, DEVICE_DATA_JSON)
+
+def import_devices(DEVICE_DATA_CSV, DEVICE_DATA_JSON):
+
     HOSTNAME = 'elasticsearch'
     PORT = '9200'
     PATH = 'inventory-device/device/{{device_id}}'

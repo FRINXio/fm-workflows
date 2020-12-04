@@ -7,9 +7,9 @@ import uniconfig_worker
 import vll_worker
 import common_worker
 
-odl_url_uniconfig_ifc_config = '/frinx-openconfig-interfaces:interfaces/interface=escape($ifc)'
-odl_url_uniconfig_ifc_policy_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/policy-forwarding/interfaces/interface=escape($ifc)'
-odl_url_uniconfig_ifc_stp_config = '/frinx-stp:stp/interfaces/interface=escape($ifc)'
+uniconfig_url_uniconfig_ifc_config = '/frinx-openconfig-interfaces:interfaces/interface=escape($ifc)'
+uniconfig_url_uniconfig_ifc_policy_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/policy-forwarding/interfaces/interface=escape($ifc)'
+uniconfig_url_uniconfig_ifc_stp_config = '/frinx-stp:stp/interfaces/interface=escape($ifc)'
 
 
 def default_filter_strategy():
@@ -28,7 +28,7 @@ def vccid_filter_strategy(vccid):
 
 
 def read_interface(device):
-    url = Template(odl_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
     ifc_response = uniconfig_worker.read_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -37,7 +37,7 @@ def read_interface(device):
 
 
 def delete_interface(device):
-    url = Template(odl_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
     ifc_response = uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -47,7 +47,7 @@ def delete_interface(device):
 
 # def put_interface(device, interface, description, auto_negotiate=True):
 def put_interface(service, device):
-    url = Template(odl_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
     ifc_config = {
         "frinx-openconfig-interfaces:interface": [
             {
@@ -86,7 +86,7 @@ def put_interface(service, device):
 
 # def put_interface(device, interface, description, auto_negotiate=True):
 def put_minimal_interface(device):
-    url = Template(odl_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
     ifc_config = {
         "frinx-openconfig-interfaces:interface": [
             {
@@ -111,7 +111,7 @@ def put_minimal_interface(device):
 
 
 def read_interface_policy(device):
-    url = Template(odl_url_uniconfig_ifc_policy_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_policy_config).substitute({'ifc': device.interface})
     ifc_response = uniconfig_worker.read_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -123,7 +123,7 @@ def put_interface_policy(device):
     if device.in_policy is None and device.out_policy is None:
         return
 
-    url = Template(odl_url_uniconfig_ifc_policy_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_policy_config).substitute({'ifc': device.interface})
     ifc_config = {
         "frinx-openconfig-network-instance:interface": [
             {
@@ -154,7 +154,7 @@ def delete_interface_policy(device):
     if device.in_policy is None and device.out_policy is None:
         return
 
-    url = Template(odl_url_uniconfig_ifc_policy_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_policy_config).substitute({'ifc': device.interface})
     ifc_response = uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url
@@ -163,7 +163,7 @@ def delete_interface_policy(device):
 
 
 def disable_interface_stp(device):
-    url = Template(odl_url_uniconfig_ifc_stp_config).substitute({'ifc': device.interface})
+    url = Template(uniconfig_url_uniconfig_ifc_stp_config).substitute({'ifc': device.interface})
 
     ifc_response = uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': device.id,

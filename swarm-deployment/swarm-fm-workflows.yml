@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+      
+  sample-topology:
+    image: frinx/fm-sample-topology:latest
+    environment:
+      - JAVA_MAX_MEM=4G
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "3"
+            max-size: "10m"
+    deploy:
+      # placement:
+      #   constraints:
+      #     - node.hostname == ${CONSTRAINT_HOSTNAME}
+      mode: replicated
+      replicas: 1
+  
+  micros-demo:
+    # Need to make a release for this
+    image: frinx/demo-workflows:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: "10m"
+    environment:
+      - UNICONFIG_URL_BASE=https://${CONSTRAINT_HOSTNAME}_uniconfig:8181/rests
+    command: python /home/app/workers/main.py
+    deploy:
+      # placement:
+      #   constraints:
+      #     - node.hostname == ${CONSTRAINT_HOSTNAME}
+      mode: replicated
+      replicas: 1
+
+networks:
+    default:
+        external: true
+        name: frinx-machine

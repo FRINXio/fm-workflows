@@ -1,20 +1,20 @@
 from __future__ import print_function
 
 import requests
-from frinx_rest import odl_url_base, odl_credentials, parse_response, add_uniconfig_tx_cookie
+from frinx_rest import uniconfig_url_base, additional_uniconfig_request_params, parse_response, add_uniconfig_tx_cookie
 
 from string import Template
 
-odl_url_components = odl_url_base + "/data/network-topology:network-topology/topology=unified/node=$id/yang-ext:mount/frinx-openconfig-platform:components?content=nonconfig"
+uniconfig_url_components = uniconfig_url_base + "/data/network-topology:network-topology/topology=unified/node=$id/yang-ext:mount/frinx-openconfig-platform:components?content=nonconfig"
 
 
 def read_components(task):
     device_id = task['inputData']['device_id']
     uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
-    id_url = Template(odl_url_components).substitute({"id": device_id})
+    id_url = Template(uniconfig_url_components).substitute({"id": device_id})
 
-    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
+    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), **additional_uniconfig_request_params)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.ok:

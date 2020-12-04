@@ -1,25 +1,30 @@
 # fm-workflows
 
 ## Usage
-Make sure FRINX-machine is running, navigate to `cd /fm-workflows` and execute `./startup.sh`. Imported workflows and tasks will appear in FRINX-Machine UI, right after importing finishes. 
-To work with workflows, the docker container with sample-topology is launched with startup. To turn off the docker container, use the command `./teardown.sh`.
-
-If FRINX-machine is running in host networking mode you must start also the sample-topology container in the same networking mode:
+Make sure FRINX-machine is running. <br>
+<br>To attach containers to running FM swarm deployment
 ```
-./startup.sh -n host
-```
-
-To build sample-topology docker image issue the command:
-```
-docker-compose -f docker-compose.bridge.yml build sample-topology
+cd swarm-deployment/
+./attach-to-swarm.sh
 ```
 
-Note:
-If you use FRINX-machine v1.1 please issue the command
+<br>To remove service fomr deployment
 ```
-git checkout 8a611581b3d8b7f75e3348e4723dbf756c3ea02e #valid for downloaded FRINX-machine v1.1
+docker service rm <swarm-service-name>
 ```
-to avoid error messages related to later incompatible changes.
+
+## Build
+### Sample-topology prerequisite:
+Sample-topology project contains a submodule which needs to initalized first.
+```
+git submodule update --init --recursive
+```
+
+<br>To build a custom docker image issue the command:
+```
+docker-compose build <compsoe-service-name>
+```
+
 
 ## Cypress e2e tests
 In the cypress folder there are GUI tests.
