@@ -1,26 +1,34 @@
 import time
 import worker_wrapper
 from frinx_rest import conductor_url_base
-import cli_worker
 import inventory_worker
 import lldp_worker
-import netconf_worker
 import platform_worker
-import uniconfig_worker
-import unified_worker
 import vll_worker
+import unified_worker
 import vll_service_worker
 import vpls_worker
 import vpls_service_worker
 import bi_service_worker
 import common_worker
 import psql_worker
+from import_workflows import import_workflows 
+import cli_worker
+import netconf_worker
+import uniconfig_worker
 import http_worker
+from importDevices import import_devices 
+
+
+workflows_folder_path = './workflows'
 
 def main():
     print('Starting FRINX workers')
     cc = worker_wrapper.ExceptionHandlingConductorWrapper(conductor_url_base, 1, 1)
     register_workers(cc)
+    import_workflows(workflows_folder_path)
+    import_devices("./devices/cli_device_data.csv", "./devices/cli_device_import.json")
+    import_devices("./devices/netconf_device_data.csv", "./devices/netconf_device_import.json")
 
     # block
     while 1:
@@ -28,21 +36,16 @@ def main():
 
 
 def register_workers(cc):
-    cli_worker.start(cc)
-    netconf_worker.start(cc)
     platform_worker.start(cc)
     lldp_worker.start(cc)
     inventory_worker.start(cc)
     unified_worker.start(cc)
-    uniconfig_worker.start(cc)
+    psql_worker.start(cc)
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
     # vpls_service_worker.start(cc)
     # bi_service_worker.start(cc)
-    psql_worker.start(cc)
-    common_worker.start(cc)
-    http_worker.start(cc)
 
 
 if __name__ == '__main__':

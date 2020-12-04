@@ -6,11 +6,11 @@ import copy
 import requests
 from string import Template
 
-from frinx_rest import elastic_url_base, odl_url_base, odl_credentials, parse_response, elastic_headers, add_uniconfig_tx_cookie
+from frinx_rest import elastic_url_base, uniconfig_url_base, additional_uniconfig_request_params, parse_response, elastic_headers, add_uniconfig_tx_cookie
 
-build_lldp_url = odl_url_base + "/operations/lldptopo:build"
-export_lldp_url = odl_url_base + "/operations/lldptopo:export"
-read_lldp_url = odl_url_base + "/data/network-topology:network-topology/topology=$topo?content=nonconfig"
+build_lldp_url = uniconfig_url_base + "/operations/lldptopo:build"
+export_lldp_url = uniconfig_url_base + "/operations/lldptopo:export"
+read_lldp_url = uniconfig_url_base + "/data/network-topology:network-topology/topology=$topo?content=nonconfig"
 inventory_lldp_url = elastic_url_base + "/inventory-lldp/lldp/$id"
 
 
@@ -40,7 +40,7 @@ def build_lldp(task):
 
     uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
-    r = requests.post(build_lldp_url, data=json.dumps(lldp_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
+    r = requests.post(build_lldp_url, data=json.dumps(lldp_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), **additional_uniconfig_request_params)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.created or response_code == requests.codes.ok:
@@ -68,7 +68,7 @@ def export_lldp(task):
         if 'inputData' in task and 'uniconfig_tx_id' in task['inputData'] else ""
     lldp_body = copy.deepcopy(lldp_export_template)
 
-    r = requests.post(export_lldp_url, data=json.dumps(lldp_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
+    r = requests.post(export_lldp_url, data=json.dumps(lldp_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), **additional_uniconfig_request_params)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.created or response_code == requests.codes.ok:
@@ -92,7 +92,7 @@ def read_lldp(task):
 
     id_url = Template(read_lldp_url).substitute({"topo": topo_id})
 
-    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), auth=odl_credentials)
+    r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), **additional_uniconfig_request_params)
     response_code, response_json = parse_response(r)
 
     if response_code == requests.codes.created or response_code == requests.codes.ok:

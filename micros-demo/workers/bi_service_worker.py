@@ -8,15 +8,15 @@ from bi_model import Service
 import vll_service_worker
 from vll_model import Device
 
-odl_url_uniconfig_vlan_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/vlans/vlan=escape($vlan)'
-odl_url_uniconfig_isis_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/protocols/protocol=frinx-openconfig-policy-types%3AISIS,default/isis/interfaces/interface=escape($ifc)'
+uniconfig_url_uniconfig_vlan_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/vlans/vlan=escape($vlan)'
+uniconfig_url_uniconfig_isis_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/protocols/protocol=frinx-openconfig-policy-types%3AISIS,default/isis/interfaces/interface=escape($ifc)'
 
 
 # Vlan updates
 
 
 def read_vlan(device):
-    url = Template(odl_url_uniconfig_vlan_config).substitute({'vlan': device.vlan})
+    url = Template(uniconfig_url_uniconfig_vlan_config).substitute({'vlan': device.vlan})
     vlan_response = uniconfig_worker.read_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -25,7 +25,7 @@ def read_vlan(device):
 
 
 def delete_vlan(device):
-    url = Template(odl_url_uniconfig_vlan_config).substitute({'vlan': device.vlan})
+    url = Template(uniconfig_url_uniconfig_vlan_config).substitute({'vlan': device.vlan})
     vlan_response = uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -34,7 +34,7 @@ def delete_vlan(device):
 
 
 def put_vlan(service, device):
-    url = Template(odl_url_uniconfig_vlan_config).substitute({'vlan': device.vlan})
+    url = Template(uniconfig_url_uniconfig_vlan_config).substitute({'vlan': device.vlan})
     vlan_config = {
         "frinx-openconfig-network-instance:vlan": [
             {
@@ -61,7 +61,7 @@ def put_vlan(service, device):
 
 
 def read_ve_interface(device):
-    url = Template(vll_service_worker.odl_url_uniconfig_ifc_config).substitute({'ifc': device.ve_interface})
+    url = Template(vll_service_worker.uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.ve_interface})
     ifc_response = uniconfig_worker.read_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -70,7 +70,7 @@ def read_ve_interface(device):
 
 
 def delete_ve_interface(device):
-    url = Template(vll_service_worker.odl_url_uniconfig_ifc_config).substitute({'ifc': device.ve_interface})
+    url = Template(vll_service_worker.uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.ve_interface})
     ifc_response = uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': device.id,
         'uri': url,
@@ -79,7 +79,7 @@ def delete_ve_interface(device):
 
 
 def put_interface(service, device):
-    url = Template(vll_service_worker.odl_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
+    url = Template(vll_service_worker.uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.interface})
     ifc_config = {
         "frinx-openconfig-interfaces:interface": [
             {
@@ -130,7 +130,7 @@ def put_interface(service, device):
 
 
 def put_ve_interface(service, device):
-    url = Template(vll_service_worker.odl_url_uniconfig_ifc_config).substitute({'ifc': device.ve_interface})
+    url = Template(vll_service_worker.uniconfig_url_uniconfig_ifc_config).substitute({'ifc': device.ve_interface})
     ifc_config = {
         "frinx-openconfig-interfaces:interface": [
             {
@@ -188,7 +188,7 @@ def put_ve_interface(service, device):
 
 
 def put_isis(device):
-    url = Template(odl_url_uniconfig_isis_config).substitute({'ifc': device.ve_interface})
+    url = Template(uniconfig_url_uniconfig_isis_config).substitute({'ifc': device.ve_interface})
     isis_config = {
         "frinx-openconfig-network-instance:interface": [
             {

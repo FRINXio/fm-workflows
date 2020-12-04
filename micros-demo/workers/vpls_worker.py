@@ -5,7 +5,7 @@ from string import Template
 
 import uniconfig_worker
 
-odl_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vpls'
+uniconfig_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vpls'
 
 
 vpls_response_template = {
@@ -86,7 +86,7 @@ def device_create_vpls(task):
     vpls_config = create_vpls_request(task)
     response = uniconfig_worker.write_structured_data({'inputData': {
         'device_id': task['inputData']['id'],
-        'uri': (Template(odl_url_uniconfig_network_instance_config).substitute({'vpls': (task['inputData']['service_id'])})),
+        'uri': (Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vpls': (task['inputData']['service_id'])})),
         'template': vpls_config, 'params': {}}})
     response.update({'vpls_data': vpls_config})
     return response
@@ -95,14 +95,14 @@ def device_create_vpls(task):
 def device_delete_vpls(task):
     return uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': task['inputData']['id'],
-        'uri': (Template(odl_url_uniconfig_network_instance_config).substitute({'vpls': (task['inputData']['service_id'])})),
+        'uri': (Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vpls': (task['inputData']['service_id'])})),
     }})
 
 
 def device_read_vpls(task):
     return uniconfig_worker.read_structured_data({'inputData': {
         'device_id': task['inputData']['id'],
-        'uri': (Template(odl_url_uniconfig_network_instance_config).substitute({'vpls': (task['inputData']['service_id'])})),
+        'uri': (Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vpls': (task['inputData']['service_id'])})),
     }})
 
 

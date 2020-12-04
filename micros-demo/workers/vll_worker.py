@@ -5,7 +5,7 @@ from string import Template
 
 import uniconfig_worker
 
-odl_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vll'
+uniconfig_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vll'
 
 
 vll_local_template = {
@@ -165,7 +165,7 @@ def device_create_vll_remote(task):
     vll_config = create_vll_remote_request(task)
     response = uniconfig_worker.write_structured_data({'inputData': {
         'device_id': task['inputData']['id'],
-        'uri': (Template(odl_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
+        'uri': (Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
         'template': vll_config, 'params': {}}})
     response.update({'vll_data': vll_config})
     return response
@@ -175,7 +175,7 @@ def device_create_vll_local(task):
     vll_config = create_vll_local_request(task)
     response = uniconfig_worker.write_structured_data({'inputData': {
         'device_id': task['inputData']['id'], 'uri': (
-        Template(odl_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
+        Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
         'template': vll_config, 'params': {}}})
     response.update({'vll_data': vll_config})
     return response
@@ -184,14 +184,14 @@ def device_create_vll_local(task):
 def device_delete_vll(task):
     return uniconfig_worker.delete_structured_data({'inputData': {
         'device_id': task['inputData']['id'],
-        'uri': (Template(odl_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
+        'uri': (Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
     }})
 
 
 def device_read_vll(task):
     return uniconfig_worker.read_structured_data({'inputData': {
         'device_id': task['inputData']['id'],
-        'uri': (Template(odl_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
+        'uri': (Template(uniconfig_url_uniconfig_network_instance_config).substitute({'vll': (task['inputData']['service_id'])})),
     }})
 
 

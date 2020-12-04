@@ -2,10 +2,8 @@ FROM python:2.7-stretch
 
 WORKDIR /home/topology
  
-COPY ./sample-topology/cli-testtool ./cli-testtool
-COPY ./wait_for_it.sh .
-COPY ./sample-topology/password-setup.sh .
-COPY ./sample-topology/sample-topology-wrapper.sh .
+COPY ./cli-testtool ./cli-testtool
+COPY ./sample-topology-wrapper.sh .
 
 
 WORKDIR /home/topology/cli-testtool/topologies
@@ -27,7 +25,7 @@ RUN mkdir -p /home/topology/netconf-testtool/schemas
 ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_3_rc2-frinxodl-executable.jar /home/topology/netconf-testtool
 
 ## copy schemas
-COPY ./sample-topology/netconf-testtol/schemas /home/topology/netconf-testtool/schemas
+COPY ./netconf-testtol/schemas /home/topology/netconf-testtool/schemas
 ##
 
 

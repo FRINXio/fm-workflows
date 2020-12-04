@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+      
+  sample-topology:
+    build:
+      context: ./sample-topology
+      dockerfile: ./Dockerfile
+    image: frinx/fm-sample-topology:${RELEASE_VERSION}
+
+
+  micros-demo:
+    build:
+      context: ./micros-demo
+      dockerfile: ./Dockerfile
+    image: frinx/demo-workflows:${RELEASE_VERSION}
+

@@ -3,7 +3,7 @@ from unittest.mock import patch
 import unittest
 
 import unified_worker
-from frinx_rest import odl_url_base
+from frinx_rest import uniconfig_url_base
 
 
 class MockResponse:
@@ -93,7 +93,7 @@ class TestExecuteReadUnifiedTopologyOperational(unittest.TestCase):
             mock.return_value = 200, xr5_unified_response
             request = unified_worker.execute_read_unified_topology_operational({})
             self.assertEqual(request["status"], "COMPLETED")
-            self.assertEqual(request["output"]["url"], odl_url_base
+            self.assertEqual(request["output"]["url"], uniconfig_url_base
                              + "/data/network-topology:network-topology/topology=unified?content=nonconfig")
             self.assertEqual(request["output"]["response_code"], 200)
             self.assertEqual(request["output"]["response_body"]["topology"][0]["topology-id"], "unified")
@@ -126,7 +126,7 @@ class TestReadStructuredData(unittest.TestCase):
                 {"inputData": {"device_id": "xr5", "uri": "/frinx-openconfig-interfaces:interfaces"}})
             self.assertEqual(request["status"], "COMPLETED")
             self.assertEqual(request["output"]["url"],
-                             odl_url_base + "/data/network-topology:network-topology/topology=unified/node=xr5/"
+                             uniconfig_url_base + "/data/network-topology:network-topology/topology=unified/node=xr5/"
                                             "yang-ext:mount/frinx-openconfig-interfaces:interfaces?content=config")
             self.assertEqual(request["output"]["response_code"], 200)
             self.assertEqual(request["output"]["response_body"]["frinx-openconfig-interfaces:interfaces"]["interface"]
@@ -163,7 +163,7 @@ class TestWriteStructuredData(unittest.TestCase):
                                "params": {}}})
             self.assertEqual(request["status"], "COMPLETED")
             self.assertEqual(request["output"]["url"],
-                             odl_url_base + "/data/network-topology:network-topology/topology=unified/node=xr6/"
+                             uniconfig_url_base + "/data/network-topology:network-topology/topology=unified/node=xr6/"
                                             "yang-ext:mount/frinx-openconfig-interfaces:interfaces/interface=Loopback01")
             self.assertEqual(request["output"]["response_code"], 201)
 
@@ -181,7 +181,7 @@ class TestWriteStructuredData(unittest.TestCase):
                                "params": {}}})
             self.assertEqual(request["status"], "FAILED")
             self.assertEqual(request["output"]["url"],
-                             odl_url_base + "/data/network-topology:network-topology/topology=unified/node=/"
+                             uniconfig_url_base + "/data/network-topology:network-topology/topology=unified/node=/"
                                             "yang-ext:mount/frinx-openconfig-interfaces:interfaces/interface=Loopback01")
             self.assertEqual(request["output"]["response_code"], 404)
 
@@ -200,7 +200,7 @@ class TestWriteStructuredData(unittest.TestCase):
                                "params": {}}})
             self.assertEqual(request["status"], "FAILED")
             self.assertEqual(request["output"]["url"],
-                             odl_url_base + "/data/network-topology:network-topology/topology=unified/node=xr6/"
+                             uniconfig_url_base + "/data/network-topology:network-topology/topology=unified/node=xr6/"
                                             "yang-ext:mount/frinx-openconfig-interfaces:interfaces/interface=Loopback01")
             self.assertEqual(request["output"]["response_code"], 400)
             self.assertEqual(request["output"]["response_body"]['errors']['error'][0]["error-type"], "protocol")
