@@ -25,9 +25,10 @@ Sample-topology project contains a submodule which needs to initalized first.
 git submodule update --init --recursive
 ```
 
-<br>To build a custom docker image issue the command:
+<br>To build a custom docker images for a service:
 ```
-docker-compose build <compose-service-name>
+docker build -f sample-topology/Dockerfile -t frinx/fm-sample-topology:latest ./sample-topology/
+docker build -f micros-demo/Dockerfile -t frinx/demo-workflows:latest ./micros-demo/
 ```
 
 
