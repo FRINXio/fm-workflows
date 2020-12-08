@@ -22,6 +22,7 @@ jobs:
 
       - name: Build image
         run: |
+          git submodule update --init --recursive
           docker build -f sample-topology/Dockerfile -t  $SAMPLE_TOPOLOGY_IMAGE_NAME ./sample-topology/
           docker build -f micros-demo/Dockerfile -t $DEMO_WORKFLOWS_IMAGE_NAME ./micros-demo/
 
