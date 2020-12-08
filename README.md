@@ -1,11 +1,16 @@
 # fm-workflows
 
-## Usage
+## For users
 Make sure FRINX-machine (https://github.com/FRINXio/FRINX-machine) is running. <br>
 <br>To attach containers to running FM swarm deployment
 ```
-cd swarm-deployment/
-./attach-to-swarm.sh
+./startup.sh
+```
+
+<br>Check status of services.
+Each service has REPLICAS 1/1 when everything works (it may take several minutes to start all services).
+```
+docker service ls
 ```
 
 <br>To stop and remove all services
@@ -13,13 +18,18 @@ cd swarm-deployment/
 docker stack rm fm
 ```
 
-<br>To remove a service from deployment
+<br>To remove old data if needed
+```
+docker volume prune
+```
+
+<br>To remove single service from deployment
 ```
 docker service rm <swarm-service-name>
 ```
 
-## Build
-### Sample-topology prerequisite:
+## For developers
+### Building images
 Sample-topology project contains a submodule which needs to initalized first.
 ```
 git submodule update --init --recursive
