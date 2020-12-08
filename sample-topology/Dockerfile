@@ -1,7 +1,12 @@
 FROM python:2.7-stretch
 
+# Install dependencies
+RUN apt-get update -y && apt-get install -y expect
+
 WORKDIR /home/topology
  
+COPY ./healthcheck.sh  ./healthcheck.sh
+RUN chmod +x healthcheck.sh
 COPY ./cli-testtool ./cli-testtool
 COPY ./sample-topology-wrapper.sh .
 
