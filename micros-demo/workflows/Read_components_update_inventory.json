@@ -32,6 +32,6 @@
   },
   "schemaVersion": 2,
   "inputParameters": [
-    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"node_id\"}}"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"string\"}}"
   ]
 }

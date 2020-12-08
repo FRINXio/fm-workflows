@@ -160,7 +160,7 @@
     }
   ],
   "inputParameters": [
-    "{\"node1\":{\"value\":\"XR01\",\"description\":\"First node to create a link aggregation with\",\"type\":\"node_id\"},\"bundle_ether_id\":{\"value\":\"3\",\"description\":\"BundleEtherX\",\"type\":\"string\"},\"bundle_ether_enabled\":{\"value\":\"true\",\"description\":\"enabled\",\"type\":\"string\"},\"node2\":{\"value\":\"XR02\",\"description\":\"Second node to create a link aggregation with\",\"type\":\"node_id\"},\"node1_ifaces\":{\"value\":\"GigabitEthernet0/0/0/0, GigabitEthernet0/0/0/1\",\"description\":\"Interfaces for node1\",\"type\":\"string\"},\"node2_ifaces\":{\"value\":\"GigabitEthernet0/0/0/1, GigabitEthernet0/0/0/2, GigabitEthernet0/0/0/3\",\"description\":\"Interfaces for node2\",\"type\":\"string\"}}"
+    "{\"node1\":{\"value\":\"XR01\",\"description\":\"First node to create a link aggregation with\",\"type\":\"string\"},\"bundle_ether_id\":{\"value\":\"3\",\"description\":\"BundleEtherX\",\"type\":\"string\"},\"bundle_ether_enabled\":{\"value\":\"true\",\"description\":\"enabled\",\"type\":\"string\"},\"node2\":{\"value\":\"XR02\",\"description\":\"Second node to create a link aggregation with\",\"type\":\"string\"},\"node1_ifaces\":{\"value\":\"GigabitEthernet0/0/0/0, GigabitEthernet0/0/0/1\",\"description\":\"Interfaces for node1\",\"type\":\"string\"},\"node2_ifaces\":{\"value\":\"GigabitEthernet0/0/0/1, GigabitEthernet0/0/0/2, GigabitEthernet0/0/0/3\",\"description\":\"Interfaces for node2\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "Aggregation link ID": "${workflow.input.bundle_ether_id}"
