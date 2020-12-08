@@ -3,7 +3,7 @@ version: "3.7"
 services:
       
   sample-topology:
-    image: frinx/fm-sample-topology:latest
+    image: frinx/sample-topology:latest
     environment:
       - JAVA_MAX_MEM=4G
     logging:
