@@ -18,17 +18,25 @@ import netconf_worker
 import uniconfig_worker
 import http_worker
 from importDevices import import_devices 
+import os
 
 
 workflows_folder_path = './workflows'
+healtchchek_file_path = '../healthcheck'
 
 def main():
+    if os.path.exists(healtchchek_file_path):
+        os.remove(healtchchek_file_path)
+
+
     print('Starting FRINX workers')
     cc = worker_wrapper.ExceptionHandlingConductorWrapper(conductor_url_base, 1, 1)
     register_workers(cc)
     import_workflows(workflows_folder_path)
-    import_devices("./devices/cli_device_data.csv", "./devices/cli_device_import.json")
-    import_devices("./devices/netconf_device_data.csv", "./devices/netconf_device_import.json")
+    import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
+    import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
+
+    with open(healtchchek_file_path, 'w'): pass
 
     # block
     while 1:

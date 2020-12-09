@@ -19,5 +19,3 @@ RUN pip3 install jinja2
 
 WORKDIR /home/app/workers
 CMD [ "python3", "main.py" ]
-
-WORKDIR /home/app/
