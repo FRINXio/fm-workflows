@@ -38,7 +38,7 @@ git submodule update --init --recursive
 <br>To build a custom docker images for a service:
 ```
 docker build -f sample-topology/Dockerfile -t frinx/fm-sample-topology:latest ./sample-topology/
-docker build -f micros-demo/Dockerfile -t frinx/demo-workflows:latest ./micros-demo/
+docker build -f demo-workflows/Dockerfile -t frinx/demo-workflows:latest ./demo-workflows/
 ```
 
 
