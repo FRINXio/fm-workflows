@@ -24,7 +24,7 @@ services:
       mode: replicated
       replicas: 1
   
-  micros-demo:
+  demo-workflows:
     # Need to make a release for this
     image: frinx/demo-workflows:latest
     logging:
