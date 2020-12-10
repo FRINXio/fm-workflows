@@ -21,7 +21,7 @@ from importDevices import import_devices
 import os
 
 
-workflows_folder_path = './workflows'
+workflows_folder_path = '../workflows'
 healtchchek_file_path = '../healthcheck'
 
 def main():
