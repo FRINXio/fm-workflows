@@ -1,9 +1,6 @@
 //https://docs.frinx.io/frinx-machine/use-cases/save-and-run-command/save-and-run-command.html
 //Save and execute commands on devices
 describe('Save and execute commands on devices', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('Execute saved command on mounted devices', function() {
     cy.server()

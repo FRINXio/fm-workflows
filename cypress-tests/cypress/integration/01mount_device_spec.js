@@ -1,7 +1,5 @@
 describe('Mount devices from UniConfig', function() {
-  beforeEach(function() {
-    cy.login()
-  })
+
 
   //OPTIONAL: this test is run immediatelly after starting of frinx machine
   //OPTIONAL: no device is mounted
@@ -200,21 +198,68 @@ describe('Mount devices from UniConfig', function() {
     cy.wait('@getConfigO')
     cy.url().should('include', '/devices/edit/' + device_id)
 
-    //TODO netconf device config
-    // cy.get('div.config').should(($message) => {
-    //   expect($message, 'IF 404: NETCONF-TESTTOOL WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
-    // })
-
-    // cy.get('div.operational').should(($message) => {
-    //   expect($message, 'IF 404: NETCONF-TESTTOOL WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
-    // })
-
     cy.get('button[class~="round"]').click({force:true})
     cy.contains('Refresh').click()
 
     //cy.contains(device_id).parent().find('td').eq(0).click()
     //cy.contains('Unmount Devices').click()
     //cy.get('table tbody tr').should('not.to.exist')
+  })
+
+  it('Add config to netconf device', function() {
+    var device_id='netconf-testtool'
+    cy.server({
+      method: 'POST',
+    })
+    cy.route('/uniflow/api/conductor/workflow').as('getWorkflowId')
+    cy.route('/uniconfig/api/rests/data/network-topology:network-topology/topology=uniconfig/node=' + device_id  + '/frinx-uniconfig-topology:configuration?content=nonconfig').as('getConfigO')
+
+
+    cy.visit('/')
+
+    cy.contains('UniConfig').click()
+    cy.get('table tbody tr').should('not.to.exist')
+
+    cy.get('.navbar-brand').click()
+    cy.contains('UniFlow').click()
+
+    cy.url().should('include', '/uniflow/ui/defs')
+    cy.get('input[placeholder="Search by keyword."').type('Write_data_to_netconf_testool')
+    cy.get('button[title="Execute"]').click()
+
+    cy.get('div.modal-content').contains('Execute').click()
+    cy.wait('@getWorkflowId')
+    cy.get('div.modal-content').contains('Execute').should('not.to.exist')
+    cy.get('div.modal-content').contains('OK')
+
+    // Wait for it to finish
+    cy.wait(3000)
+
+
+    cy.visit('/')
+    cy.contains('UniConfig').click()
+    cy.url().should('include', '/devices')
+
+    cy.get('div.modal-dialog.modal-lg').should('not.to.exist')
+    //20200518THIS WORKED IN V1.1 BUT STOPPED TO WORK IN V1.2 DUE TO CHANGE OF CLASS (ALIGN CENTER-> ALIGN LEFT)
+    cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
+    cy.contains(device_id).parent().find('td').eq(0).find('div input').click()
+    cy.contains(device_id).parent().find('td').eq(5).find('button').click()
+    //20200518 wait only for the second xhr
+    cy.wait(3000)
+    cy.url().should('include', '/devices/edit/' + device_id)
+
+    //TODO netconf device config
+    cy.get('div.config').should(($message) => {
+      expect($message, 'IF 404: NETCONF-TESTTOOL WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
+    })
+
+    cy.get('div.operational').should(($message) => {
+      expect($message, 'IF 404: NETCONF-TESTTOOL WITHOUT CONFIGURATION - NEED RESTART IN fm-workflows repo...').not.to.contain('404')
+    })
+
+    cy.get('button[class~="round"]').click({force:true})
+    cy.contains('Refresh').click()
   })
 })
 

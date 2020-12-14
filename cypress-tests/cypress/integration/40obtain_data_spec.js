@@ -2,9 +2,6 @@
 //Obtain platform inventory data
 //Collect platform information from the device and store in the inventory
 describe('Collect platform information from the device and store in the inventory', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
 
   it('Collect', function() {
@@ -53,5 +50,14 @@ describe('Collect platform information from the device and store in the inventor
 
     cy.contains('Close').scrollIntoView()
     cy.contains('Close').click()
+  })
+
+  it('Check Inventory', function() {
+    let inventory = Cypress.env('inventory') + "/inventory-device/_doc/XR01"
+    cy.request(inventory).should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body._source.components).to.not.be.empty
+    })
+    
   })
 })

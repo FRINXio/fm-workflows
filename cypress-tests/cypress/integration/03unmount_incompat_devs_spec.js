@@ -1,7 +1,4 @@
 describe('Unmount VRP01 and netconf-testtool', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('unmounts incompatible devices', function() {
     cy.server()

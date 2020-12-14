@@ -1,7 +1,4 @@
 describe('Unmount netconf-testtool', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('unmounts netconf-testtool', function() {
     cy.server()

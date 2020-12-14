@@ -1,7 +1,4 @@
 describe('Mount devices from UniConfig', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 
   it('Mount netconf device netconf-testtool', function() {
     var device_id='netconf-testtool'

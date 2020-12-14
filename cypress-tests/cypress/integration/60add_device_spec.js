@@ -3,9 +3,6 @@
 //Add a device to inventory and mount it
 //Create a new device in the inventory
 describe('Add a device to inventory and mount it', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
 
   it('Create a new cli device in the inventory', function() {
@@ -318,4 +315,19 @@ describe('Add a device to inventory and mount it', function() {
 
     cy.contains('Close').click()
   })
+
+  it('Check Inventory', function() {
+    let inventory = Cypress.env('inventory')
+    cy.request(inventory + "/inventory-device/_doc/BIG_ONE_ROUTER/_source").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body).to.not.be.empty
+    })
+
+    cy.request(inventory + "/inventory-device/_doc/GREATER_ONE_ROUTER/_source").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body).to.not.be.empty
+    })
+    
+  })
+
 })

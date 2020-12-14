@@ -1,9 +1,6 @@
 //https://docs.frinx.io/frinx-machine/use-cases/save-and-run-command/save-and-run-command.html
 //Save and execute commands on devices
 describe('Save and execute commands on devices', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('Save a command to inventory', function() {
     cy.server()
@@ -123,5 +120,16 @@ describe('Save and execute commands on devices', function() {
     cy.contains('Task Details').click()
     cy.contains('Close').scrollIntoView()
     cy.contains('Close').click()
+  })
+
+  it('Check Inventory', function() {
+    let inventory = Cypress.env('inventory')
+    cy.request(inventory + "/inventory-show_cmd/_search").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body.hits.hits).not.to.be.empty
+    })
+
+
+    
   })
 })

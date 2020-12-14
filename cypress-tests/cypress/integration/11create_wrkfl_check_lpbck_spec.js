@@ -1,7 +1,4 @@
 describe('Create workflow test it and finally delete it', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 
   //this test uses the pluggin @4tw/cypress-drag-drop
   it('creates workflow Read_journal_cli_device_TEST', function() {
