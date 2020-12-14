@@ -26,6 +26,13 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+node_modules/
+
+#Cypress
+**/cypress/videos/
+**/cypress/screenshots/
+# No need at the moment
+**/cypress/fixtures
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
