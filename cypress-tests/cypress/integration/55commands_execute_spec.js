@@ -1,9 +1,6 @@
 //https://docs.frinx.io/frinx-machine/use-cases/save-and-run-command/save-and-run-command.html
 //Save and execute commands on devices
 describe('Save and execute commands on devices', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('Execute saved command on mounted devices', function() {
     cy.server()
@@ -68,4 +65,29 @@ describe('Save and execute commands on devices', function() {
     cy.contains('Close').scrollIntoView()
     cy.contains('Close').click()
   })
+
+  it('Check Inventory', function() {
+    let inventory = Cypress.env('inventory')
+    cy.request(inventory + "/inventory-device/_doc/IOS01/_source").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body.sh_run).to.not.be.empty
+    })
+
+    cy.request(inventory + "/inventory-device/_doc/XR01/_source").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body.sh_run).to.not.be.empty
+    })
+
+    cy.request(inventory + "/inventory-device/_doc/Leaf02/_source").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body.sh_run).to.not.be.empty
+    })
+
+    cy.request(inventory + "/inventory-device/_doc/Spine02/_source").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body.sh_run).to.not.be.empty
+    })
+    
+  })
+
 })

@@ -2,9 +2,6 @@
 //Obtain LLDP topology data
 //Collect LLDP Information from Devices and Build Topology
 describe('Collect LLDP Information from Devices and Build Topology', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('exports the IETF topology information in graphviz format', function() {
     cy.server()

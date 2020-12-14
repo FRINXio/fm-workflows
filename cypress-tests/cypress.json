@@ -1,11 +1,10 @@
 {
-  "baseUrl": "https://localhost",
+  "baseUrl": "https://api-gateway:5000/",
   "viewportHeight": 900,
   "viewportWidth": 1440,
+  "defaultCommandTimeout": 8000,
+  "pageLoadTimeout": 12000,
   "env": {
-    "inventory": "http://localhost:5601",
-    "SKIP_LOGIN": true,
-    "login": "test@test.test",
-    "password": ""
+    "inventory": "http://elasticsearch:9200"
   }
 }

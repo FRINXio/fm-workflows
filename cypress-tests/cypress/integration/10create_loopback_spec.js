@@ -1,18 +1,4 @@
 describe('Create loopback address on devices stored in the inventory', function() {
-  beforeEach(function() {
-    cy.login()
-
-    //Make sure you didn’t skip mounting all devices in inventory, otherwise this workflow might not work correctly.
-    //
-    //This use case does not work with VRP01 and netconf-testtool devices.
-    //cy.visit('/')
-    //cy.contains('UniConfig').click()
-    //cy.contains('VRP01').parent().find('td').eq(0).click()
-    //cy.contains('netconf-testtool').parent().find('td').eq(0).click()
-    //cy.contains('Unmount Devices').click()
-    //cy.contains('VRP01').should('not.to.exist')
-    //cy.contains('netconf-testtool').should('not.to.exist')
-  })
 
 	
   //prerequisite: not mounted VRP01 and netconf-testtool

@@ -2,9 +2,6 @@
 //Obtain LLDP topology data
 //Collect LLDP Information from Devices and Build Topology
 describe('Collect LLDP Information from Devices and Build Topology', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
 
   it('collects LLDP Information from Devices', function() {
@@ -120,4 +117,16 @@ describe('Collect LLDP Information from Devices and Build Topology', function() 
 
     cy.contains('Close').click()
   })
+
+  it('Check Inventory', function() {
+    let inventory = Cypress.env('inventory')
+    cy.request(inventory + "/inventory-lldp/_search").should((req) => {
+      expect(req.status).to.equal(200)
+      expect(req.body.hits.hits).not.to.be.empty
+    })
+
+
+    
+  })
+
 })

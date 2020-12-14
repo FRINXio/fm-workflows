@@ -1,6 +1,5 @@
 describe('Mount all devices from inventory', function() {
   beforeEach(function() {
-    cy.login()
 
     cy.unmount_all_devices()
   })

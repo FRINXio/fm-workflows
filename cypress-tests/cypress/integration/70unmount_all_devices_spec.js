@@ -1,7 +1,5 @@
 describe('Unmount all mounted devices', function() {
-  beforeEach(function() {
-    cy.login()
-  })
+
 	
   it('unmounts all devices', function() {
     cy.server()
@@ -23,7 +21,7 @@ describe('Unmount all mounted devices', function() {
     //  cy.get('table tbody tr td:first-child', {timeout:5000}).should('have.length', rowCount)
     //})
     //THIS SOMEHOW ALSO TENDS TO FAIL
-    cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
+    // cy.waitForXHR('@getAllStatusCli', '@getAllStatusNetconf')
     //REPLACE WITH SOMETHING LESS PRONE TO FAIL
     //cy.get('table tbody tr:nth-child(10)').should('to.exist')
     //cy.wait(100)

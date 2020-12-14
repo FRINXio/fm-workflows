@@ -1,7 +1,4 @@
 describe('Unmount all mounted devices', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('unmounts all devices', function() {
     cy.server()

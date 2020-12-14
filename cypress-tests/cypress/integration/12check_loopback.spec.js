@@ -1,9 +1,6 @@
 //https://docs.frinx.io/frinx-machine/use-cases/create-loopback-and-read-journal/create-loopback-and-read-journal.html#running-the-workflow-for-retrieving-the-journal-of-a-device
 //Running the workflow for retrieving the journal of a device
 describe('Retrieve journal of a device', function() {
-  beforeEach(function() {
-    cy.login()
-  })
 	
   it('retrieves journal for XR02', function() {
     cy.server({
