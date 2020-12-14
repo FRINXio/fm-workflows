@@ -61,7 +61,7 @@ describe('Mount all devices from inventory', function() {
     //so next assert waiting for appearing of dialog with title "Details of Dynamic_fork" would fail
     cy.wait(4000)
     cy.get('#row-1',{timeout:30000})
-    cy.contains('SUB_WORKFLOW').next().find('button').click()
+    cy.contains('SUB_WORKFLOW').next().find('a').click()
     //cy.contains('create_loopback').click({force:true}) //this did not work
     //cy.contains('Children').click().get('a') // neither worked
 

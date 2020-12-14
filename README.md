@@ -61,6 +61,9 @@ export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
 ```
 Install cypress:
 ```
+cd cypress-test
+```
+```
 npm install cypress
 ```
 Install cypress plugin:
@@ -81,7 +84,10 @@ Cypress expects default localization of tests in folder ```./cypress/integration
 The file ./cypress.json defines the defaults - it is expected that FRINX-machine is run locally.
 Then you can run tests interactivelly by issuing the command:
 ```
-~/node_modules/.bin/cypress open --browser chrome
+cd cypress-test
+```
+```
+node_modules/.bin/cypress open --browser chrome
 ```
 Note: use 'cypress open' for interactive testing
 

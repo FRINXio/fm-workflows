@@ -1,10 +1,10 @@
 {
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "https://localhost",
   "viewportHeight": 900,
   "viewportWidth": 1440,
   "env": {
     "inventory": "http://localhost:5601",
-    "SKIP_LOGIN": false,
+    "SKIP_LOGIN": true,
     "login": "test@test.test",
     "password": ""
   }

@@ -55,7 +55,7 @@ describe('Save and execute commands on devices', function() {
 
     // ### GOING TO SUB_WORKFLOW ###
     cy.get('#row-0',{timeout:30000})
-    cy.get('div#detailTabs-tabpane-taskDetails td').contains(/^1$/).next().next().find('button').click()
+    cy.get('div#detailTabs-tabpane-taskDetails td').contains(/^1$/).next().next().find('a').click()
     cy.get('div.modal-header').contains('Details of Execute_and_read_rpc_cli_device_from_inventory',{timeout:30000})
 
     cy.get('#row-1',{timeout:30000})
