@@ -1,6 +1,11 @@
 # fm-workflows
 
 ## For users
+Download container images with
+```
+./install.sh
+```
+
 Make sure FRINX-machine (https://github.com/FRINXio/FRINX-machine) is running. <br>
 <br>To attach containers to running FM swarm deployment
 ```
