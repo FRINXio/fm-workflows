@@ -1,6 +1,7 @@
 import os
 import requests
 import traceback
+import json
 from frinx_rest import conductor_url_base, conductor_headers
 
 workflow_import_url = conductor_url_base + '/metadata/workflow'
@@ -14,9 +15,14 @@ def import_workflows(path):
                 if entry.is_file():
                     try:
                         print('Importing workflow ' + entry.name)
-                        with open(entry, 'rb') as payload:
-                            r = requests.post(workflow_import_url,
-                                              data=payload, headers=conductor_headers)
+                        with open(entry, 'r') as payload_file:
+                            # api expects array in payload
+                            payload = []
+                            payload_json = json.load(payload_file)
+                            payload.append(payload_json)
+                            r = requests.put(workflow_import_url,
+                                             data=json.dumps(payload), headers=conductor_headers)
+                            print("Response:", r.status_code)
                     except Exception as err:
                         print('Error while registering task ' + traceback.format_exc())
                         raise err
@@ -25,4 +31,4 @@ def import_workflows(path):
                 else:
                     print(entry)
     else:
-        print("Path not a directory")
+        print("Path to workflows " + path + " is not a directory.")
