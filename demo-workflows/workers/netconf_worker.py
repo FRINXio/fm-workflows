@@ -13,7 +13,7 @@ uniconfig_url_netconf_mount_oper = uniconfig_url_base + "/data/network-topology:
 
 mount_template = {
     "node": 
-        {
+        [{
             "node-id": "",
 
             "netconf-node-topology:host": "",
@@ -22,7 +22,7 @@ mount_template = {
             "netconf-node-topology:tcp-only": "",
             "netconf-node-topology:username": "",
             "netconf-node-topology:password": "",
-        }
+        }]
 }
 
 
@@ -32,42 +32,42 @@ def execute_mount_netconf(task):
 
     mount_body = copy.deepcopy(mount_template)
 
-    mount_body["node"]["node-id"] = task['inputData']['device_id']
-    mount_body["node"]["netconf-node-topology:host"] = task['inputData']['host']
-    mount_body["node"]["netconf-node-topology:port"] = task['inputData']['port']
-    mount_body["node"]["netconf-node-topology:keepalive-delay"] = task['inputData']['keepalive-delay']
-    mount_body["node"]["netconf-node-topology:tcp-only"] = task['inputData']['tcp-only']
-    mount_body["node"]["netconf-node-topology:username"] = task['inputData']['username']
-    mount_body["node"]["netconf-node-topology:password"] = task['inputData']['password']
+    mount_body["node"][0]["node-id"] = task['inputData']['device_id']
+    mount_body["node"][0]["netconf-node-topology:host"] = task['inputData']['host']
+    mount_body["node"][0]["netconf-node-topology:port"] = task['inputData']['port']
+    mount_body["node"][0]["netconf-node-topology:keepalive-delay"] = task['inputData']['keepalive-delay']
+    mount_body["node"][0]["netconf-node-topology:tcp-only"] = task['inputData']['tcp-only']
+    mount_body["node"][0]["netconf-node-topology:username"] = task['inputData']['username']
+    mount_body["node"][0]["netconf-node-topology:password"] = task['inputData']['password']
 
     if 'reconcile' in task['inputData'] and task['inputData']['reconcile'] is not None\
             and task['inputData']['reconcile'] is not"":
-        mount_body["node"]["node-extension:reconcile"] = task['inputData']['reconcile']
+        mount_body["node"][0]["node-extension:reconcile"] = task['inputData']['reconcile']
 
     if 'sleep-factor' in task['inputData'] and task['inputData']['sleep-factor'] is not None\
             and task['inputData']['sleep-factor'] is not "":
-        mount_body["node"]["netconf-node-topology:sleep-factor"] = task['inputData']['sleep-factor']
+        mount_body["node"][0]["netconf-node-topology:sleep-factor"] = task['inputData']['sleep-factor']
 
     if 'between-attempts-timeout-millis' in task['inputData'] and task['inputData']['between-attempts-timeout-millis'] is not None\
             and task['inputData']['between-attempts-timeout-millis'] is not "":
-        mount_body["node"]["netconf-node-topology:between-attempts-timeout-millis"] = task['inputData']['between-attempts-timeout-millis']
+        mount_body["node"][0]["netconf-node-topology:between-attempts-timeout-millis"] = task['inputData']['between-attempts-timeout-millis']
 
     if 'connection-timeout-millis' in task['inputData'] and task['inputData']['connection-timeout-millis'] is not None\
             and task['inputData']['connection-timeout-millis'] is not "":
-        mount_body["node"]["netconf-node-topology:connection-timeout-millis"] = task['inputData']['connection-timeout-millis']
+        mount_body["node"][0]["netconf-node-topology:connection-timeout-millis"] = task['inputData']['connection-timeout-millis']
 
     if 'uniconfig-native' in task['inputData'] and task['inputData']['uniconfig-native'] is not None\
             and task['inputData']['uniconfig-native'] is not "":
-        mount_body["node"]["uniconfig-config:uniconfig-native-enabled"] = task['inputData']['uniconfig-native']
+        mount_body["node"][0]["uniconfig-config:uniconfig-native-enabled"] = task['inputData']['uniconfig-native']
 
     if 'blacklist' in task['inputData'] and task['inputData']['blacklist'] is not None:
-        mount_body["node"]["uniconfig-config:blacklist"] = {'uniconfig-config:path':[]}
+        mount_body["node"][0]["uniconfig-config:blacklist"] = {'uniconfig-config:path':[]}
         model_array = [model.strip() for model in task['inputData']['blacklist'].split(',')]
         for model in model_array:
-            mount_body["node"]["uniconfig-config:blacklist"]["uniconfig-config:path"].append(model)
+            mount_body["node"][0]["uniconfig-config:blacklist"]["uniconfig-config:path"].append(model)
             
     if 'dry-run-journal-size' in task['inputData'] and task['inputData']['dry-run-journal-size'] is not None:
-        mount_body["node"]["netconf-node-topology:dry-run-journal-size"] = task['inputData']['dry-run-journal-size']
+        mount_body["node"][0]["netconf-node-topology:dry-run-journal-size"] = task['inputData']['dry-run-journal-size']
 
     id_url = Template(uniconfig_url_netconf_mount).substitute({"id": device_id})
 
