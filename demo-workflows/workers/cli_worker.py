@@ -17,7 +17,7 @@ uniconfig_url_cli_read_journal = uniconfig_url_base + "/operations/network-topol
 
 mount_template = {
     "network-topology:node":
-        {
+        [{
             "network-topology:node-id": "",
 
             "cli-topology:host": "",
@@ -31,8 +31,9 @@ mount_template = {
             "cli-topology:password": "",
 
             "cli-topology:journal-size": 500,
-            "cli-topology:dry-run-journal-size": 180
-        }
+            "cli-topology:dry-run-journal-size": 180,
+            "cli-topology:parsing-engine": ""
+        }]
 }
 
 
@@ -42,14 +43,15 @@ def execute_mount_cli(task):
 
     mount_body = copy.deepcopy(mount_template)
 
-    mount_body["network-topology:node"]["network-topology:node-id"] = task['inputData']['device_id']
-    mount_body["network-topology:node"]["cli-topology:host"] = task['inputData']['host']
-    mount_body["network-topology:node"]["cli-topology:port"] = task['inputData']['port']
-    mount_body["network-topology:node"]["cli-topology:transport-type"] = task['inputData']['protocol']
-    mount_body["network-topology:node"]["cli-topology:device-type"] = task['inputData']['type']
-    mount_body["network-topology:node"]["cli-topology:device-version"] = task['inputData']['version']
-    mount_body["network-topology:node"]["cli-topology:username"] = task['inputData']['username']
-    mount_body["network-topology:node"]["cli-topology:password"] = task['inputData']['password']
+    mount_body["network-topology:node"][0]["network-topology:node-id"] = task['inputData']['device_id']
+    mount_body["network-topology:node"][0]["cli-topology:host"] = task['inputData']['host']
+    mount_body["network-topology:node"][0]["cli-topology:port"] = task['inputData']['port']
+    mount_body["network-topology:node"][0]["cli-topology:transport-type"] = task['inputData']['protocol']
+    mount_body["network-topology:node"][0]["cli-topology:device-type"] = task['inputData']['type']
+    mount_body["network-topology:node"][0]["cli-topology:device-version"] = task['inputData']['version']
+    mount_body["network-topology:node"][0]["cli-topology:username"] = task['inputData']['username']
+    mount_body["network-topology:node"][0]["cli-topology:password"] = task['inputData']['password']
+    mount_body["network-topology:node"][0]["cli-topology:parsing-engine"] = task['inputData'].get('parsing-engine', "tree-parser")
 
     id_url = Template(uniconfig_url_cli_mount).substitute({"id": device_id})
 
