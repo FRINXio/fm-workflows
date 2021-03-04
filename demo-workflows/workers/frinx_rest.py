@@ -4,7 +4,7 @@ from http.cookies import SimpleCookie
 
 uniconfig_url_base = os.getenv("UNICONFIG_URL_BASE","http://uniconfig:8181/rests")
 elastic_url_base = "http://elasticsearch:9200"
-conductor_url_base = "http://conductor-server:8080/api"
+conductor_url_base = "http://workflow-proxy:8088/proxy/api"
 
 # username = ''
 # password = ''
@@ -17,7 +17,7 @@ conductor_url_base = "http://conductor-server:8080/api"
 uniconfig_credentials = ('admin', 'admin')
 uniconfig_headers = {"Content-Type": "application/json"}
 elastic_headers = {"Content-Type": "application/json"}
-conductor_headers = {"Content-Type": "application/json"}
+conductor_headers = {"Content-Type": "application/json", "x-tenant-id": "frinx", "from": "uniflow-micros", "x-auth-user-groups": "network-admin"}
 
 additional_uniconfig_request_params = {
     'auth': uniconfig_credentials,

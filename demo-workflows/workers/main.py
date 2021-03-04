@@ -1,6 +1,6 @@
 import time
 import worker_wrapper
-from frinx_rest import conductor_url_base
+from frinx_rest import conductor_url_base, conductor_headers
 import inventory_worker
 import lldp_worker
 import platform_worker
@@ -30,7 +30,7 @@ def main():
 
 
     print('Starting FRINX workers')
-    cc = worker_wrapper.ExceptionHandlingConductorWrapper(conductor_url_base, 1, 1)
+    cc = worker_wrapper.ExceptionHandlingConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
     register_workers(cc)
     import_workflows(workflows_folder_path)
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
