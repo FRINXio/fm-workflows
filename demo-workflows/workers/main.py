@@ -30,7 +30,8 @@ def main():
 
 
     print('Starting FRINX workers')
-    cc = worker_wrapper.ExceptionHandlingConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
+    cc = worker_wrapper.FrinxConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
+    cc.start_queue_polling()
     register_workers(cc)
     import_workflows(workflows_folder_path)
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
