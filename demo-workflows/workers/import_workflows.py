@@ -17,6 +17,7 @@ def import_workflows(path):
                         with open(entry, 'rb') as payload:
                             r = requests.post(workflow_import_url,
                                               data=payload, headers=conductor_headers)
+                            print("Registering task:" + str(entry.name) + ", response: " + str(r.status_code))
                     except Exception as err:
                         print('Error while registering task ' + traceback.format_exc())
                         raise err
