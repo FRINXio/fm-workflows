@@ -17,7 +17,8 @@ import cli_worker
 import netconf_worker
 import uniconfig_worker
 import http_worker
-from importDevices import import_devices 
+from importDevices import import_devices
+import netconf_testtool
 import os
 
 
@@ -36,6 +37,8 @@ def main():
     import_workflows(workflows_folder_path)
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
     import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
+
+    netconf_testtool.write_data_to_netconf_testtool(conductor_url_base, conductor_headers)
 
     with open(healtchchek_file_path, 'w'): pass
 
