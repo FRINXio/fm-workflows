@@ -1,0 +1,363 @@
+{
+  "name": "IOS_upgrade",
+  "description": "",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXL",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show processes cpu | include exec",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambdaTaskRef_S9JO",
+      "inputParameters": {
+        "lambdaValue": "${cli_execute_and_read_rpc_cli_ref_5YXL.output.response_body.output.output}",
+        "scriptExpression": "if ($.lambdaValue != null) {\n  var regex = /(\\d+)\\%.+$/g\n  var m = regex.exec($.lambdaValue)\n  if (m[1] != null) {\n    var value = parseInt(m[1])\n    if (value < 80) {\n      return \"true\"\n    }  \n  }\n}\nreturn \"false\""
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "decisionTask",
+      "taskReferenceName": "decisionTaskRef_7EYQ",
+      "inputParameters": {
+        "param": "true",
+        "notOverloaded": "${lambdaTaskRef_S9JO.output.result}"
+      },
+      "type": "DECISION",
+      "caseValueParam": "param",
+      "decisionCases": {
+        "true": [
+          {
+            "name": "Post_to_Slack",
+            "taskReferenceName": "post_to_slack_ref_VSBL",
+            "description": "{\"description\": \"Post a message to your favorite Slack channel\", \"labels\": [\"SLACK\",\"HTTP\"]}",
+            "inputParameters": {
+              "slack_webhook_id": "${workflow.input.slack_id}",
+              "message_text": "CPU levels satisfactory. Continuing with installation."
+            },
+            "type": "SUB_WORKFLOW",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "subWorkflowParam": {
+              "name": "Post_to_Slack",
+              "version": 1
+            },
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ]
+      },
+      "defaultCase": [
+        {
+          "name": "TERMINATE_TASK",
+          "taskReferenceName": "terminateTaskRef_9DSE",
+          "inputParameters": {
+            "terminationStatus": "COMPLETED",
+            "workflowOutput": "CPU utilization levels too high, install aborted."
+          },
+          "type": "TERMINATE",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        }
+      ],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_MIN5",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "admin\ninstall add source disk0: tar harddisk:${workflow.input.ios_file}",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": true,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "Post_to_Slack",
+      "taskReferenceName": "post_to_slack_ref_JF4A",
+      "inputParameters": {
+        "slack_webhook_id": "${workflow.input.slack_id}",
+        "message_text": "First install command issued."
+      },
+      "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "subWorkflowParam": {
+        "name": "Post_to_Slack",
+        "version": 1
+      },
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_unmount_cli",
+      "taskReferenceName": "cli_unmount_cli_ref_6G13",
+      "description": "{\"description\": \"unmount a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "asr6",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_mount_cli",
+      "taskReferenceName": "cli_mount_cli_ref_S34Y",
+      "description": "{\"description\": \"mount a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "asr6",
+        "type": "ios xr",
+        "version": "6.*",
+        "host": "10.19.2.2",
+        "protocol": "ssh",
+        "port": "22",
+        "username": "asr6",
+        "password": "cadHVsla4q2JDS+ja#j;",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 120,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "loopTask",
+      "taskReferenceName": "looptask_ref_786J",
+      "description": "Do while task",
+      "inputParameters": {
+        "value": "",
+        "device_id": "${workflow.input.device_id}",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SUB_WORKFLOW",
+      "subWorkflowParam": {
+        "name": "loopTask",
+        "version": 1
+      },
+      "optional": false,
+      "startDelay": 60
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_YFI1",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show install log",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 30,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambdaTaskRef_CW8G",
+      "inputParameters": {
+        "lambdaValue": "${cli_execute_and_read_rpc_cli_ref_YFI1.output.response_body.output.output}",
+        "scriptExpression": "if ($.lambdaValue != null) {\n  var regex = /Install operation (\\d+)(?![\\s\\S]*Install operation)/g\n  var id = regex.exec($.lambdaValue)[1]\n  return id\n}\nreturn \"0\""
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_cli",
+      "taskReferenceName": "cli_execute_cli_ref_LVE8",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "admin\ninstall activate id ${lambdaTaskRef_CW8G.output.result}\ny",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "optional": true,
+      "startDelay": 0
+    },
+    {
+      "name": "CLI_unmount_cli",
+      "taskReferenceName": "cli_unmount_cli_ref_6G14",
+      "description": "{\"description\": \"unmount a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "asr6",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_mount_cli",
+      "taskReferenceName": "cli_mount_cli_ref_S34Z",
+      "description": "{\"description\": \"mount a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "asr6",
+        "type": "ios xr",
+        "version": "6.*",
+        "host": "10.19.2.2",
+        "protocol": "ssh",
+        "port": "22",
+        "username": "asr6",
+        "password": "cadHVsla4q2JDS+ja#j;",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 1200,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_YFI4",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "admin\ninstall commit",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 120,
+      "joinOn": [],
+      "optional": true,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "Post_to_Slack",
+      "taskReferenceName": "post_to_slack_ref_JF4B",
+      "inputParameters": {
+        "slack_webhook_id": "${workflow.input.slack_id}",
+        "message_text": "Installation finished"
+      },
+      "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 120,
+      "subWorkflowParam": {
+        "name": "Post_to_Slack",
+        "version": 1
+      },
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {}
+}
