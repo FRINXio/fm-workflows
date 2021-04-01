@@ -1,0 +1,74 @@
+{
+  "createTime": 1616693943495,
+  "name": "IOSXR_Upgrade_loopTask",
+  "description": "Do-while workflow task used in IOSXR_Upgrade workflow",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "loop_task",
+      "taskReferenceName": "LoopTask",
+      "inputParameters": {
+        "value": "${workflow.input.value}"
+      },
+      "type": "DO_WHILE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopCondition": "if ($.LoopTask[String($.LoopTask['iteration'])]['lambdaTaskRef_CW8T'].result == false) {true} else {false}",
+      "loopOver": [
+        {
+          "name": "CLI_execute_and_read_rpc_cli",
+          "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_V406",
+          "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+          "inputParameters": {
+            "device_id": "${workflow.input.device_id}",
+            "template": "show install request",
+            "params": "${workflow.input.params}",
+            "uniconfig_tx_id": "${workflow.input.uniconfig_tx_id}"
+          },
+          "type": "SIMPLE",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 30,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        },
+        {
+          "name": "LAMBDA_TASK",
+          "taskReferenceName": "lambdaTaskRef_CW8T",
+          "inputParameters": {
+            "lambdaValue": "${cli_execute_and_read_rpc_cli_ref_V406.output.response_body.output.output}",
+            "scriptExpression": "if ($.lambdaValue != null) {\n  var regex = /The operation is \\d+% complete/g\n  var found = $.lambdaValue.match(regex)\n  return found == null\n}\nreturn true"
+          },
+          "type": "LAMBDA",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        }
+      ]
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {}
+}
