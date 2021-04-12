@@ -83,7 +83,7 @@ execute_template = {
     "input":
         {
             "command": "",
-            "wait-for-output-timer": "25"
+            "wait-for-output-timer": "5"
         }
 }
 
@@ -313,6 +313,36 @@ def execute_cli(task):
                                                'response_body': response_json},
                 'logs': ["Unable to configure device with ID %s" % device_id]}               
 
+def execute_and_expect_cli(task):
+    device_id = task['inputData']['device_id']
+    template = task['inputData']['template']
+    params = task['inputData']['params'] if task['inputData']['params'] else {}
+    params = params if isinstance(params, dict) else eval(params)
+    uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
+
+    commands = Template(template).substitute(params)
+    exec_body = copy.deepcopy(execute_template)
+
+    exec_body["input"]["command"] = commands
+
+    id_url = Template(uniconfig_url_cli_mount_rpc).substitute({"id": device_id}) + "/yang-ext:mount/cli-unit-generic:execute-and-expect"
+
+    r = requests.post(id_url, data=json.dumps(exec_body), headers=add_uniconfig_tx_cookie(uniconfig_tx_id), **additional_uniconfig_request_params)
+    response_code, response_json = parse_response(r)
+
+    if response_code == requests.codes.ok:
+        return {'status': 'COMPLETED', 'output': {'url': id_url,
+                                                  'request_body': exec_body,
+                                                  'response_code': response_code,
+                                                  'response_body': response_json},
+                'logs': ["Mountpoint with ID %s configured" % device_id]}
+    else:
+        return {'status': 'FAILED', 'output': {'url': id_url,
+                                               'request_body': exec_body,
+                                               'response_code': response_code,
+                                               'response_body': response_json},
+                'logs': ["Unable to configure device with ID %s" % device_id]}
+
 
 def start(cc):
     print('Starting CLI workers')
@@ -504,7 +534,6 @@ def start(cc):
     })
     cc.start('CLI_get_cli_journal', execute_get_cli_journal, False)
 
-
     cc.register('CLI_execute_cli', {
         "name": "CLI_execute_cli",
         "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
@@ -529,3 +558,28 @@ def start(cc):
         ]
     })
     cc.start('CLI_execute_cli', execute_cli, False)
+
+    cc.register('CLI_execute_and_expect_cli', {
+        "name": "CLI_execute_and_expect_cli",
+        "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+        "retryCount": 0,
+        "ownerEmail":"example@example.com",
+        "timeoutSeconds": 60,
+        "timeoutPolicy": "TIME_OUT_WF",
+        "retryLogic": "FIXED",
+        "retryDelaySeconds": 0,
+        "responseTimeoutSeconds": 30,
+        "inputKeys": [
+            "device_id",
+            "template",
+            "params",
+            "uniconfig_tx_id"
+        ],
+        "outputKeys": [
+            "url",
+            "request_body",
+            "response_code",
+            "response_body"
+        ]
+    })
+    cc.start('CLI_execute_and_expect_cli', execute_and_expect_cli, False) 
