@@ -1,0 +1,174 @@
+{
+  "name": "IOS_Upgrade",
+  "description": "",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXL",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show version\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXA",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show run\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXV",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "conf t\r\nboot system flash:${workflow.input.image_file_name}\r\nend\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_expect_cli",
+      "taskReferenceName": "cli_execute_and_expect_cli_ref_85YP",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "\r\nreload in 00:01\nyes\n\r\n\r\r\n",
+        "params": "${workflow.input.params}",
+        "uniconfig_tx_id": "${workflow.input.uniconfig_tx_id}"
+      },
+      "type": "SIMPLE",
+      "optional": false,
+      "startDelay": 0
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXX",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show reload\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 5,
+      "joinOn": [],
+      "optional": true,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXB",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show version\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 360,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXQ",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "conf t\r\nno boot system flash:${workflow.input.image_file_name}\r\nend\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_ref_5YXC",
+      "description": "{\"description\": \"execute commands for a CLI device\", \"labels\": [\"BASICS\",\"CLI\"]}",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "template": "show run\r\n",
+        "params": "",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "outputParameters": {},
+  "inputParameters": [],
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "timeoutPolicy": "ALERT_ONLY"
+}
