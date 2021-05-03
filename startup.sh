@@ -49,7 +49,7 @@ function argumentsCheck {
 
 __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"
-UNICONFIG_SERVICENAME="${HOSTNAME,,}_uniconfig"
+UNICONFIG_SERVICENAME="uniconfig"
 
 
 argumentsCheck "$@"
