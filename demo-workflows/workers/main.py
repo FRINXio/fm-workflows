@@ -1,22 +1,23 @@
 import time
-import worker_wrapper
-from frinx_rest import conductor_url_base, conductor_headers
+from conductor.FrinxConductorWrapper import FrinxConductorWrapper
+from workers.frinx_rest import conductor_url_base, conductor_headers
 import inventory_worker
 import lldp_worker
 import platform_worker
 import vll_worker
 import unified_worker
+import psql_worker
 import vll_service_worker
 import vpls_worker
 import vpls_service_worker
 import bi_service_worker
-import common_worker
-import psql_worker
-from import_workflows import import_workflows 
-import cli_worker
-import netconf_worker
-import uniconfig_worker
-import http_worker
+
+from workers import common_worker
+from workers import import_workflows
+from workers import cli_worker
+from workers import netconf_worker
+from workers import uniconfig_worker
+from workers import http_worker
 from importDevices import import_devices
 import netconf_testtool
 import os
@@ -31,10 +32,10 @@ def main():
 
 
     print('Starting FRINX workers')
-    cc = worker_wrapper.FrinxConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
+    cc = FrinxConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
     cc.start_queue_polling()
     register_workers(cc)
-    import_workflows(workflows_folder_path)
+    import_workflows.import_workflows(workflows_folder_path)
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
     import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
 
@@ -48,6 +49,11 @@ def main():
 
 
 def register_workers(cc):
+    cli_worker.start(cc)
+    netconf_worker.start(cc)
+    uniconfig_worker.start(cc)
+    common_worker.start(cc)
+    http_worker.start(cc)
     platform_worker.start(cc)
     lldp_worker.start(cc)
     inventory_worker.start(cc)

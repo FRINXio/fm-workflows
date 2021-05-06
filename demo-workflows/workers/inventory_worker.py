@@ -6,7 +6,7 @@ from string import Template
 
 import requests
 
-from frinx_rest import elastic_url_base, parse_response, elastic_headers
+from workers.frinx_rest import elastic_url_base, parse_response, elastic_headers
 
 inventory_device_url = elastic_url_base + "/inventory-device/device/$id"
 inventory_device_get_url = elastic_url_base + "/inventory-device/device/$id/_source"
