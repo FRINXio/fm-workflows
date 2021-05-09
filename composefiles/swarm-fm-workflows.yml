@@ -32,13 +32,13 @@ services:
         max-file: "3"
         max-size: "10m"
     environment:
-      - UNICONFIG_URL_BASE=https://${UNICONFIG_SERVICENAME}:8181/rests
+      - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
     healthcheck:
       test: cat /home/app/healthcheck && curl --silent --fail --write-out 'HTTPSTATUS:%{http_code}' -X GET 'http://workflow-proxy:8088/probe/readiness'
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 50s
     deploy:
       # placement:
       #   constraints:
