@@ -2,28 +2,14 @@
 
 ## For users
 Download container images with
-```
+```sh
 ./install.sh
 ```
 
 Make sure FRINX-machine (https://github.com/FRINXio/FRINX-machine) is running. <br>
 <br>To attach containers to running FM swarm deployment
-```
+```sh
 ./startup.sh
-```
-
-If FRINX-machine is deployed in multi-node mode, you must define Uniconfig Service Name in startup script.
-
-```sh
-# How to get Uniconfig Service Name
-cd FRINX-machine
-echo $(source .env && echo $UNICONFIG_SERVICENAME)
-```
-The output from previous command is used in **./startup.sh** with **-u** option.
-
-```sh
-cd fm-workflows 
-./startup.sh -u "OUTPUT_FROM_PREV_COMMAND"
 ```
 
 <br>Check status of services.
