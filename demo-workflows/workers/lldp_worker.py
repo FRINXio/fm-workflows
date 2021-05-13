@@ -6,7 +6,7 @@ import copy
 import requests
 from string import Template
 
-from workers.frinx_rest import elastic_url_base, uniconfig_url_base, additional_uniconfig_request_params, parse_response, elastic_headers, add_uniconfig_tx_cookie
+from frinx_conductor_workers.frinx_rest import elastic_url_base, uniconfig_url_base, additional_uniconfig_request_params, parse_response, elastic_headers, add_uniconfig_tx_cookie
 
 build_lldp_url = uniconfig_url_base + "/operations/lldptopo:build"
 export_lldp_url = uniconfig_url_base + "/operations/lldptopo:export"

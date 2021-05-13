@@ -2,8 +2,8 @@ from __future__ import print_function
 
 from string import Template
 
-import workers.common_worker
-import workers.uniconfig_worker
+import frinx_conductor_workers.common_worker
+import frinx_conductor_workers.uniconfig_worker
 from bi_model import Service
 import vll_service_worker
 from vll_model import Device

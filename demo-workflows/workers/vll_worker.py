@@ -3,7 +3,7 @@ from __future__ import print_function
 import copy
 from string import Template
 
-import workers.uniconfig_worker
+import frinx_conductor_workers.uniconfig_worker
 
 uniconfig_url_uniconfig_network_instance_config = '/frinx-openconfig-network-instance:network-instances/network-instance=$vll'
 

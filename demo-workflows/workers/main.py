@@ -6,14 +6,14 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from conductor.FrinxConductorWrapper import FrinxConductorWrapper
-from workers.frinx_rest import conductor_url_base, conductor_headers
-from workers import import_workflows
+from frinx_conductor_workers.frinx_rest import conductor_url_base, conductor_headers
+from frinx_conductor_workers import import_workflows
 
-from workers import common_worker
-from workers import cli_worker
-from workers import netconf_worker
-from workers import uniconfig_worker
-from workers import http_worker
+from frinx_conductor_workers import common_worker
+from frinx_conductor_workers import cli_worker
+from frinx_conductor_workers import netconf_worker
+from frinx_conductor_workers import uniconfig_worker
+from frinx_conductor_workers import http_worker
 
 import inventory_worker
 import lldp_worker
