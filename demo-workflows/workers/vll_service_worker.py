@@ -3,9 +3,9 @@ from __future__ import print_function
 import itertools
 from string import Template
 from vll_model import Device, Service, LocalService, RemoteService, ServiceDeletion
-import uniconfig_worker
+import frinx_conductor_workers.uniconfig_worker
 import vll_worker
-import common_worker
+import frinx_conductor_workers.common_worker
 
 uniconfig_url_uniconfig_ifc_config = '/frinx-openconfig-interfaces:interfaces/interface=escape($ifc)'
 uniconfig_url_uniconfig_ifc_policy_config = '/frinx-openconfig-network-instance:network-instances/network-instance=default/policy-forwarding/interfaces/interface=escape($ifc)'

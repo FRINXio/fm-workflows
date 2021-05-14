@@ -3,7 +3,7 @@ version: "3.7"
 services:
       
   sample-topology:
-    image: frinx/sample-topology:1.6
+    image: frinx/sample-topology:latest
     environment:
       - JAVA_MAX_MEM=4G
     logging:
@@ -25,7 +25,7 @@ services:
       replicas: 1
   
   demo-workflows:
-    image: frinx/demo-workflows:1.6
+    image: frinx/demo-workflows:latest
     logging:
       driver: "json-file"
       options:

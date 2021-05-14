@@ -4,8 +4,8 @@ import requests
 import json
 import copy
 from string import Template
-from frinx_rest import uniconfig_url_base, additional_uniconfig_request_params, parse_response, add_uniconfig_tx_cookie
-import uniconfig_worker
+from frinx_conductor_workers.frinx_rest import uniconfig_url_base, additional_uniconfig_request_params, parse_response, add_uniconfig_tx_cookie
+import frinx_conductor_workers.uniconfig_worker
 
 uniconfig_url_unified_oper_shallow = uniconfig_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig&depth=3"
 uniconfig_url_unified_oper = uniconfig_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig"

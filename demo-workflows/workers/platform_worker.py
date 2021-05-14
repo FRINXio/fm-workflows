@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 import requests
-from frinx_rest import uniconfig_url_base, additional_uniconfig_request_params, parse_response, add_uniconfig_tx_cookie
+from frinx_conductor_workers.frinx_rest import uniconfig_url_base, additional_uniconfig_request_params, parse_response, add_uniconfig_tx_cookie
 
 from string import Template
 

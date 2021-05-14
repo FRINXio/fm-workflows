@@ -3,9 +3,9 @@ from __future__ import print_function
 import itertools
 
 from vpls_model import Service
-import uniconfig_worker
+import frinx_conductor_workers.uniconfig_worker
 import vpls_worker
-import common_worker
+import frinx_conductor_workers.common_worker
 import vll_service_worker
 
 
