@@ -38,6 +38,7 @@ def start(cc):
         "retryCount": 0,
         "timeoutSeconds": 60,
         "timeoutPolicy": "TIME_OUT_WF",
+        "ownerEmail":"example@example.com",
         "retryLogic": "FIXED",
         "retryDelaySeconds": 0,
         "responseTimeoutSeconds": 10,
