@@ -22,22 +22,6 @@
       "startDelay": 0
     },
     {
-      "name": "Netconf_check_netconf_connected",
-      "taskReferenceName": "netconf_check",
-      "inputParameters": {
-        "device_id": "netconf-testtool"
-      },
-      "type": "SIMPLE"
-    },
-    {
-      "name": "UNICONFIG_check_uniconfig_node_exists",
-      "taskReferenceName": "uniconfig_check",
-      "inputParameters": {
-        "device_id": "netconf-testtool"
-      },
-      "type": "SIMPLE"
-    },
-    {
       "name": "UNICONFIG_write_structured_device_data",
       "taskReferenceName": "UNICONFIG_write_interfaces",
       "type": "SIMPLE",

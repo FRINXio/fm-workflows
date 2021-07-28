@@ -43,7 +43,6 @@ def setup_logging(
         env_key='LOG_CFG'
 ):
     """Setup logging configuration
-
     """
     path = os.path.join(os.path.dirname(__file__), default_path)
     value = os.getenv(env_key, None)
@@ -64,14 +63,16 @@ def main():
 
     log.info('Starting FRINX workers')
     cc = FrinxConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
-    cc.start_queue_polling()
     register_workers(cc)
     import_workflows.import_workflows(workflows_folder_path)
 
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
     import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
 
+    cc.start_workers()
+
     netconf_testtool.write_data_to_netconf_testtool(conductor_url_base, conductor_headers)
+
 
     with open(healtchchek_file_path, 'w'): pass
 
