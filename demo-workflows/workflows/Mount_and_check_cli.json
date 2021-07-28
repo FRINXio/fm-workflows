@@ -21,14 +21,6 @@
         "password": "${workflow.input.password}"
       },
       "type": "SIMPLE"
-    },
-    {
-      "name": "CLI_check_cli_connected",
-      "taskReferenceName": "check_mounted",
-      "inputParameters": {
-        "device_id": "${workflow.input.device_id}"
-      },
-      "type": "SIMPLE"
     }
   ],
   "outputParameters": {

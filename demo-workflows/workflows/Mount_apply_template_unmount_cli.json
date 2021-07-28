@@ -30,14 +30,6 @@
       "type": "SIMPLE"
     },
     {
-      "name": "CLI_check_cli_connected",
-      "taskReferenceName": "check_mounted",
-      "inputParameters": {
-        "device_id": "${workflow.input.device_id}"
-      },
-      "type": "SIMPLE"
-    },
-    {
       "name": "CLI_execute_and_read_rpc_cli",
       "taskReferenceName": "execute_template",
       "inputParameters": {
