@@ -27,10 +27,10 @@ RUN apt-get update -y && apt-get install -y default-jre
 RUN mkdir -p /home/topology/netconf-testtool/schemas
 
 ## Get testtool jar
-ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_3_rc2-frinxodl-executable.jar /home/topology/netconf-testtool
+ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_8_rc2-frinxodl-executable.jar /home/topology/netconf-testtool
 
 ## copy schemas
-COPY ./netconf-testtol/schemas /home/topology/netconf-testtool/schemas
+COPY ./netconf-testtol /home/topology/netconf-testtool/
 ##
 
 
