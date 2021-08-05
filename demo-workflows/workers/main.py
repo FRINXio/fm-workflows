@@ -27,7 +27,6 @@ import vpls_service_worker
 import bi_service_worker
 
 from importDevices import import_devices
-import netconf_testtool
 
 # Suppress InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -70,9 +69,6 @@ def main():
     import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
 
     cc.start_workers()
-
-    netconf_testtool.write_data_to_netconf_testtool(conductor_url_base, conductor_headers)
-
 
     with open(healtchchek_file_path, 'w'): pass
 
