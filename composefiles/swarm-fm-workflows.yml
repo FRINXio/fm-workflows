@@ -34,7 +34,9 @@ services:
     environment:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
     healthcheck:
-      test: cat /home/app/healthcheck && curl --silent --fail --write-out 'HTTPSTATUS:%{http_code}' -X GET 'http://workflow-proxy:8088/probe/readiness'
+      test: |
+        cat /home/app/healthcheck &&
+        curl --silent --fail --write-out ' HTTPSTATUS:%{http_code} ' -X GET 'http://workflow-proxy:8088/probe/readiness'
       interval: 10s
       timeout: 5s
       retries: 5

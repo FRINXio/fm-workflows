@@ -93,13 +93,7 @@ def start(cc):
     print('Start PSQL workers')
 
     cc.register('PSQL_select_device', {
-        "name": "PSQL_select_device",
-        "description": "{\"description\": \"Select device\", \"labels\": [\"PSQL\"]}",
-        "retryCount": 0,
-        "timeoutSeconds": 60,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
-        "retryDelaySeconds": 0,
+        "description": '{"description": "Select device", "labels": ["PSQL"]}',
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "device"
@@ -107,22 +101,14 @@ def start(cc):
         "outputKeys": [
             "result"
         ]
-    })
-    cc.start('PSQL_select_device', select_device, False)
+    }, select_device)
 
     cc.register('PSQL_insert_organizations', {
-        "name": "PSQL_insert_organizations",
-        "description": "{\"description\": \"Select insert_organizations\", \"labels\": [\"PSQL\"]}",
-        "retryCount": 0,
-        "timeoutSeconds": 60,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
-        "retryDelaySeconds": 0,
+        "description": '{"description": "Select insert_organizations", "labels": ["PSQL"]}',
         "responseTimeoutSeconds": 10,
         "inputKeys": [
         ],
         "outputKeys": [
             "result"
         ]
-    })
-    cc.start('PSQL_insert_organizations', insert_organizations, False)
+    }, insert_organizations)

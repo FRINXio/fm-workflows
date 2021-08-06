@@ -259,14 +259,10 @@ def start(cc):
 
     # Single device level configuration
 
-    cc.register('VLL_device_create_remote')
-    cc.start('VLL_device_create_remote', device_create_vll_remote, False)
+    cc.register('VLL_device_create_remote', device_create_vll_remote)
 
-    cc.register('VLL_device_create_local')
-    cc.start('VLL_device_create_local', device_create_vll_local, False)
+    cc.register('VLL_device_create_local', device_create_vll_local)
 
-    cc.register('VLL_device_delete')
-    cc.start('VLL_device_delete', device_delete_vll, False)
+    cc.register('VLL_device_delete', device_delete_vll)
 
-    cc.register('VLL_device_read')
-    cc.start('VLL_device_read', device_read_vll, False)
+    cc.register('VLL_device_read', device_read_vll)

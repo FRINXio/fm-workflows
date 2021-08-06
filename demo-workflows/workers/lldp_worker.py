@@ -135,13 +135,7 @@ def start(cc):
     print('Starting LLDP topology workers')
 
     cc.register('LLDP_build_topology', {
-        "name": "LLDP_build_topology",
-        "description": "{\"description\": \"Build lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
-        "retryCount": 0,
-        "timeoutSeconds": 60,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
-        "retryDelaySeconds": 0,
+        "description": '{"description": "Build lldp topology", "labels": ["DEMO","LLDP"]}',
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "node_aggregation",
@@ -157,17 +151,10 @@ def start(cc):
             "response_code",
             "response_body"
         ]
-    })
-    cc.start('LLDP_build_topology', build_lldp, False)
+    }, build_lldp)
 
     cc.register('LLDP_export_topology', {
-        "name": "LLDP_export_topology",
-        "description": "{\"description\": \"Export lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
-        "retryCount": 0,
-        "timeoutSeconds": 60,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
-        "retryDelaySeconds": 0,
+        "description": '{"description": "Export lldp topology", "labels": ["DEMO","LLDP"]}',
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "uniconfig_tx_id"
@@ -178,17 +165,10 @@ def start(cc):
             "response_code",
             "response_body"
         ]
-    })
-    cc.start('LLDP_export_topology', export_lldp, False)
+    }, export_lldp)
 
     cc.register('LLDP_read_topology', {
-        "name": "LLDP_read_topology",
-        "description": "{\"description\": \"Read lldp topology\", \"labels\": [\"DEMO\",\"LLDP\"]}",
-        "retryCount": 0,
-        "timeoutSeconds": 60,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
-        "retryDelaySeconds": 0,
+        "description": '{"description": "Read lldp topology", "labels": ["DEMO","LLDP"]}',
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "destination-topology",
@@ -199,17 +179,10 @@ def start(cc):
             "response_code",
             "response_body"
         ]
-    })
-    cc.start('LLDP_read_topology', read_lldp, False)
+    }, read_lldp)
 
     cc.register('LLDP_store_topology', {
-        "name": "LLDP_store_topology",
-        "description": "{\"description\": \"Store lldp topology in database\", \"labels\": [\"DEMO\",\"LLDP\"]}",
-        "retryCount": 0,
-        "timeoutSeconds": 60,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
-        "retryDelaySeconds": 0,
+        "description": '{"description": "Store lldp topology in database", "labels": ["DEMO","LLDP"]}',
         "responseTimeoutSeconds": 10,
         "inputKeys": [
             "destination-topology",
@@ -220,5 +193,4 @@ def start(cc):
             "response_code",
             "response_body"
         ]
-    })
-    cc.start('LLDP_store_topology', store_lldp, False)
+    }, store_lldp)
