@@ -590,39 +590,28 @@ def start(cc):
 
     # Service level configuration (spanning multiple devices)
 
-    cc.register('VLL_service_create')
-    cc.start('VLL_service_create', service_create_vll, False)
+    cc.register('VLL_service_create', service_create_vll)
 
-    cc.register('VLL_service_delete')
-    cc.start('VLL_service_delete', service_delete_vll, False)
+    cc.register('VLL_service_delete', service_delete_vll)
 
-    cc.register('VLL_service_create_remote')
-    cc.start('VLL_service_create_remote', service_create_vll_remote, False)
+    cc.register('VLL_service_create_remote', service_create_vll_remote)
 
-    cc.register('VLL_service_delete_remote')
-    cc.start('VLL_service_delete_remote', service_delete_vll_remote, False)
+    cc.register('VLL_service_delete_remote', service_delete_vll_remote)
 
-    cc.register('VLL_service_create_local')
-    cc.start('VLL_service_create_local', service_create_vll_local, False)
+    cc.register('VLL_service_create_local', service_create_vll_local)
 
-    cc.register('VLL_service_delete_local')
-    cc.start('VLL_service_delete_local', service_delete_vll_local, False)
+    cc.register('VLL_service_delete_local', service_delete_vll_local)
 
     # Batch reconciliation from per device info into service objects
 
-    cc.register('VLL_service_read_all')
-    cc.start('VLL_service_read_all', service_read_all, False)
+    cc.register('VLL_service_read_all', service_read_all)
 
     # Below are higher order workers (which actually implement a workflow)
 
-    cc.register('VLL_service_commit')
-    cc.start('VLL_service_commit', service_create_vll_commit, False)
+    cc.register('VLL_service_commit', service_create_vll_commit)
 
-    cc.register('VLL_service_dryrun')
-    cc.start('VLL_service_dryrun', service_create_vll_dryrun, False)
+    cc.register('VLL_service_dryrun', service_create_vll_dryrun)
 
-    cc.register('VLL_service_delete_commit')
-    cc.start('VLL_service_delete_commit', service_delete_vll_commit, False)
+    cc.register('VLL_service_delete_commit', service_delete_vll_commit)
 
-    cc.register('VLL_service_delete_dryrun')
-    cc.start('VLL_service_delete_dryrun', service_delete_vll_dryrun, False)
+    cc.register('VLL_service_delete_dryrun', service_delete_vll_dryrun)

@@ -1,30 +1,14 @@
 import os
-import time
 import json
 import logging.config
 import requests
+from pathlib import Path
+
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from conductor.FrinxConductorWrapper import FrinxConductorWrapper
 from frinx_conductor_workers.frinx_rest import conductor_url_base, conductor_headers
-from frinx_conductor_workers import import_workflows
 
-from frinx_conductor_workers import common_worker
-from frinx_conductor_workers import cli_worker
-from frinx_conductor_workers import netconf_worker
-from frinx_conductor_workers import uniconfig_worker
-from frinx_conductor_workers import http_worker
-
-import inventory_worker
-import lldp_worker
-import platform_worker
-import unified_worker
-import psql_worker
-import vll_worker
-import vll_service_worker
-import vpls_worker
-import vpls_service_worker
-import bi_service_worker
 
 from importDevices import import_devices
 
@@ -33,16 +17,15 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 log = logging.getLogger(__name__)
 
-workflows_folder_path = '../workflows'
-healtchchek_file_path = '../healthcheck'
+WORKFLOWS_DIR: Path = Path("../workflows")
+HEALTCHCHEK_FILE: Path = Path("../healthcheck")
 
-def setup_logging(
-        default_path='logging-config.json',
-        default_level=logging.INFO,
-        env_key='LOG_CFG'
-):
-    """Setup logging configuration
-    """
+
+def configure_logging(
+        default_path='logging-config.json', default_level=logging.INFO, env_key='LOG_CFG'
+) -> None:
+    """Setup logging configuration"""
+
     path = os.path.join(os.path.dirname(__file__), default_path)
     value = os.getenv(env_key, None)
     if value:
@@ -54,45 +37,96 @@ def setup_logging(
     else:
         logging.basicConfig(level=default_level)
 
-def main():
-    setup_logging()
 
-    if os.path.exists(healtchchek_file_path):
-        os.remove(healtchchek_file_path)
-
-    log.info('Starting FRINX workers')
-    cc = FrinxConductorWrapper(conductor_url_base, 1, 1, headers=conductor_headers)
-    register_workers(cc)
-    import_workflows.import_workflows(workflows_folder_path)
+def _import_devices() -> None:
 
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
     import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
 
-    cc.start_workers()
 
-    with open(healtchchek_file_path, 'w'): pass
+def _register_workers(conductor) -> None:
 
-    # block
-    while 1:
-        time.sleep(1000)
+    from frinx_conductor_workers import common_worker
+    from frinx_conductor_workers import cli_worker
+    from frinx_conductor_workers import netconf_worker
+    from frinx_conductor_workers import uniconfig_worker
+    from frinx_conductor_workers import http_worker
 
+    import inventory_worker
+    import lldp_worker
+    import platform_worker
+    import unified_worker
+    import psql_worker
+    # import vll_worker
+    # import vll_service_worker
+    # import vpls_worker
+    # import vpls_service_worker
+    # import bi_service_worker
 
-def register_workers(cc):
-    cli_worker.start(cc)
-    netconf_worker.start(cc)
-    uniconfig_worker.start(cc)
-    common_worker.start(cc)
-    http_worker.start(cc)
-    platform_worker.start(cc)
-    lldp_worker.start(cc)
-    inventory_worker.start(cc)
-    unified_worker.start(cc)
-    psql_worker.start(cc)
+    cli_worker.start(conductor)
+    netconf_worker.start(conductor)
+    uniconfig_worker.start(conductor)
+    common_worker.start(conductor)
+    http_worker.start(conductor)
+    platform_worker.start(conductor)
+    lldp_worker.start(conductor)
+    inventory_worker.start(conductor)
+    unified_worker.start(conductor)
+    psql_worker.start(conductor)
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
     # vpls_service_worker.start(cc)
     # bi_service_worker.start(cc)
+
+
+def _import_workflows(workflows_dir: Path = WORKFLOWS_DIR) -> None:
+    from frinx_conductor_workers import import_workflows
+
+    import_workflows.import_workflows(workflows_dir)
+
+
+def _configure_healthcheck(file: Path = HEALTCHCHEK_FILE) -> None:
+    """
+    Creates a file at a specified path, it's later checked for existence.
+
+    This isn't a good solution and should be improved.
+
+    Args:
+        file: an absolute or a relative path to a file
+    """
+    if file.exists():
+        os.remove(file)
+
+    with file.open(mode="w"):
+        pass
+
+
+def main():
+    configure_logging()
+    logger = logging.getLogger(__name__)
+
+    conductor = FrinxConductorWrapper(
+        server_url=conductor_url_base,
+        headers=conductor_headers,
+        polling_interval=1,
+        max_thread_count=200
+    )
+
+    _register_workers(conductor)
+    logger.info("All workers are registered")
+
+    _import_workflows()
+    logger.info("All workflows are imported")
+
+    _import_devices()
+    logger.info("All devices are imported")
+
+    _configure_healthcheck()
+    logger.debug("Health check is configured")
+
+    logger.debug("Starting workers's threads (this blocks the main thread)")
+    conductor.start_workers()
 
 
 if __name__ == '__main__':

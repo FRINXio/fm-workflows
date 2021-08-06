@@ -423,22 +423,16 @@ def extract_network_instances(node):
 def start(cc):
     print('Starting bi service workers')
 
-    cc.register('bi_service_delete')
-    cc.start('bi_service_delete', device_delete_bi_instance, False)
+    cc.register('bi_service_delete', device_delete_bi_instance)
 
-    cc.register('bi_service_read_all')
-    cc.start('bi_service_read_all', service_read_all, False)
+    cc.register('bi_service_read_all', service_read_all)
 
     # Below are higher order workers (which actually implement a workflow)
 
-    cc.register('bi_service_commit')
-    cc.start('bi_service_commit', service_create_bi_commit, False)
+    cc.register('bi_service_commit', service_create_bi_commit)
 
-    cc.register('bi_service_dryrun')
-    cc.start('bi_service_dryrun', service_create_bi_dryrun, False)
+    cc.register('bi_service_dryrun', service_create_bi_dryrun)
 
-    cc.register('bi_service_delete_commit')
-    cc.start('bi_service_delete_commit', service_delete_bi_commit, False)
+    cc.register('bi_service_delete_commit', service_delete_bi_commit)
 
-    cc.register('bi_service_delete_dryrun')
-    cc.start('bi_service_delete_dryrun', service_delete_bi_dryrun, False)
+    cc.register('bi_service_delete_dryrun', service_delete_bi_dryrun)

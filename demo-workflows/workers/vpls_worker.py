@@ -157,11 +157,8 @@ def start(cc):
 
     # Single device level configuration
 
-    cc.register('VPLS_device_create')
-    cc.start('VPLS_device_create', device_create_vpls, False)
+    cc.register('VPLS_device_create', device_create_vpls)
 
-    cc.register('VPLS_device_delete')
-    cc.start('VPLS_device_delete', device_delete_vpls, False)
+    cc.register('VPLS_device_delete', device_delete_vpls)
 
-    cc.register('VPLS_device_read')
-    cc.start('VPLS_device_read', device_read_vpls, False)
+    cc.register('VPLS_device_read', device_read_vpls)

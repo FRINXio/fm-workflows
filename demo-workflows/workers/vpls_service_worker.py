@@ -409,39 +409,28 @@ def start(cc):
 
     # Service level configuration (spanning multiple devices)
 
-    cc.register('VPLS_service_create')
-    cc.start('VPLS_service_create', service_create_vpls_instance, False)
+    cc.register('VPLS_service_create', service_create_vpls_instance)
 
-    cc.register('VPLS_service_delete')
-    cc.start('VPLS_service_delete', service_delete_vpls_instance, False)
+    cc.register('VPLS_service_delete', service_delete_vpls_instance)
 
     # Batch reconciliation from per device info into service objects
 
-    cc.register('VPLS_service_read_all')
-    cc.start('VPLS_service_read_all', service_read_all, False)
+    cc.register('VPLS_service_read_all', service_read_all)
 
     # Below are higher order workers (which actually implement a workflow)
 
-    cc.register('VPLS_service_commit')
-    cc.start('VPLS_service_commit', service_create_vpls_commit, False)
+    cc.register('VPLS_service_commit', service_create_vpls_commit)
 
-    cc.register('VPLS_service_dryrun')
-    cc.start('VPLS_service_dryrun', service_create_vpls_dryrun, False)
+    cc.register('VPLS_service_dryrun', service_create_vpls_dryrun)
 
-    cc.register('VPLS_service_delete_commit')
-    cc.start('VPLS_service_delete_commit', service_delete_vpls_commit, False)
+    cc.register('VPLS_service_delete_commit', service_delete_vpls_commit)
 
-    cc.register('VPLS_service_delete_dryrun')
-    cc.start('VPLS_service_delete_dryrun', service_delete_vpls_dryrun, False)
+    cc.register('VPLS_service_delete_dryrun', service_delete_vpls_dryrun)
 
-    cc.register('VPLS_add_device_commit')
-    cc.start('VPLS_add_device_commit', device_add_to_vpls_commit, False)
+    cc.register('VPLS_add_device_commit', device_add_to_vpls_commit)
 
-    cc.register('VPLS_add_device_dryrun')
-    cc.start('VPLS_add_device_dryrun', device_add_to_vpls_dryrun, False)
+    cc.register('VPLS_add_device_dryrun', device_add_to_vpls_dryrun)
 
-    cc.register('VPLS_delete_device_commit')
-    cc.start('VPLS_delete_device_commit', device_delete_from_vpls_commit, False)
+    cc.register('VPLS_delete_device_commit', device_delete_from_vpls_commit)
 
-    cc.register('VPLS_delete_device_dryrun')
-    cc.start('VPLS_delete_device_dryrun', device_delete_from_vpls_dryrun, False)
+    cc.register('VPLS_delete_device_dryrun', device_delete_from_vpls_dryrun)
