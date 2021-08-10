@@ -1,15 +1,15 @@
 {
-  "name": "Unmount_netconf_device",
-  "description": "{\"description\": \"unmount a CLI device\", \"labels\": [\"BASICS\",\"NETCONF\"]}",
+  "name": "Uninstall_netconf_device",
+  "description": "{\"description\": \"Uninstall a Netconf device\", \"labels\": [\"BASICS\",\"NETCONF\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
-    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"string\"}}"
+    "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: netconf-testtool\",\"type\":\"string\"}}"
   ],
   "tasks": [
     {
       "name": "Netconf_unmount_netconf",
-      "taskReferenceName": "Netconf_unmount_netconf",
+      "taskReferenceName": "Netconf_uninstall_netconf",
       "type": "SIMPLE",
       "inputParameters": {
         "device_id": "${workflow.input.device_id}"

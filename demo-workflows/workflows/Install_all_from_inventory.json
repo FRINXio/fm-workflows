@@ -1,5 +1,5 @@
 {
-  "name": "Mount_all_from_inventory",
+  "name": "Install_all_from_inventory",
   "description": "{\"description\": \"mount and check all labeled devices from inventory\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
   "version": 1,
   "tasks": [

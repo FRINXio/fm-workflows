@@ -1,6 +1,6 @@
 {
-  "name": "Mount_from_inventory",
-  "description": "{\"description\": \"Get device from inventory and decide to mount cli or netconf\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
+  "name": "Install_from_inventory",
+  "description": "{\"description\": \"Get device from inventory and decide to install cli or netconf\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
   "version": 1,
   "inputParameters": [
     "{\"device_id\":{\"value\":\"\",\"description\":\"Unique device identifier. Example: IOS01\",\"type\":\"string\"}}"
@@ -27,8 +27,18 @@
       "decisionCases": {
         "cli": [
           {
+            "name": "CLI_check_cli_id_available",
+            "taskReferenceName": "cli_check_cli_id_available_ref_EC5E",
+            "inputParameters": {
+              "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
+            },
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
+          },
+          {
             "name": "CLI_mount_cli",
-            "taskReferenceName": "mount_cli_device_ref_6RXD",
+            "taskReferenceName": "install_cli_device_ref_6RXD",
             "inputParameters": {
               "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}",
               "type": "${get_device_from_inventory_ref_B1GP.output.response_body.device_type}",
@@ -38,6 +48,16 @@
               "port": "${get_device_from_inventory_ref_B1GP.output.response_body.port}",
               "username": "${get_device_from_inventory_ref_B1GP.output.response_body.username}",
               "password": "${get_device_from_inventory_ref_B1GP.output.response_body.password}"
+            },
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
+          },
+          {
+            "name": "CLI_check_cli_connected",
+            "taskReferenceName": "check_connection_cli_device_ref_AAR8",
+            "inputParameters": {
+              "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
             },
             "type": "SIMPLE",
             "optional": false,
@@ -57,8 +77,18 @@
           "decisionCases": {
             "netconf": [
               {
+                "name": "Netconf_check_netconf_id_available",
+                "taskReferenceName": "netconf_check_netconf_id_available_ref_0W02",
+                "inputParameters": {
+                  "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
+                },
+                "type": "SIMPLE",
+                "optional": false,
+                "startDelay": 0
+              },
+              {
                 "name": "Netconf_mount_netconf",
-                "taskReferenceName": "mount_netconf_device_ref_16F0",
+                "taskReferenceName": "install_netconf_device_ref_16F0",
                 "inputParameters": {
                   "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}",
                   "host": "${get_device_from_inventory_ref_B1GP.output.response_body.host}",
@@ -69,6 +99,16 @@
                   "password": "${get_device_from_inventory_ref_B1GP.output.response_body.password}",
                   "uniconfig-native": "${get_device_from_inventory_ref_B1GP.output.response_body.uniconfig-native}",
                   "blacklist": "${get_device_from_inventory_ref_B1GP.output.response_body.blacklist}"
+                },
+                "type": "SIMPLE",
+                "optional": false,
+                "startDelay": 0
+              },
+              {
+                "name": "Netconf_check_netconf_connected",
+                "taskReferenceName": "check_connection_netconf_device_ref_ABDV",
+                "inputParameters": {
+                  "device_id": "${get_device_from_inventory_ref_B1GP.output.response_body.id}"
                 },
                 "type": "SIMPLE",
                 "optional": false,
