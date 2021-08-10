@@ -1,6 +1,6 @@
 {
-  "name": "Mount_and_check_cli",
-  "description": "{\"description\": \"mount, check and leave device mounted\", \"labels\": [\"BASICS\",\"CLI\"]}",
+  "name": "Install_and_check_cli",
+  "description": "{\"description\": \"install, check and leave device installed\", \"labels\": [\"BASICS\",\"CLI\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [
@@ -19,6 +19,14 @@
         "port": "${workflow.input.port}",
         "username": "${workflow.input.username}",
         "password": "${workflow.input.password}"
+      },
+      "type": "SIMPLE"
+    },
+    {
+      "name": "CLI_check_cli_connected",
+      "taskReferenceName": "check_mounted",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}"
       },
       "type": "SIMPLE"
     }
