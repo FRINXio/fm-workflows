@@ -16,6 +16,9 @@ WORKDIR /home/topology/cli-testtool/topologies
 RUN pip install cryptography==2.1.4
 RUN pip install MockSSH==1.4.5
 RUN cat *.sh | grep python > sample-topology.sh \
+    ## Mock another one Classic IOS device 
+  && cat all.sh | grep IOS | sed 's\10000\10003\g' >> sample-topology.sh \
+  && sed -i 's\10002\10002 10003\g' /home/topology/healthcheck.sh \
   && printf "\nwait\n" >> sample-topology.sh \
   && chmod +x sample-topology.sh
 
