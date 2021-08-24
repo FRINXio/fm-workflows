@@ -1,6 +1,6 @@
 {
-  "name": "Mount_netconf_device",
-  "description": "{\"description\": \"mount a Netconf device\", \"labels\": [\"BASICS\",\"NETCONF\"]}",
+  "name": "Install_netconf_device",
+  "description": "{\"description\": \"install a Netconf device\", \"labels\": [\"BASICS\",\"NETCONF\"]}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "inputParameters": [

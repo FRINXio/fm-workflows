@@ -8,7 +8,7 @@
       "taskReferenceName": "read_inventory",
       "inputParameters": {
         "labels": "${workflow.input.labels}",
-        "task": "Mount_from_inventory",
+        "task": "Install_from_inventory",
         "optional": "${workflow.input.optional}"
       },
       "type": "SIMPLE",
