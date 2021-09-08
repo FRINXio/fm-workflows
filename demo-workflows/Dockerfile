@@ -10,7 +10,7 @@ COPY ./importDevices.py ./workers/importDevices.py
 
 ### Install application setup
 RUN pip3 install psycopg2 marshmallow-dataclass jinja2
-RUN pip3 install frinx-conductor-client frinx-conductor-workers
+RUN pip3 install frinx-conductor-client==1.0.3 frinx-conductor-workers==1.0.2
 
 ENV X_FROM=fm-workflows
 
