@@ -35,6 +35,11 @@ function argumentsCheck {
     done
 }
 
+function setManagerIpAddrEnv {
+  MANAGER_IP_ADDR=$(hostname -I | cut -d ' ' -f 1)
+  export MANAGER_IP_ADDR
+}
+
 # =======================================
 # Program starts here
 # =======================================
@@ -43,6 +48,7 @@ __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"
 
 argumentsCheck "$@"
+setManagerIpAddrEnv
 
 INFO='\033[0;96m[INFO]:\033[0;0m'
 docker stack deploy --compose-file composefiles/swarm-fm-workflows.yml $stackName
