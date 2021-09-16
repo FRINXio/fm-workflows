@@ -1,0 +1,33 @@
+{
+  "name": "Uninstall_device_by_id",
+  "description": "{\"description\": \"Uninstall device by ID\", \"labels\": [\"BASICS\",\"INVENTORY\",\"MAIN\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_uninstall_device_by_id",
+      "taskReferenceName": "INVENTORY_uninstall_device_by_idRefName_Txg0",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Uninstall_device_by_id:1"
+}

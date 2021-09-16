@@ -1,0 +1,41 @@
+{
+  "name": "Add_netconf_device_to_inventory",
+  "description": "{\"description\": \"Add netconf device to device inventory\", \"labels\": [\"BASICS\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_add_netconf_device",
+      "taskReferenceName": "INVENTORY_add_netconf_deviceRefName_wt5s",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "host": "${workflow.input.host}",
+        "port": "${workflow.input.port}",
+        "keepalive-delay": "${workflow.input.keepalive-delay}",
+        "tcp-only": "${workflow.input.tcp-only}",
+        "username": "${workflow.input.username}",
+        "password": "${workflow.input.password}",
+        "uniconfig-native": "${workflow.input.uniconfig-native}",
+        "blacklist": "${workflow.input.blacklist}",
+        "labels": "${workflow.input.labels}",
+        "uniconfig_zone": "${workflow.input.uniconfig_zone}",
+        "service_state": "${workflow.input.service_state}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": false,
+  "workflowStatusListenerEnabled": false,
+  "expectedScheduleName": "Add_netconf_device_to_inventory:1"
+}

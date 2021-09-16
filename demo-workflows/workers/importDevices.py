@@ -2,8 +2,46 @@
 
 from collections import namedtuple
 from sys import argv
-import subprocess
-import json
+from python_graphql_client import GraphqlClient
+
+# graphql client settings
+inventory_url = "http://inventory:8000/graphql"
+inventory_headers = {
+    "Accept-Encoding": "gzip, deflate, br",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Connection": "keep-alive",
+    "x-tenant-id": "frinx",
+    "DNT": "1"
+}
+
+client = GraphqlClient(endpoint=inventory_url, headers=inventory_headers)
+
+
+def execute(body, variables):
+    return client.execute(query=body, variables=variables)
+
+
+install_device_template = """ 
+mutation  AddDevice($input: AddDeviceInput!) {
+    addDevice(input: $input) {
+        device {
+            id
+            name
+            isInstalled
+        }
+    }
+} """
+
+create_label_template = """ 
+mutation CreateLabel($input: CreateLabelInput!) {
+  createLabel(input: $input){
+    label {
+      name
+      id
+    }
+  }
+} """
 
 
 def main():
@@ -12,20 +50,46 @@ def main():
 
     import_devices(DEVICE_DATA_CSV, DEVICE_DATA_JSON)
 
-def import_devices(DEVICE_DATA_CSV, DEVICE_DATA_JSON):
 
-    HOSTNAME = 'elasticsearch'
-    PORT = '9200'
-    PATH = 'inventory-device/device/{{device_id}}'
-    HOST = 'http://{}:{}/{}'.format(HOSTNAME, PORT, PATH)
+def get_zone_id(zone_name):
+    zone_id_device = "query { zones { edges { node {  id name } } } }"
+
+    body = execute(zone_id_device, '')
+    for node in body['data']['zones']['edges']:
+        if node['node']['name'] == zone_name:
+            return node['node']['id']
+
+
+def get_label_id(label_name):
+    zone_id_device = "query { labels { edges { node {  id name } } } }"
+
+    label_id = ''
+    body = execute(zone_id_device, '')
+    for node in body['data']['labels']['edges']:
+        if node['node']['name'] == label_name:
+            label_id = node['node']['id']
+
+    if label_id == '':
+        variables = {'input': {
+            "name": label_name
+        }}
+        response = execute(create_label_template, variables)
+        if response['data']['createLabel']['label']['name'] == label_name:
+            label_id = response['data']['createLabel']['label']['id']
+            return label_id
+    else:
+        return label_id
+
+
+def import_devices(device_data_csv, device_data_json):
 
     # definition of replacements in the DEVICE_DATA_JSON file
     json_replacements = {}
 
-    with open(DEVICE_DATA_JSON) as json_file:
+    with open(device_data_json) as json_file:
         device_import_json = json_file.read()
 
-    with open(DEVICE_DATA_CSV) as data_file:
+    with open(device_data_csv) as data_file:
         all_device_data = data_file.readlines()
 
     # set header and remove space characters from all elements
@@ -57,22 +121,25 @@ def import_devices(DEVICE_DATA_CSV, DEVICE_DATA_JSON):
         device_json = device_import_json
 
         # replace the relevant parts for each device to create a JSON file
-        # to send to elasticsearch
         for k in json_replacements.keys():
             val = json_replacements[k]
             device_json = device_json.replace(k, device_data[val])
 
-        # preparation for subprocess execution
-        device_json = json.loads(device_json)
-        host = HOST
-        host = host.replace('{{device_id}}', device_data['device_id'])
-        args = ['curl', '-X', 'PUT',
-                '-H', 'Content-Type: application/json',
-                '-d', '{}'.format(json.dumps(device_json)),
-                '{}'.format(host)
-                ]
+        variables = {'input': {
+            "mountParameters": device_json,
+            "zoneId": get_zone_id(device_data["zone_name"]),
+            "name": device_data["device_id"],
+            "serviceState": device_data["service_state"]
+        }}
 
-        subprocess.call(args)
+        if not device_data['labels'] == '':
+            label_id = get_label_id(device_data['labels'])
+            variables['input']['labelIds'] = label_id
+
+        print(variables)
+
+        response = execute(install_device_template, variables)
+        print(response)
 
 
 if __name__ == '__main__':

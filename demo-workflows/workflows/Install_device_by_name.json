@@ -1,0 +1,33 @@
+{
+  "name": "Install_device_by_name",
+  "description": "Install_device from device inventory by name",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_install_device_by_name",
+      "taskReferenceName": "INVENTORY_install_device_by_nameRefName_kQcE",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": false,
+  "workflowStatusListenerEnabled": false,
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Install_device_by_name:1"
+}

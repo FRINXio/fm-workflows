@@ -1,2 +1,2 @@
-device_id,port,keepalivedelay,tcponly,username,password,labels
-netconf-testtool,1783,100,false,admin,admin,NETCONF
+device_id,port,keepalivedelay,tcponly,username,password,zone_name,service_state,labels
+netconf-testtool,1783,100,false,admin,admin,uniconfig,IN_SERVICE,NETCONF
