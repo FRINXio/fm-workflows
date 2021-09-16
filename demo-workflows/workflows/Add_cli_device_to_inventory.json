@@ -1,0 +1,45 @@
+{
+  "name": "Add_cli_device_to_inventory",
+  "description": "{\"description\": \"Add cli device to device inventory\", \"labels\": [\"BASICS\",\"CLI\",\"INVENTORY\",\"MAIN\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_add_cli_device",
+      "taskReferenceName": "INVENTORY_add_cli_deviceRefName_4NkM",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "type": "${workflow.input.type}",
+        "version": "${workflow.input.version}",
+        "host": "${workflow.input.host}",
+        "protocol": "${workflow.input.protocol}",
+        "port": "${workflow.input.port}",
+        "username": "${workflow.input.username}",
+        "password": "${workflow.input.password}",
+        "journal-size": "${workflow.input.journal-size}",
+        "parsing-engine": "${workflow.input.parsing-engine}",
+        "labels": "${workflow.input.labels}",
+        "uniconfig_zone": "${workflow.input.uniconfig_zone}",
+        "service_state": "${workflow.input.service_state}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": false,
+  "workflowStatusListenerEnabled": false,
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Add_cli_device_to_inventory:1"
+}

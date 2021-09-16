@@ -1,20 +1,24 @@
 {
   "name": "Install_all_from_inventory",
-  "description": "{\"description\": \"mount and check all labeled devices from inventory\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
+  "description": "{\"description\": \"install and check all devices from inventory\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
   "version": 1,
   "tasks": [
     {
       "name": "INVENTORY_get_all_devices_as_dynamic_fork_tasks",
       "taskReferenceName": "read_inventory",
       "inputParameters": {
-        "labels": "${workflow.input.labels}",
-        "task": "Install_from_inventory",
-        "optional": "${workflow.input.optional}"
+        "task": "Install_from_inventory"
       },
       "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
       "startDelay": 0,
+      "joinOn": [],
       "optional": false,
-      "asyncComplete": false
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
     },
     {
       "name": "DYNAMIC_FORK",
@@ -26,22 +30,31 @@
         "dynamic_tasks_i": "${read_inventory.output.dynamic_tasks_i}"
       },
       "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
       "startDelay": 0,
       "subWorkflowParam": {
         "name": "Dynamic_fork",
         "version": 1
       },
+      "joinOn": [],
       "optional": false,
-      "asyncComplete": false
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
     }
   ],
   "inputParameters": [
-    "{\"labels\":{\"value\":\"\",\"description\":\"Enter one or multiple labels to select devices. Match type is ALL.\",\"type\":\"string\"},\"optional\":{\"value\": true,\"description\":\"If one of devices is already mounted, workflow will continue\",\"type\":\"toggle\", \"options\": [true,false]}}"
   ],
   "outputParameters": {
     "ids": "${mount.output.forkedTasks}"
   },
   "schemaVersion": 2,
   "restartable": true,
-  "workflowStatusListenerEnabled": true
+  "workflowStatusListenerEnabled": true,
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Install_all_from_inventory:1"
 }

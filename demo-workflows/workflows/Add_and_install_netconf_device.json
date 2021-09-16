@@ -1,0 +1,61 @@
+{
+  "name": "Add_and_install_netconf_device",
+  "description": "{\"description\": \"Add netconf device to device inventory and install\", \"labels\": [\"BASICS\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_add_netconf_device",
+      "taskReferenceName": "INVENTORY_add_netconf_deviceRefName_9fAr",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "host": "${workflow.input.host}",
+        "port": "${workflow.input.port}",
+        "keepalive-delay": "${workflow.input.keepalive-delay}",
+        "tcp-only": "${workflow.input.tcp-only}",
+        "username": "${workflow.input.username}",
+        "password": "${workflow.input.password}",
+        "uniconfig-native": "${workflow.input.uniconfig-native}",
+        "blacklist": "${workflow.input.blacklist}",
+        "labels": "${workflow.input.labels}",
+        "uniconfig_zone": "${workflow.input.uniconfig_zone}",
+        "service_state": "${workflow.input.service_state}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "INVENTORY_install_device_by_id",
+      "taskReferenceName": "INVENTORY_install_device_by_idRefName_JtUx",
+      "inputParameters": {
+        "device_id": "${INVENTORY_add_netconf_deviceRefName_9fAr..output.response_body.id}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Add_and_install_netconf_device:1"
+}

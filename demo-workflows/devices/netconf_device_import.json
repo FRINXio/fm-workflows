@@ -1,13 +1,24 @@
 {
-    "id": "{{device_id}}",
-    "host": "sample-topology",
-    "port": "{{port}}",
-    "keepalive-delay": "{{keepalivedelay}}",
-    "tcp-only": "{{tcponly}}",
-    "username": "{{username}}",
-    "password": "{{password}}",
-    "topology": "netconf",
-    "uniconfig-native": true,
-    "blacklist": "openconfig-interfaces:interfaces,ietf-interfaces:interfaces,openconfig-vlan:vlans,openconfig-routing-policy:routing-policy",
-    "labels" : ["{{labels}}"]
+    "netconf": {
+        "netconf-node-topology:host": "sample-topology",
+        "netconf-node-topology:port": "{{port}}",
+        "netconf-node-topology:keepalive-delay": "{{keepalivedelay}}",
+        "netconf-node-topology:max-connection-attempts": 1,
+        "netconf-node-topology:connection-timeout-millis": 60000,
+        "netconf-node-topology:default-request-timeout-millis": 60000,
+        "netconf-node-topology:tcp-only": "{{tcponly}}",
+        "netconf-node-topology:username": "{{username}}",
+        "netconf-node-topology:password": "{{password}}",
+        "netconf-node-topology:sleep-factor": 1,
+        "uniconfig-config:uniconfig-native-enabled": "true",
+        "netconf-node-topology:edit-config-test-option": "set",
+        "uniconfig-config:blacklist": {
+            "uniconfig-config:path": [
+                "openconfig-interfaces:interfaces",
+                "ietf-interfaces:interfaces",
+                "openconfig-vlan:vlans",
+                "openconfig-routing-policy:routing-policy"
+            ]
+        }
+    }
 }
