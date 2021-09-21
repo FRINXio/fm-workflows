@@ -12,7 +12,7 @@ x-logging: &logging_loki
 
 services: 
   sample-topology:
-    image: frinx/sample-topology:latest
+    image: frinx/sample-topology:1.7
     logging: *logging_loki
     environment:
       - JAVA_MAX_MEM=4G
@@ -30,7 +30,7 @@ services:
       replicas: 1
   
   demo-workflows:
-    image: frinx/demo-workflows:latest
+    image: frinx/demo-workflows:1.7
     logging: *logging_loki
     environment:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
