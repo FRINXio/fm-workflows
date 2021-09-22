@@ -1,5 +1,5 @@
 {
-  "updateTime": 1593520012704,
+
   "name": "Dynamic_fork",
   "description": "{\"description\": \"A dynamic fork + join task with input validation\", \"labels\": [\"BASICS\",\"UTILS\"]}",
   "version": 1,
@@ -18,35 +18,65 @@
       "startDelay": 0
     },
     {
-      "name": "dynamic_fork",
-      "taskReferenceName": "fork",
+      "name": "decisionTask",
+      "taskReferenceName": "decision",
       "inputParameters": {
-        "dynamic_tasks": "${lambdaValidator.output.result}",
-        "dynamic_tasks_i": "${workflow.input.dynamic_tasks_i}"
+        "result": "${lambdaValidator.output.result}"
       },
-      "type": "FORK_JOIN_DYNAMIC",
-      "dynamicForkTasksParam": "dynamic_tasks",
-      "dynamicForkTasksInputParamName": "dynamic_tasks_i",
-      "startDelay": 0,
-      "optional": false,
-      "asyncComplete": false
-    },
-    {
-      "name": "join",
-      "taskReferenceName": "join",
-      "type": "JOIN",
+      "type": "DECISION",
+      "caseValueParam": "result",
+      "decisionCases": {
+        "false": [
+          {
+            "name": "terminateTask",
+            "taskReferenceName": "terminate",
+            "inputParameters": {
+              "terminationStatus": "FAILED",
+              "workflowOutput": "Dynamic tasks don't contain expected name ${workflow.input.expectedName} or expected type ${workflow.input.expectedType}"
+            },
+            "type": "TERMINATE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          }
+        ]
+      },
+      "defaultCase": [
+        {
+          "name": "dynamic_fork",
+          "taskReferenceName": "fork",
+          "inputParameters": {
+            "dynamic_tasks": "${lambdaValidator.output.result}",
+            "dynamic_tasks_i": "${workflow.input.dynamic_tasks_i}"
+          },
+          "type": "FORK_JOIN_DYNAMIC",
+          "dynamicForkTasksParam": "dynamic_tasks",
+          "dynamicForkTasksInputParamName": "dynamic_tasks_i",
+          "startDelay": 0,
+          "optional": false,
+          "asyncComplete": false
+        },
+        {
+          "name": "join",
+          "taskReferenceName": "join",
+          "type": "JOIN",
+          "startDelay": 0,
+          "optional": false,
+          "asyncComplete": false
+        }
+      ],
       "startDelay": 0,
       "optional": false,
       "asyncComplete": false
     }
+  ],
+  "inputParameters": [
+    "{\"dynamic_tasks\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"expectedName\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"expectedType\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"dynamic_tasks_i\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
   ],
   "outputParameters": {
     "forkedTasks": "${fork.input.forkedTasks}"
   },
   "schemaVersion": 2,
   "restartable": true,
-  "workflowStatusListenerEnabled": false,
-  "inputParameters": [
-    "{\"dynamic_tasks\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"expectedName\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"expectedType\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"},\"dynamic_tasks_i\":{\"value\":\"\",\"description\":\"\",\"type\":\"string\"}}"
-  ]
+  "workflowStatusListenerEnabled": false
 }
