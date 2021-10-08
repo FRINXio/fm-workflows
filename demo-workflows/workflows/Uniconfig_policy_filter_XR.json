@@ -1,0 +1,147 @@
+{
+  "updateTime": 1632467666419,
+  "name": "Uniconfig_policy_filter_XR",
+  "description": "Workflow that returns interface name based on description that user provides. Chosen policy-map is then applied on that interface. Configured for IOS XR devices.",
+  "version": 1,
+ "inputParameters":[
+        "{\r\n    \"device_id\":{\r\n        \"value\":\"\",\r\n        \"description\":\"Name of the device\",\r\n        \"type\":\"string\"\r\n    },\r\n    \"Policy_map_name\":{\r\n        \"value\":\"\",\r\n        \"description\":\"Name of the policy-map you want to apply\",\r\n        \"type\":\"string\"\r\n    },\r\n    \"Description\":{\r\n        \"value\":\"\",\r\n        \"description\":\"Description of interface to filter\",\r\n        \"type\":\"string\"\r\n    }\r\n}"
+  ],
+  "tasks": [
+    {
+      "name": "UNICONFIG_sync_from_network",
+      "taskReferenceName": "UNICONFIG_sync_from_networkRefName_jCBO",
+      "inputParameters": {
+        "devices": "${workflow.input.device_id}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_replace_config_with_oper",
+      "taskReferenceName": "UNICONFIG_replace_config_with_operRefName_O4q7",
+      "inputParameters": {
+        "devices": "${workflow.input.device_id}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_read_structured_device_data",
+      "taskReferenceName": "UNICONFIG_read_structured_device_dataRefName_8xGO",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "uri": "${workflow.input.URI}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "jsonJQ_task",
+      "taskReferenceName": "jsonJQ_oOEn",
+      "inputParameters": {
+        "key": "${UNICONFIG_read_structured_device_dataRefName_8xGO.output.response_body}",
+        "queryExpression": ".key | .[\"frinx-uniconfig-topology:configuration\"][\"Cisco-IOS-XR-ifmgr-cfg:interface-configurations\"] . \"interface-configuration\" | select(. != null) | .[] | select(.description == \"${workflow.input.Description}\") | {interface: .\"interface-name\"}"
+      },
+      "type": "JSON_JQ_TRANSFORM",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_PdRu",
+      "inputParameters": {
+        "lambdaValue": "${jsonJQ_oOEn.output.result.interface}",
+        "scriptExpression": "{return(encodeURIComponent($.lambdaValue));}"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_write_structured_device_data",
+      "taskReferenceName": "UNICONFIG_write_structured_device_place_policy_map",
+      "inputParameters": {
+        "device_id": "${workflow.input.device_id}",
+        "uri": "/Cisco-IOS-XR-ifmgr-cfg:interface-configurations/interface-configuration=act,${lambda_PdRu.output.result}/Cisco-IOS-XR-qos-ma-cfg:qos/output/service-policy=${workflow.input.Policy_map_name}",
+        "template": "{\r\n    \"Cisco-IOS-XR-qos-ma-cfg:service-policy\": [\r\n      {\r\n        \"service-policy-name\": \"${workflow.input.Policy_map_name}\"\r\n      }\r\n    ]\r\n  }",
+        "params": "{}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_commit",
+      "taskReferenceName": "UNICONFIG_commitRefName_0MEk",
+      "inputParameters": {
+        "devices": "${workflow.input.device_id}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Uniconfig_write:1"
+}
