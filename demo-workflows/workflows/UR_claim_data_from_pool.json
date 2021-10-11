@@ -1,0 +1,122 @@
+{
+  "name": "UR_claim_data_from_pool",
+  "description": "{\"description\":\"Claim data from pool\",\"labels\":[\"UNIRESOURCE\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_QzEP",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx_test",
+            "from": "workflow",
+            "x-auth-user-groups": "OWNER"
+          },
+          "timeout": 3600,
+          "uri": "http://krakend:8080/api/uniresource",
+          "body": {
+            "query": "query SearchPools($pool_name: String!) {\n    SearchPoolsByTags(\n        tags: { matchesAny: [{matchesAll: [$pool_tag]}]}\n        ) {\n        id\n    }\n}",
+            "variables": {
+              "$pool_tag": "${workflow.input.pool_tag}"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_gOUI",
+      "inputParameters": {
+        "lambdaValue": "${graphql_QzEP.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_fpdX",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx_test",
+            "from": "workflow",
+            "x-auth-user-groups": "OWNER"
+          },
+          "timeout": 3600,
+          "uri": "http://krakend:8080/api/uniresource",
+          "body": {
+            "query": "mutation ClaimResource($root_pool_id: ID!, $pe_name: String!, $prefix_size: Int!) {\n    ClaimResource(\n        poolId: $root_pool_id,\n        description: $pe_name,\n        userInput: { desiredSize: $prefix_size })\n    {\n        id\n        Properties\n    }\n}",
+            "variables": {
+              "root_pool_id": "${lambda_gOUI.output.result.data.SearchPoolsByTags.0.id}",
+              "pe_name": "${workflow.input.pool_tag}",
+              "prefix_size": 256
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_bOUI",
+      "inputParameters": {
+        "lambdaValue": "${graphql_fpdX.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "UR_claim_data_from_pool:1"
+}
