@@ -118,5 +118,5 @@
   "timeoutSeconds": 0,
   "variables": {},
   "hasSchedule": false,
-  "expectedScheduleName": "Uniresource:1"
+  "expectedScheduleName": "UR_claim_data_from_pool:1"
 }
