@@ -1,13 +1,13 @@
 device_id,device_type,device_version,password,username,port,zone_name,service_state,labels
-IOS01,ios,15.4,cisco,cisco,10000,uniconfig,IN_SERVICE,CLASSIC
-IOS02,ios,15.4,cisco,cisco,10003,uniconfig,IN_SERVICE,CLASSIC
-XR01,ios xr,6.x,cisco,cisco,10001,uniconfig,IN_SERVICE,XR
-XR02,ios xr,6.x,cisco,cisco,10001,uniconfig,IN_SERVICE,XR
-VRP01,vrp,*,huawei,huawei,10002,uniconfig,IN_SERVICE,
-Leaf01,ios,15.4,cisco,cisco,11000,uniconfig,IN_SERVICE,
-Leaf02,ios,15.4,cisco,cisco,11001,uniconfig,IN_SERVICE,
-Leaf03,ios,15.4,cisco,cisco,11002,uniconfig,IN_SERVICE,
-Leaf04,ios,15.4,cisco,cisco,11003,uniconfig,IN_SERVICE,
-Leaf05,ios,15.4,cisco,cisco,11004,uniconfig,IN_SERVICE,
-Spine01,ios,15.4,cisco,cisco,12000,uniconfig,IN_SERVICE,
-Spine02,ios,15.4,cisco,cisco,12001,uniconfig,IN_SERVICE,
+IOS01,ios,15.4,cisco,cisco,10004,uniconfig,IN_SERVICE,CLI
+IOS02,ios,15.4,cisco,cisco,10005,uniconfig,IN_SERVICE,CLI
+XR01,ios xr,6.x,cisco,cisco,10006,uniconfig,IN_SERVICE,CLI
+XR02,ios xr,6.x,cisco,cisco,10007,uniconfig,IN_SERVICE,XR
+VRP01,vrp,*,huawei,huawei,10008,uniconfig,IN_SERVICE,CLI
+Leaf01,ios,15.4,cisco,cisco,10009,uniconfig,IN_SERVICE,CLI
+Leaf02,ios,15.4,cisco,cisco,100010,uniconfig,IN_SERVICE,CLI
+Leaf03,ios,15.4,cisco,cisco,100011,uniconfig,IN_SERVICE,CLI
+Leaf04,ios,15.4,cisco,cisco,10012,uniconfig,IN_SERVICE,CLI
+Leaf05,ios,15.4,cisco,cisco,10013,uniconfig,IN_SERVICE,CLI
+Spine01,ios,15.4,cisco,cisco,10014,uniconfig,IN_SERVICE,CLI
+Spine02,ios,15.4,cisco,cisco,10015,uniconfig,IN_SERVICE,CLI

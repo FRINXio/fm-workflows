@@ -10,3 +10,6 @@ INFO='\033[0;96m[INFO]:\033[0;0m'
 
 echo -e "${INFO} Pulling images"
 docker-compose --log-level ERROR -f composefiles/swarm-fm-workflows.yml pull
+# Build sample-topology image
+cd sample-topology
+./install.sh

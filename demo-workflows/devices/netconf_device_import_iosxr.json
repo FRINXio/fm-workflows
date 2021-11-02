@@ -13,7 +13,17 @@
         "uniconfig-config:uniconfig-native-enabled": "true",
         "netconf-node-topology:edit-config-test-option": "set",
         "uniconfig-config:blacklist": {
-          "uniconfig-config:path": []
+          "uniconfig-config:path": [
+            "openconfig-interfaces:interfaces",
+            "openconfig-lacp:lacp",
+            "ietf-interfaces:interfaces",
+            "openconfig-vlan:vlans",
+            "openconfig-routing-policy:routing-policy",
+            "openconfig-lldp:lldp",
+            "Cisco-IOS-XR-group-cfg:groups",
+            "openconfig-acl:acl",
+            "openconfig-network-instance:network-instances"
+          ]
         },
         "node-extension:reconcile": "false",
         "netconf-node-topology:schema-cache-directory": "{{schema}}",

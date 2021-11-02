@@ -41,7 +41,13 @@ def configure_logging(
 def _import_devices() -> None:
 
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
-    import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
+    # Sample topology 2 import devices
+    import_devices("../devices/cli_saos_device_data.csv",
+                   "../devices/cli_saos_device_import.json")
+    import_devices("../devices/netconf_device_data_iosxr.csv",
+                   "../devices/netconf_device_import_iosxr.json")
+    import_devices("../devices/netconf_device_data.csv",
+                   "../devices/netconf_device_import.json")
 
 
 def _register_workers(conductor) -> None:
@@ -57,6 +63,8 @@ def _register_workers(conductor) -> None:
     import platform_worker
     import unified_worker
     import psql_worker
+    import device_worker
+    import lldp_identification_worker
     # import vll_worker
     # import vll_service_worker
     # import vpls_worker
@@ -73,6 +81,9 @@ def _register_workers(conductor) -> None:
     inventory_worker.start(conductor)
     unified_worker.start(conductor)
     psql_worker.start(conductor)
+    device_worker.start(conductor)
+    lldp_identification_worker.start(conductor)
+
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)

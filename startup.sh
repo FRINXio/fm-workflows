@@ -1,3 +1,4 @@
+#!/bin/bash
 
 function show_help() {
 cat << EOF
@@ -5,15 +6,22 @@ DESCRIPTION:
 
   USAGE: ./${__SCRIPT_NAME} [OPTIONS]
   
-  Add fm-workflows services 'sample-topology', 'demo-workflows' to Frinx Machine swarm stack.
+  Add fm-workflows services 'demo-workflows' and default 'sample-topology' with CLI devices to FM swarm stack.
 
   COMMON SETTINGS
 
    -h|--help    Print this help and exit
    -d|--debug   Enable verbose
 
+   SAMPLE-TOPOLOGY Parameters:
+   -ad|--all-devices   Run CLI and netconf devices
+   -nd|--only-netconf-devices   Run only netconf devices
+
+
 EOF
 }
+
+sample_topology_parameter=""
 
 function argumentsCheck {
     while [ $# -gt 0 ]
@@ -26,7 +34,13 @@ function argumentsCheck {
         -d|--debug) 
             set -x;;
 
-        *) 
+        -ad|--all-devices)
+            sample_topology_parameter+=" --all";;
+
+        -nd|--only-netconf-devices)
+            sample_topology_parameter+=" --only-netconf";;
+
+        *)
             echo "Unknow option: ${1}"
             show_help
             exit 1;;
@@ -40,19 +54,31 @@ function setManagerIpAddrEnv {
   export MANAGER_IP_ADDR
 }
 
+argumentsCheck "$@"
+setManagerIpAddrEnv
+
 # =======================================
 # Program starts here
 # =======================================
 
+echo -e "Pulling submodules..."
+git submodule update --init --recursive
+# Update yang-schema submodule
+(cd yang-schemas && git pull origin main && git checkout main)
+
+echo -e "Copying specific pulled schemas into schema folder..."
+cp -r yang-schemas/cisco-iosxr-653 sample-topology/schemas
+cp -r yang-schemas/cisco-iosxr-663 sample-topology/schemas
+cp -r yang-schemas/junos-16-2021 sample-topology/schemas
+
 __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"
 
-argumentsCheck "$@"
-setManagerIpAddrEnv
 
 INFO='\033[0;96m[INFO]:\033[0;0m'
 docker stack deploy --compose-file composefiles/swarm-fm-workflows.yml $stackName
-
+# Start sample topology 2
+(cd sample-topology && ./start_sample_topology.sh$sample_topology_parameter)
 
 echo -e "${INFO} Startup finished"
 echo -e "================================================================================"

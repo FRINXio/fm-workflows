@@ -1,42 +1,26 @@
-FROM python:2.7-stretch
+FROM python:2.7-alpine
 
-# Install dependencies
-RUN apt-get update -y && apt-get install -y expect
+# Install dependencies for cryptography
+RUN apk add gcc musl-dev python-dev libffi-dev openssl-dev cargo
 
-WORKDIR /home/topology
- 
-COPY ./healthcheck.sh  ./healthcheck.sh
-RUN chmod +x healthcheck.sh
-COPY ./cli-testtool ./cli-testtool
-COPY ./sample-topology-wrapper.sh .
+RUN pip install --no-cache-dir cryptography==2.1.4
+RUN pip install --no-cache-dir MockSSH==1.4.5
 
+RUN apk add --no-cache --upgrade bash
+RUN apk add --update openssh
+RUN apk add --update iptables
+RUN apk add openjdk11
 
-WORKDIR /home/topology/cli-testtool/topologies
+# Install dependencies for ncclient
+RUN apk add --no-cache --virtual .build-deps gcc libc-dev libxslt-dev && \
+    apk add --no-cache libxslt
 
-RUN pip install cryptography==2.1.4
-RUN pip install MockSSH==1.4.5
-RUN cat *.sh | grep python > sample-topology.sh \
-    ## Mock another one Classic IOS device 
-  && cat all.sh | grep IOS | sed 's\10000\10003\g' >> sample-topology.sh \
-  && sed -i 's\10002\10002 10003\g' /home/topology/healthcheck.sh \
-  && printf "\nwait\n" >> sample-topology.sh \
-  && chmod +x sample-topology.sh
+RUN pip install ncclient
+RUN pip install pathlib
 
+RUN apk add ulogd
 
-## Install java
-RUN apt-get update -y && apt-get install -y default-jre
+WORKDIR /sample-topology
+COPY ./ ./
 
-## Change workdir
-RUN mkdir -p /home/topology/netconf-testtool/schemas
-
-## Get testtool jar
-ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_8_rc2-frinxodl-executable.jar /home/topology/netconf-testtool
-
-## copy schemas
-COPY ./netconf-testtol /home/topology/netconf-testtool/
-##
-
-
-ENTRYPOINT ["/bin/bash"]
-# the wrapper contains "password-setup.sh" and "sample-topology.sh"
-CMD ["/home/topology/sample-topology-wrapper.sh"]
+ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_9_rc1-frinxodl-executable.jar /./netconf-testtool/

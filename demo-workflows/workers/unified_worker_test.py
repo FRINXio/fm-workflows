@@ -3,7 +3,7 @@ from unittest.mock import patch
 import unittest
 
 import unified_worker
-from frinx_rest import uniconfig_url_base
+from frinx_conductor_workers.frinx_rest import uniconfig_url_base
 
 
 class MockResponse:

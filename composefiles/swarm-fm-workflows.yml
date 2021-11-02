@@ -12,25 +12,7 @@ x-logging: &logging_loki
         - action: labelmap
           regex: swarm_(service)
 
-services: 
-  sample-topology:
-    image: frinx/sample-topology:latest
-    logging: *logging_loki
-    environment:
-      - JAVA_MAX_MEM=4G
-    healthcheck:
-      test: /home/topology/healthcheck.sh
-      interval: 1m30s
-      timeout: 10s
-      retries: 5
-      start_period: 40s
-    deploy:
-      # placement:
-      #   constraints:
-      #     - node.hostname == ${CONSTRAINT_HOSTNAME}
-      mode: replicated
-      replicas: 1
-  
+services:
   demo-workflows:
     image: frinx/demo-workflows:latest
     logging: *logging_loki

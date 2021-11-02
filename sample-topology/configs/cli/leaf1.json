@@ -1,0 +1,37 @@
+{
+    "show running-config": "Building configuration...\n\nCurrent configuration : 1678 bytes\n!\n! Last configuration change at 17:49:11 UTC Mon Jun 18 2018 by cisco\n!\nversion 15.4\nservice timestamps debug datetime msec\nservice timestamps log datetime msec\nno platform punt-keepalive disable-kernel-core\nplatform console auto\n!\nhostname XE4\n!\nboot-start-marker\nboot-end-marker\n!\n!\nenable password cisco\n!\nno aaa new-model\n!\nip vrf ab\n rd 22:1\n!\n!\n!\n!\n!\n!\n!\n!\n!\n\n\nno ip domain lookup\nip domain name FRINX.LOCAL\n\n!\n!\n!\nipv6 unicast-routing\n!\n!\n!\n!\n!\n!\n!\nsubscriber templating\n!\nmultilink bundle-name authenticated\n!\n!\n!\nlicense udi pid CSR1000V sn 9KGPDCSYOMI\nspanning-tree extend system-id\n!\nusername cisco password 0 cisco\n!\nredundancy\n mode none\nbridge-domain 1 \n!\n!\n!\n!\n!\nlldp run\ncdp run   \n!\nip ssh version 2\n!\npolicy-map {{qos_policy_name1}}\n!\nl2 vfi 1 autodiscovery \n vpn id 44\n bridge-domain 1\n!\n! \n!\n!\n!\n!\n!\n!\n!\n!\n!\n!\n!\n!\n! \n! \n!\ninterface Loopback0\n no ip address\n!\ninterface Loopback1\n no ip address\n!\ninterface Loopback44\n no ip address\n!         \ninterface GigabitEthernet1\n ip address 192.168.1.254 255.255.255.0\n negotiation auto\n cdp enable\n source template type  tx\n!\ninterface GigabitEthernet2\n description null\n no ip address\n negotiation auto\n ipv6 address FE80::5 link-local\n ipv6 address 2::2/111\n ipv6 address 3::2/21\n no keepalive\n cdp enable\n source template type  tx\n!\ninterface GigabitEthernet3\n description foo\n no ip address\n negotiation auto\n source template type  tx\n!\nrouter ospf 1\n!\nrouter isis avas\n!\n!\nvirtual-service csr_mgmt\n!\nip forward-protocol nd\n!\nno ip http server\nno ip http secure-server\n!\n!\n!\n!\ncontrol-plane\n!\n!\nline con 0\n stopbits 1\nline vty 0 4\n session-timeout 35791 \n exec-timeout 35791 0\n login local\n transport input ssh\n!\n!\nend\n\n",
+    "show lldp interface": "Ethernet0/0:\n    Tx: enabled\n    Rx: enabled\n    Tx state: IDLE\n    Rx state: WAIT FOR FRAME\n\nEthernet1/0:\n    Tx: enabled\n    Rx: enabled\n    Tx state: IDLE\n    Rx state: WAIT FOR FRAME\n\nEthernet1/3:\n    Tx: enabled\n    Rx: enabled\n    Tx state: IDLE\n    Rx state: WAIT FOR FRAME",
+    "show lldp neighbors Ethernet0/0 detail": "------------------------------------------------\nChassis id: aabb.cc00.0200\nPort id: Et1/0\nPort Description: Ethernet1/0\nSystem Name: Spine01.frinx.io\n\nSystem Description: \nCisco IOS Software, Linux Software (I86BI_LINUX-ADVENTERPRISEK9-M), Version 15.4(1)T, DEVELOPMENT TEST SOFTWARE\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2013 by Cisco Systems, Inc.\nCompiled Sat 23-Nov-13 03:28 by prod_rel_tea\n\nTime remaining: 109 seconds\nSystem Capabilities: B,R\nEnabled Capabilities: R\nManagement Addresses:\n    IP: 10.0.0.1\nAuto Negotiation - not supported\nPhysical media capabilities - not advertised\nMedia Attachment Unit type - not advertised\nVlan ID: - not advertised",
+    "show lldp neighbors Ethernet1/0 detail": "------------------------------------------------\nChassis id: aabb.cc00.0400\nPort id: Et1/0\nPort Description: Ethernet1/0\nSystem Name: Spine02.frinx.io\n\nSystem Description: \nCisco IOS Software, Linux Software (I86BI_LINUX-ADVENTERPRISEK9-M), Version 15.4(1)T, DEVELOPMENT TEST SOFTWARE\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2013 by Cisco Systems, Inc.\nCompiled Sat 23-Nov-13 03:28 by prod_rel_tea\n\nTime remaining: 101 seconds\nSystem Capabilities: B,R\nEnabled Capabilities: R\nManagement Addresses:\n    IP: 10.0.1.1\nAuto Negotiation - not supported\nPhysical media capabilities - not advertised\nMedia Attachment Unit type - not advertised\nVlan ID: - not advertised\n",
+    "show lldp neighbors Ethernet1/3 detail": "------------------------------------------------\nChassis id: aabb.cc00.0600\nPort id: Et1/3\nPort Description: Ethernet1/3\nSystem Name: Leaf03.frinx.io\n\nSystem Description: \nCisco IOS Software, Linux Software (I86BI_LINUX-ADVENTERPRISEK9-M), Version 15.4(1)T, DEVELOPMENT TEST SOFTWARE\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2013 by Cisco Systems, Inc.\nCompiled Sat 23-Nov-13 03:28 by prod_rel_tea\n\nTime remaining: 119 seconds\nSystem Capabilities: B,R\nEnabled Capabilities: R\nManagement Addresses:\n    IP: 192.168.1.213\nAuto Negotiation - not supported\nPhysical media capabilities - not advertised\nMedia Attachment Unit type - not advertised\nVlan ID: - not advertised\n\n------------------------------------------------\nChassis id: aabb.cc00.0700\nPort id: Et1/3\nPort Description: Ethernet1/3\nSystem Name: Leaf05.frinx.io\n\nSystem Description: \nCisco IOS Software, Linux Software (I86BI_LINUX-ADVENTERPRISEK9-M), Version 15.4(1)T, DEVELOPMENT TEST SOFTWARE\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2013 by Cisco Systems, Inc.\nCompiled Sat 23-Nov-13 03:28 by prod_rel_tea\n\nTime remaining: 90 seconds\nSystem Capabilities: B,R\nEnabled Capabilities: R\nManagement Addresses:\n    IP: 192.168.1.215\nAuto Negotiation - not supported\nPhysical media capabilities - not advertised\nMedia Attachment Unit type - not advertised\nVlan ID: - not advertised\n\n------------------------------------------------\nChassis id: aabb.cc00.0300\nPort id: Et1/3\nPort Description: Ethernet1/3\nSystem Name: Leaf04.frinx.io\n\nSystem Description: \nCisco IOS Software, Linux Software (I86BI_LINUX-ADVENTERPRISEK9-M), Version 15.4(1)T, DEVELOPMENT TEST SOFTWARE\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2013 by Cisco Systems, Inc.\nCompiled Sat 23-Nov-13 03:28 by prod_rel_tea\n\nTime remaining: 104 seconds\nSystem Capabilities: B,R\nEnabled Capabilities: R\nManagement Addresses:\n    IP: 192.168.1.214\nAuto Negotiation - not supported\nPhysical media capabilities - not advertised\nMedia Attachment Unit type - not advertised\nVlan ID: - not advertised\n\n------------------------------------------------\nChassis id: aabb.cc00.0100\nPort id: Et1/3\nPort Description: Ethernet1/3\nSystem Name: Leaf02.frinx.io\n\nSystem Description: \nCisco IOS Software, Linux Software (I86BI_LINUX-ADVENTERPRISEK9-M), Version 15.4(1)T, DEVELOPMENT TEST SOFTWARE\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2013 by Cisco Systems, Inc.\nCompiled Sat 23-Nov-13 03:28 by prod_rel_tea\n\nTime remaining: 92 seconds\nSystem Capabilities: B,R\nEnabled Capabilities: R\nManagement Addresses:\n    IP: 192.168.1.212\nAuto Negotiation - not supported\nPhysical media capabilities - not advertised\nMedia Attachment Unit type - not advertised\nVlan ID: - not advertised\n",
+    
+    "show running-config | include ^hostname|^ip domain name": "hostname Leaf01\ndomain name frinx.io",
+    "show history all | include Configured from": "",
+    
+    "setting_default_prompt": "Leaf1>",
+    "setting_default_user": "cisco",
+    "setting_default_passwd": "cisco",
+    "setting_cmd_delay": 0,
+
+
+    "terminal length 0": "OK",
+    "terminal width 0": "OK",
+    "enable": {
+    	"name": "enable",
+    	"prompt": "Password:",
+    	"password": "cisco",
+    	"newprompt": "Leaf1#",
+    	"error_message": "Illegal password"
+    },
+
+    "conf": {
+    	"name": "conf",
+    	"newprompt": "Leaf1(conf)#"
+    },
+
+    "end": {
+    	"name": "end",
+    	"newprompt": "Leaf1#"
+    }
+
+}
