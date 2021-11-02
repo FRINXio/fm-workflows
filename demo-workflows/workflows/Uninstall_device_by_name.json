@@ -7,7 +7,7 @@
       "name": "INVENTORY_uninstall_device_by_name",
       "taskReferenceName": "INVENTORY_uninstall_device_by_nameRefName_0uAx",
       "inputParameters": {
-        "device_id": "${workflow.input.device_id}"
+        "device_name": "${workflow.input.device_name}"
       },
       "type": "SIMPLE",
       "decisionCases": {},

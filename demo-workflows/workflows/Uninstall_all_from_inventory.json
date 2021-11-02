@@ -1,6 +1,6 @@
 {
-  "updateTime": 1636637902354,
-  "name": "Install_all_from_inventory",
+  "updateTime": 1636644164366,
+  "name": "Uninstall_all_from_inventory",
   "description": "",
   "version": 1,
   "tasks": [
@@ -59,7 +59,7 @@
           "name": "INVENTORY_get_pages_cursors_fork_tasks",
           "taskReferenceName": "read_inventory",
           "inputParameters": {
-            "task": "Install_from_inventory_batch",
+            "task": "Uninstall_from_inventory_batch",
             "page_ids": "${lambda_rMMU.output.result}"
           },
           "type": "SIMPLE",
@@ -116,10 +116,10 @@
   "schemaVersion": 2,
   "restartable": true,
   "workflowStatusListenerEnabled": false,
-  "ownerEmail": "fm-workflows",
+  "ownerEmail": "admin-user",
   "timeoutPolicy": "ALERT_ONLY",
   "timeoutSeconds": 0,
   "variables": {},
   "hasSchedule": false,
-  "expectedScheduleName": "Install_all_from_inventory:1"
+  "expectedScheduleName": "Uninstall_all_from_inventory:1"
 }

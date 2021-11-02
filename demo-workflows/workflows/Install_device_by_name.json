@@ -1,13 +1,13 @@
 {
   "name": "Install_device_by_name",
-  "description": "Install_device from device inventory by name",
+  "description": "{\"description\": \"Install device from device inventory by device name\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
   "version": 1,
   "tasks": [
     {
       "name": "INVENTORY_install_device_by_name",
       "taskReferenceName": "INVENTORY_install_device_by_nameRefName_kQcE",
       "inputParameters": {
-        "device_id": "${workflow.input.device_id}"
+        "device_name": "${workflow.input.device_name}"
       },
       "type": "SIMPLE",
       "decisionCases": {},

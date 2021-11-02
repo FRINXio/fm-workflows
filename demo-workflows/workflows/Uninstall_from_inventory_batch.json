@@ -1,0 +1,37 @@
+{
+  "updateTime": 1636644071427,
+  "name": "Uninstall_from_inventory_batch",
+  "description": "{\"description\": \"Uninstall devices from inventory in batch\", \"labels\": [\"BASICS\",\"CLI\",\"NETCONF\",\"INVENTORY\",\"MAIN\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_uninstall_in_batch",
+      "taskReferenceName": "INVENTORY_uninstall_in_batchRefName_jPeY",
+      "inputParameters": {
+        "page_id": "${workflow.input.page_id}",
+        "page_size": "${workflow.input.page_size}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Uninstall_from_inventory_batch:1"
+}

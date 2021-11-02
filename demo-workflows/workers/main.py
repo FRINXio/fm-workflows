@@ -85,7 +85,6 @@ def _register_workers(conductor) -> None:
     psql_worker.start(conductor)
     device_worker.start(conductor)
     lldp_identification_worker.start(conductor)
-
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
