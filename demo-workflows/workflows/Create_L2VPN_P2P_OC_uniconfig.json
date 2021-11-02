@@ -1,23 +1,72 @@
 {
+  "updateTime": 1636538576189,
   "name": "Create_L2VPN_P2P_OC_uniconfig",
   "description": "{\"description\": \"Create P2P L2VPN in uniconfig\", \"labels\": [\"DEMO\",\"L2VPN\",\"UNICONFIG\",\"OPENCONFIG\"]}",
   "version": 2,
+  "failureWorkflow": "UC_TX_rollback",
+  "inputParameters": [
+    "{\"node01\":{\"value\":\"IOS01\",\"description\":\"First node of P2P connection\",\"type\":\"string\"},\"node02\":{\"value\":\"IOS02\",\"description\":\"Second node of P2P connection\",\"type\":\"string\"},\"interface01\":{\"value\":\"GigabitEthernet1\",\"description\":\"Customer facing service interface on first node\",\"type\":\"string\"},\"vcid\":{\"value\":\"444\",\"description\":\"Virtual Circuit Identifier (globally unique)\",\"type\":\"string\"},\"interface02\":{\"value\":\"GigabitEthernet3\",\"description\":\"Customer facing service interface on second node\",\"type\":\"string\"}}"
+  ],
+  "outputParameters": {
+    "response_body": "Journal for ${workflow.input.node01}:  ${read_journal_cli_device_ref_LJUO.output.journal} --------  Journal for ${workflow.input.node02}:  ${read_journal_cli_device_ref_CDGP.output.journal}"
+  },
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "fm-workflows",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
   "tasks": [
+    {
+      "name": "UC_TX_start",
+      "taskReferenceName": "tx_start_1",
+      "type": "SUB_WORKFLOW",
+      "inputParameters": {
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
+      },
+      "subWorkflowParam": {
+        "name": "UC_TX_start",
+        "version": 1
+      }
+    },
     {
       "name": "UNICONFIG_sync_from_network",
       "taskReferenceName": "uniconfig_sync_from_network_ref_LYVS",
       "inputParameters": {
-        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}",
+        "uniconfig_context": "${tx_start_1.output.uniconfig_context}"
       },
-      "type": "SIMPLE"
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
     },
     {
       "name": "UNICONFIG_replace_config_with_oper",
       "taskReferenceName": "uniconfig_replace_config_with_oper_ref_JTJ4",
       "inputParameters": {
-        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}",
+        "uniconfig_context": "${tx_start_1.output.uniconfig_context}"
       },
-      "type": "SIMPLE"
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
     },
     {
       "name": "UNICONFIG_write_structured_device_data",
@@ -29,11 +78,20 @@
         "VCID": "${workflow.input.vcid}",
         "uri": "/frinx-openconfig-network-instance:network-instances/network-instance=conn1233",
         "template": "{\r\n      \"frinx-openconfig-network-instance:network-instance\": [\r\n        {\r\n          \"name\": \"conn1233\",\r\n          \"config\": {\r\n            \"name\": \"conn1233\",\r\n            \"type\": \"frinx-openconfig-network-instance-types:L2P2P\"\r\n          },\r\n          \"connection-points\": {\r\n            \"connection-point\": [\r\n              {\r\n                \"connection-point-id\": \"1\",\r\n                \"config\": {\r\n                  \"connection-point-id\": \"1\"\r\n                },\r\n                \"endpoints\": {\r\n                  \"endpoint\": [\r\n                    {\r\n                      \"endpoint-id\": \"default\",\r\n                      \"config\": {\r\n                        \"endpoint-id\": \"default\",\r\n                        \"precedence\": 0,\r\n                        \"type\": \"frinx-openconfig-network-instance-types:LOCAL\"\r\n                      },\r\n                      \"local\": {\r\n                        \"config\": {\r\n                          \"interface\": \"${workflow.input.interface01}\"\r\n                        }\r\n                      }\r\n                    }\r\n                  ]\r\n                }\r\n              },\r\n              {\r\n                \"connection-point-id\": \"2\",\r\n                \"config\": {\r\n                  \"connection-point-id\": \"2\"\r\n                },\r\n                \"endpoints\": {\r\n                  \"endpoint\": [\r\n                    {\r\n                      \"endpoint-id\": \"default\",\r\n                      \"config\": {\r\n                        \"endpoint-id\": \"default\",\r\n                        \"precedence\": 0,\r\n                        \"type\": \"frinx-openconfig-network-instance-types:REMOTE\"\r\n                      },\r\n                      \"remote\": {\r\n                        \"config\": {\r\n                          \"remote-system\": \"10.2.2.2\",\r\n                          \"virtual-circuit-identifier\": ${workflow.input.vcid}\r\n                        }\r\n                      }\r\n                    }\r\n                  ]\r\n                }\r\n              }\r\n            ]\r\n          }\r\n        }\r\n      ]\r\n    \r\n  }",
-        "params": "{}"
+        "params": "{}",
+        "uniconfig_context": "${tx_start_1.output.uniconfig_context}"
       },
       "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
       "startDelay": 0,
-      "optional": false
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
     },
     {
       "name": "UNICONFIG_write_structured_device_data",
@@ -44,19 +102,39 @@
         "interface02": "${workflow.input.interface02}",
         "uri": "/frinx-openconfig-network-instance:network-instances/network-instance=conn1233",
         "template": "{\r\n      \"frinx-openconfig-network-instance:network-instance\": [\r\n        {\r\n          \"name\": \"conn1233\",\r\n          \"config\": {\r\n            \"name\": \"conn1233\",\r\n            \"type\": \"frinx-openconfig-network-instance-types:L2P2P\"\r\n          },\r\n          \"connection-points\": {\r\n            \"connection-point\": [\r\n              {\r\n                \"connection-point-id\": \"1\",\r\n                \"config\": {\r\n                  \"connection-point-id\": \"1\"\r\n                },\r\n                \"endpoints\": {\r\n                  \"endpoint\": [\r\n                    {\r\n                      \"endpoint-id\": \"default\",\r\n                      \"config\": {\r\n                        \"endpoint-id\": \"default\",\r\n                        \"precedence\": 0,\r\n                        \"type\": \"frinx-openconfig-network-instance-types:LOCAL\"\r\n                      },\r\n                      \"local\": {\r\n                        \"config\": {\r\n                          \"interface\": \"${workflow.input.interface02}\"\r\n                        }\r\n                      }\r\n                    }\r\n                  ]\r\n                }\r\n              },\r\n              {\r\n                \"connection-point-id\": \"2\",\r\n                \"config\": {\r\n                  \"connection-point-id\": \"2\"\r\n                },\r\n                \"endpoints\": {\r\n                  \"endpoint\": [\r\n                    {\r\n                      \"endpoint-id\": \"default\",\r\n                      \"config\": {\r\n                        \"endpoint-id\": \"default\",\r\n                        \"precedence\": 0,\r\n                        \"type\": \"frinx-openconfig-network-instance-types:REMOTE\"\r\n                      },\r\n                      \"remote\": {\r\n                        \"config\": {\r\n                          \"remote-system\": \"10.1.1.1\",\r\n                          \"virtual-circuit-identifier\": ${workflow.input.vcid}\r\n                        }\r\n                      }\r\n                    }\r\n                  ]\r\n                }\r\n              }\r\n            ]\r\n          }\r\n        }\r\n      ]\r\n    \r\n  }",
-        "params": "{}"
+        "params": "{}",
+        "uniconfig_context": "${tx_start_1.output.uniconfig_context}"
       },
       "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
       "startDelay": 0,
-      "optional": false
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
     },
     {
       "name": "UNICONFIG_commit",
       "taskReferenceName": "uniconfig_commit_ref_RXFF",
       "inputParameters": {
-        "devices": "${workflow.input.node01}, ${workflow.input.node02}"
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}",
+        "uniconfig_context": "${tx_start_1.output.uniconfig_context}"
       },
-      "type": "SIMPLE"
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
     },
     {
       "name": "decisionTask",
@@ -76,11 +154,20 @@
               "message_text": "Configuration attempt succeeded!"
             },
             "type": "SUB_WORKFLOW",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
             "subWorkflowParam": {
               "name": "Post_to_Slack",
               "version": 1
             },
-            "optional": false
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": [],
+            "label": "sub workflow"
           }
         ]
       },
@@ -93,41 +180,90 @@
             "message_text": "Configuration attempt failed"
           },
           "type": "SUB_WORKFLOW",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
           "subWorkflowParam": {
             "name": "Post_to_Slack",
             "version": 1
           },
+          "joinOn": [],
           "optional": false,
-          "startDelay": 0
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": [],
+          "label": "sub workflow"
         }
       ],
+      "forkTasks": [],
       "startDelay": 0,
-      "optional": false
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "decision"
+    },
+
+     {
+      "name": "UC_TX_start",
+      "taskReferenceName": "tx_start_2",
+      "type": "SUB_WORKFLOW",
+      "subWorkflowParam": {
+        "name": "UC_TX_start",
+        "version": 1
+      }
     },
     {
       "name": "CLI_get_cli_journal",
       "taskReferenceName": "read_journal_cli_device_ref_LJUO",
-      "type": "SIMPLE",
       "inputParameters": {
-        "device_id": "${workflow.input.node01}"
-      }
+        "device_id": "${workflow.input.node01}",
+        "uniconfig_context": "${tx_start_2.output.uniconfig_context}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
     },
     {
       "name": "CLI_get_cli_journal",
       "taskReferenceName": "read_journal_cli_device_ref_CDGP",
-      "type": "SIMPLE",
       "inputParameters": {
-        "device_id": "${workflow.input.node02}"
+        "device_id": "${workflow.input.node02}",
+        "uniconfig_context": "${tx_start_2.output.uniconfig_context}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
+    },
+    {
+      "name": "sub_workflow_task",
+      "taskReferenceName": "tx_close",
+      "type": "SUB_WORKFLOW",
+      "inputParameters": {
+        "uniconfig_context": "${tx_start_2.output.uniconfig_context}"
+      },
+      "subWorkflowParam": {
+        "name": "UC_TX_close",
+        "version": 1
       }
     }
-  ],
-  "inputParameters": [
-    "{\"node01\":{\"value\":\"IOS01\",\"description\":\"First node of P2P connection\",\"type\":\"string\"},\"node02\":{\"value\":\"IOS02\",\"description\":\"Second node of P2P connection\",\"type\":\"string\"},\"interface01\":{\"value\":\"GigabitEthernet1\",\"description\":\"Customer facing service interface on first node\",\"type\":\"string\"},\"vcid\":{\"value\":\"444\",\"description\":\"Virtual Circuit Identifier (globally unique)\",\"type\":\"string\"},\"interface02\":{\"value\":\"GigabitEthernet3\",\"description\":\"Customer facing service interface on second node\",\"type\":\"string\"}}"
-  ],
-  "outputParameters": {
-    "response_body": "Journal for ${workflow.input.node01}:  ${read_journal_cli_device_ref_LJUO.output.journal} --------  Journal for ${workflow.input.node02}:  ${read_journal_cli_device_ref_CDGP.output.journal}"
-  },
-  "schemaVersion": 2,
-  "restartable": true,
-  "workflowStatusListenerEnabled": false
+  ]
 }

@@ -7,7 +7,7 @@ Download container images with
 ```
 
 Make sure FRINX-machine (https://github.com/FRINXio/FRINX-machine) is running. <br>
-<br>To attach containers to running FM swarm deployment
+<br>To attach containers to running FM swarm deployment (please check allowed parameters in below section sample topology 2)
 ```sh
 ./startup.sh
 ```
@@ -77,5 +77,63 @@ Automatically:
 ```
  docker run -it  --network=frinx-machine -v $PWD:/e2e -w /e2e cypress/included:6.2.0
 ```
+
+# Sample topology
+### Requirements
+
+- **HW**
+  - Minimum 4gb free ram for simulating all devices
+  - Minimum 1gb ram for simulating only CLI devices
+- **Running uniconfig**
+
+### Startup
+**ST default run only cli devices**
+
+- **Run ./start_sample_topology.sh**
+- **Multinode UC** In case of multinode run ./start_sample_topology.sh on manager with arguments and then also need to run ./start_sample_topology.sh on workers without arguments 
+
+#### Optional Parameters
+
+- **--only-netconf** (Run only netconf devices)
+
+- **--all** (run all devices)
+- 
+**Run specific devices**:
+
+For run only some specific devices (for ex. run only one netconf device) you can edit files below
+- **CLI devices** /sample-topology/scripts/run_cli_devices/cli_devices.txt
+- **NETCONF devices** /sample-topology/scripts/run_netconf_devices/netconf_devices.txt
+
+**List of simulated devices**
+
+```
+<NAME> <LOCALHOST_PORT>
+------- CLI -------
+saos6_1 10000
+saos6_2 10001
+saos8_1 10002
+saos8_2 10003
+cisco_IOS_1 10004
+cisco_IOS_2 10005
+cisco_XR_1 10006
+cisco_XR_2 10007
+huawei_VRP 10008
+leaf1 10009
+leaf2 10010
+leaf3 10011
+leaf4 10012
+leaf5 10013
+spine1 10014
+spine2 10015
+
+------- NETCONF -------
+iosxr653_1 17000
+iosxr653_2 17001
+iosxr663_1 17100
+junos_1 17200
+```
+
+
+
 
 [cypress]: https://docs.cypress.io/guides/getting-started/installing-cypress.html

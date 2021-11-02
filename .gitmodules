@@ -1,3 +1,6 @@
+[submodule "yang-schemas"]
+	path = yang-schemas
+	url = https://github.com/FRINXio/yang-schemas
 [submodule "sample-topology/cli-testtool"]
 	path = sample-topology/cli-testtool
-	url = https://github.com/FRINXio/cli-testtool.git
+	url = https://github.com/FRINXio/cli-testtool

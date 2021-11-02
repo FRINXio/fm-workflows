@@ -1,6 +1,6 @@
 {
   "name": "Install_device_by_id",
-  "description": "",
+  "description": "{\"description\": \"Install device from device inventory by device ID\", \"labels\": [\"BASICS\",\"INVENTORY\"]}",
   "version": 1,
   "tasks": [
     {

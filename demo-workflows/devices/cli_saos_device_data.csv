@@ -1,0 +1,5 @@
+device_id,device_type,device_version,password,username,port,zone_name,service_state,labels,parsing_engine
+SAOS6_1,saos,6,frinx,frinx,10000,uniconfig,IN_SERVICE,CLI,one-line-parser
+SAOS6_2,saos,6,frinx,frinx,10001,uniconfig,IN_SERVICE,CLI,one-line-parser
+SAOS8_1,saos,8,frinx,frinx,10002,uniconfig,IN_SERVICE,CLI,one-line-parser
+SAOS8_2,saos,8,frinx,frinx,10003,uniconfig,IN_SERVICE,CLI,one-line-parser

@@ -1,0 +1,16 @@
+saos6_1 10000
+saos6_2 10001
+saos8_1 10002
+saos8_2 10003
+cisco_IOS 10004
+cisco_IOS 10005
+cisco_XR 10006
+cisco_XR 10007
+huawei_VRP 10008
+leaf1 10009
+leaf2 10010
+leaf3 10011
+leaf4 10012
+leaf5 10013
+spine1 10014
+spine2 10015

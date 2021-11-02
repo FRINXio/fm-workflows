@@ -41,7 +41,13 @@ def configure_logging(
 def _import_devices() -> None:
 
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
-    import_devices("../devices/netconf_device_data.csv", "../devices/netconf_device_import.json")
+    # Sample topology 2 import devices
+    import_devices("../devices/cli_saos_device_data.csv",
+                   "../devices/cli_saos_device_import.json")
+    import_devices("../devices/netconf_device_data_iosxr.csv",
+                   "../devices/netconf_device_import_iosxr.json")
+    import_devices("../devices/netconf_device_data.csv",
+                   "../devices/netconf_device_import.json")
 
 
 def _register_workers(conductor) -> None:
@@ -51,12 +57,15 @@ def _register_workers(conductor) -> None:
     from frinx_conductor_workers import netconf_worker
     from frinx_conductor_workers import uniconfig_worker
     from frinx_conductor_workers import http_worker
+    from frinx_conductor_workers import connection_manager_worker
 
     import inventory_worker
     import lldp_worker
     import platform_worker
     import unified_worker
     import psql_worker
+    import device_worker
+    import lldp_identification_worker
     # import vll_worker
     # import vll_service_worker
     # import vpls_worker
@@ -66,6 +75,7 @@ def _register_workers(conductor) -> None:
     cli_worker.start(conductor)
     netconf_worker.start(conductor)
     uniconfig_worker.start(conductor)
+    connection_manager_worker.start(conductor)
     common_worker.start(conductor)
     http_worker.start(conductor)
     platform_worker.start(conductor)
@@ -73,6 +83,8 @@ def _register_workers(conductor) -> None:
     inventory_worker.start(conductor)
     unified_worker.start(conductor)
     psql_worker.start(conductor)
+    device_worker.start(conductor)
+    lldp_identification_worker.start(conductor)
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
@@ -83,6 +95,7 @@ def _register_workers(conductor) -> None:
 def _import_workflows(workflows_dir: Path = WORKFLOWS_DIR) -> None:
     from frinx_conductor_workers import import_workflows
 
+    import_workflows.import_base_workflows()
     import_workflows.import_workflows(workflows_dir)
 
 
@@ -109,8 +122,8 @@ def main():
     conductor = FrinxConductorWrapper(
         server_url=conductor_url_base,
         headers=conductor_headers,
-        polling_interval=1,
-        max_thread_count=200
+        polling_interval=0.5,
+        max_thread_count=20
     )
 
     _register_workers(conductor)

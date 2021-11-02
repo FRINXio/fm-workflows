@@ -1,0 +1,277 @@
+{
+  "name": "Device_identification",
+  "description": "Identify type and version of device and return it in the output.",
+  "workflowStatusListenerEnabled": true,
+  "version": 1,
+  "tasks": [
+    {
+      "name": "Device_identification_validate_input_parameters",
+      "taskReferenceName": "Device_identification_validate_input_parameters",
+      "inputParameters": {
+        "port": "${workflow.input.port}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "Create_unique_device_name",
+      "taskReferenceName": "create_unique_device_name",
+      "inputParameters": {},
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+     {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "is_it_ssh_or_netconf",
+      "type": "LAMBDA",
+      "inputParameters": {
+        "port": "${workflow.input.port}",
+        "scriptExpression": "if (+$.port >= 17000){ return {\"conn_type\": \"netconf\"} } else { return {\"conn_type\": \"ssh\"} }"
+      }
+    },
+    {
+      "name": "decisionTask",
+      "taskReferenceName": "decisionTaskRef_ssh_or_telnet_or_netconf",
+      "inputParameters": {
+        "param": "${is_it_ssh_or_netconf.output.result.conn_type}"
+      },
+      "type": "DECISION",
+      "caseValueParam": "param",
+      "decisionCases": {
+        "netconf": [
+          {
+            "name": "Mount_netconf_device_identification",
+            "taskReferenceName": "mount_netconf_device_identification",
+            "description": "Identify type of netconf device and mount with correct schema",
+            "inputParameters": {
+              "device_id": "${create_unique_device_name.output.device_name}",
+              "host": "${workflow.input.management_ip}",
+              "port": "${workflow.input.port}",
+              "username": "${workflow.input.username}",
+              "password": "${workflow.input.password}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "Identification_of_netconf_device",
+            "taskReferenceName": "identification_of_netconf_device",
+            "inputParameters": {
+              "device_type": "${mount_netconf_device_identification.output.device_type}",
+              "device_id": "${mount_netconf_device_identification.output.mounted_device_id}",
+              "sw_version": "${mount_netconf_device_identification.output.sw_version}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "terminate_netconf",
+            "taskReferenceName": "terminate_netconf",
+            "inputParameters": {
+              "terminationStatus": "COMPLETED",
+              "workflowOutput": {
+                "name": "${identification_of_netconf_device.output.response_body.device_name}",
+                "vendor": "${identification_of_netconf_device.output.response_body.device_vendor}",
+                "sw": "${identification_of_netconf_device.output.response_body.device_sw}",
+                "sw_version": "${identification_of_netconf_device.output.response_body.device_version}",
+                "model": "${identification_of_netconf_device.output.response_body.device_model}",
+                "management_ip": "${workflow.input.management_ip}"
+              }
+            },
+            "type": "TERMINATE",
+            "startDelay": 0,
+            "optional": false
+          }
+        ]
+      },
+      "defaultCase": [
+        {
+          "name": "CLI_mount_cli",
+          "taskReferenceName": "cli_mount_ssh",
+          "inputParameters": {
+            "device_id": "${create_unique_device_name.output.device_name}",
+            "type": "*",
+            "version": "*",
+            "host": "${workflow.input.management_ip}",
+            "protocol": "ssh",
+            "port": "${workflow.input.port}",
+            "parsing-engine": "one-line-parser",
+            "uniconfig_tx_id": "",
+            "username": "${workflow.input.username}",
+            "password": "${workflow.input.password}",
+            "install-uniconfig-node-enabled": false
+          },
+          "type": "SIMPLE",
+          "startDelay": 0,
+          "optional": false,
+          "asyncComplete": false
+        }
+      ],
+      "optional": false,
+      "startDelay": 0
+    },
+    {
+      "name": "CLI_execute_and_read_rpc_cli",
+      "taskReferenceName": "cli_execute_and_read_rpc_cli_identificate_vendor",
+      "inputParameters": {
+        "device_id": "${create_unique_device_name.output.device_name}",
+        "template": "show",
+        "params": ""
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "vendor_type",
+      "type": "LAMBDA",
+      "inputParameters": {
+        "sw_type": "${cli_execute_and_read_rpc_cli_identificate_vendor.output.response_body.output.output}",
+        "scriptExpression": "if ($.sw_type.match(\"for a list of subcommands|Incomplete command\")){ return {sw_type: \"cisco\"} } else if ($.sw_type.match(\"SHELL PARSER FAILURE\")){ return {sw_type: \"ciena\"} } else if ($.sw_type.match(\"syntax error, expecting\")){ return {sw_type: \"juniper\"} }"
+      }
+    },
+    {
+      "name": "decisionTask",
+      "taskReferenceName": "decisionTaskRef_cisco_or_ciena_or_juniper",
+      "inputParameters": {
+        "param": "${vendor_type.output.result.sw_type}"
+      },
+      "type": "DECISION",
+      "caseValueParam": "param",
+      "decisionCases": {
+        "cisco": [
+          {
+            "name": "CLI_execute_and_read_rpc_cli",
+            "taskReferenceName": "cli_execute_and_read_rpc_cli_for_cisco",
+            "inputParameters": {
+              "device_id": "${create_unique_device_name.output.device_name}",
+              "template": "terminal length 0\n        terminal width 0\n        sh version\n        sh run hostname",
+              "params": "",
+              "output_timer": 6
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "Identification_of_device",
+            "taskReferenceName": "identification_of_device_cisco",
+            "inputParameters": {
+              "device_data": "${cli_execute_and_read_rpc_cli_for_cisco.output.response_body.output.output}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          }
+        ],
+        "ciena": [
+          {
+            "name": "CLI_execute_and_read_rpc_cli",
+            "taskReferenceName": "cli_execute_and_read_rpc_cli_for_ciena",
+            "inputParameters": {
+              "device_id": "${create_unique_device_name.output.device_name}",
+              "template": "system shell set global-more off\n configuration show",
+              "params": "",
+              "output_timer": 2
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "Identification_of_device",
+            "taskReferenceName": "identification_of_device_ciena",
+            "inputParameters": {
+              "device_data": "${cli_execute_and_read_rpc_cli_for_ciena.output.response_body.output.output}"
+            },
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
+          }
+        ],
+        "juniper": [
+          {
+            "name": "CLI_execute_and_read_rpc_cli",
+            "taskReferenceName": "cli_execute_and_read_rpc_cli_for_juniper",
+            "inputParameters": {
+              "device_id": "${create_unique_device_name.output.device_name}",
+              "template": "set cli screen-length 0\n show version",
+              "params": "",
+              "output_timer": 2
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "Identification_of_device",
+            "taskReferenceName": "identification_of_device_juniper",
+            "inputParameters": {
+              "device_data": "${cli_execute_and_read_rpc_cli_for_juniper.output.response_body.output.output}"
+            },
+            "type": "SIMPLE",
+            "optional": false,
+            "startDelay": 0
+          }
+        ]
+      },
+      "optional": false,
+      "startDelay": 0
+    },
+     {
+      "name": "identification_of_device_exclusive_join",
+      "taskReferenceName": "identification_of_device_exclusive_join",
+      "type": "EXCLUSIVE_JOIN",
+      "joinOn": [
+        "identification_of_device_ciena",
+        "identification_of_device_cisco",
+        "identification_of_device_juniper"
+      ]
+    },
+    {
+      "name": "CLI_unmount_cli",
+      "taskReferenceName": "CLI_unmount_cli",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "device_id": "${create_unique_device_name.output.device_name}"
+      }
+    },
+    {
+      "name": "terminate",
+      "taskReferenceName": "terminate_completed",
+      "inputParameters": {
+        "terminationStatus": "COMPLETED",
+        "workflowOutput": {
+          "name": "${identification_of_device_exclusive_join.output.response_body.device_name}",
+          "vendor": "${identification_of_device_exclusive_join.output.response_body.device_vendor}",
+          "sw": "${identification_of_device_exclusive_join.output.response_body.device_sw}",
+          "sw_version": "${identification_of_device_exclusive_join.output.response_body.device_version}",
+          "model": "${identification_of_device_exclusive_join.output.response_body.device_model}",
+          "management_ip": "${workflow.input.management_ip}"
+        }
+      },
+      "type": "TERMINATE",
+      "startDelay": 0,
+      "optional": false
+    }
+  ],
+  "inputParameters": [
+    "{\"management_ip\":{\"value\":\"sample-topology\",\"description\":\"IP or hostname of the management endpoint on a device\"},\"port\": {\"value\": \"10000\",\"description\":\"e.g 10000, 10001, 17000\",\"type\":\"string\"},\"username\": {\"value\": \"frinx\",\"description\":\"Username to device\",\"type\":\"string\"},\"password\": {\"value\": \"frinx\",\"description\":\"Password to device\",\"type\":\"string\"}}"
+  ],
+  "schemaVersion": 2,
+  "restartable": false
+}

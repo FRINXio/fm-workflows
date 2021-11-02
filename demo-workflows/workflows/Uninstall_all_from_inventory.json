@@ -1,0 +1,125 @@
+{
+  "updateTime": 1636644164366,
+  "name": "Uninstall_all_from_inventory",
+  "description": "",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "INVENTORY_get_pages_cursors",
+      "taskReferenceName": "INVENTORY_get_pages_cursorsRefName_iHgJ",
+      "inputParameters": {},
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "Loop Task",
+      "taskReferenceName": "LoopTask",
+      "inputParameters": {
+        "value": "${INVENTORY_get_pages_cursorsRefName_iHgJ.output.page_size}"
+      },
+      "type": "DO_WHILE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopCondition": "if ( $.LoopTask['iteration'] < $.value ) { true; } else { false; }",
+      "loopOver": [
+        {
+          "name": "LAMBDA_TASK",
+          "taskReferenceName": "lambda_rMMU",
+          "inputParameters": {
+            "lambdaValue": "${INVENTORY_get_pages_cursorsRefName_iHgJ.output.page_ids}",
+            "iterator": "${LoopTask.output.iteration}",
+            "scriptExpression": "if($.iterator == null){\n return $.lambdaValue[\"0\"]\n} else {\n return $.lambdaValue[$.iterator.toString()];\n}"
+          },
+          "type": "LAMBDA",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        },
+        {
+          "name": "INVENTORY_get_pages_cursors_fork_tasks",
+          "taskReferenceName": "read_inventory",
+          "inputParameters": {
+            "task": "Uninstall_from_inventory_batch",
+            "page_ids": "${lambda_rMMU.output.result}"
+          },
+          "type": "SIMPLE",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        },
+        {
+          "name": "dynamic_fork",
+          "taskReferenceName": "fork",
+          "inputParameters": {
+            "dynamic_tasks": "${read_inventory.output.dynamic_tasks}",
+            "dynamic_tasks_i": "${read_inventory.output.dynamic_tasks_i}"
+          },
+          "type": "FORK_JOIN_DYNAMIC",
+          "decisionCases": {},
+          "dynamicForkTasksParam": "dynamic_tasks",
+          "dynamicForkTasksInputParamName": "dynamic_tasks_i",
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": true,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        },
+        {
+          "name": "join",
+          "taskReferenceName": "join",
+          "inputParameters": {},
+          "type": "JOIN",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        }
+      ]
+    }
+  ],
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Uninstall_all_from_inventory:1"
+}

@@ -1,0 +1,4 @@
+device_id,port,username,password,zone_name,service_state,schema,labels
+IOSXR653_1,17000,frinx,frinx,uniconfig,IN_SERVICE,cisco-iosxr-653,NETCONF
+IOSXR653_2,17001,frinx,frinx,uniconfig,IN_SERVICE,cisco-iosxr-653,NETCONF
+IOSXR663_1,17100,frinx,frinx,uniconfig,IN_SERVICE,cisco-iosxr-663,NETCONF

@@ -1,2 +1,2 @@
-device_id,port,keepalivedelay,tcponly,username,password,zone_name,service_state,labels
-netconf-testtool,1783,100,false,admin,admin,uniconfig,IN_SERVICE,NETCONF
+device_id,port,username,password,zone_name,service_state,schema,labels
+JUNOS_1,17200,frinx,frinx,uniconfig,IN_SERVICE,junos-16-2021,NETCONF

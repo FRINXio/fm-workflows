@@ -1,7 +1,6 @@
-from frinx_conductor_workers.frinx_rest import parse_response
-from jinja2 import Template
 from python_graphql_client import GraphqlClient
-import json, copy
+import copy
+import math
 
 # graphql client settings
 inventory_url = "http://inventory:8000/graphql"
@@ -11,7 +10,8 @@ inventory_headers = {
     "Accept": "application/json",
     "Connection": "keep-alive",
     "x-tenant-id": "frinx",
-    "DNT": "1"
+    "DNT": "1",
+    "Keep-Alive": "timeout=5"
 }
 
 client = GraphqlClient(endpoint=inventory_url, headers=inventory_headers)
@@ -22,22 +22,7 @@ def execute(body, variables):
 
 
 # Templates
-
-claim_resource_template = Template(
-    """
-    mutation ClaimResource($pool_id: ID!, $description: String!, $user_input: Map!{{ alternative_id_variable }}) {
-    {{ claim_resource }}(
-        poolId: $pool_id,
-        description: $description,
-        userInput: $user_input{{ alternative_id }})
-    {
-        id
-        Properties
-    }
-    }"""
-)
-
-add_device_template = """ 
+add_device_template = """
 mutation  AddDevice($input: AddDeviceInput!) {
     addDevice(input: $input) {
         device {
@@ -68,7 +53,7 @@ mutation UninstallDevice($id: String!){
   }
 } """
 
-create_label_template = """ 
+create_label_template = """
 mutation CreateLabel($input: CreateLabelInput!) {
   createLabel(input: $input){
     label {
@@ -117,6 +102,60 @@ task_body_template = {
     }
 }
 
+device_page_template = """
+query GetDevices($first: Int!, $after: String!) {
+  devices(first:$first, after:$after) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+  }
+} """
+
+device_page_id_template = """
+query GetDevices($first: Int!, $after: String!) {
+  devices(first:$first, after:$after) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      node {
+        name
+        id
+      }
+    }
+  }
+} """
+
+device_info_template = """
+query Devices(
+  $labelIds: [String!]
+  $deviceName: String
+) {
+  devices(
+    filter: { labelIds: $labelIds, deviceName: $deviceName }
+  ) {
+    edges {
+      node {
+        id
+        name
+        createdAt
+        isInstalled
+        serviceState
+        zone {
+          id
+          name
+        }
+      }
+    }
+  }
+} """
+
 
 def execute_inventory(body, variables):
     return client.execute(query=body, variables=variables)
@@ -132,33 +171,23 @@ def get_zone_id(zone_name):
 
 
 def get_device_info(device_name):
-    devices = "query { devices { edges { node {  id name isInstalled } } } }"
-    body = execute_inventory(devices, '')
 
-    # if error
-    for i in body:
-        if i == "errors":
-            return device_name, None, body['errors'][0]['message']
+    variables = {
+        "deviceName": str(str(device_name)),
+    }
+    response = execute_inventory(device_info_template, variables)
+
+    # if graphql request fail
+    if response.get('errors'):
+        return device_name, None, response['errors'][0]['message']
 
     # if device was found
-    for node in body['data']['devices']['edges']:
+    for node in response['data']['devices']['edges']:
         if node['node']['name'] == device_name:
             return node['node']['name'], node['node']['id'], node['node']['isInstalled']
 
     # if device was not found
     return device_name, None, None
-
-
-def get_all_devices_info():
-    devices = "query { devices { edges { node {  id name isInstalled } } } }"
-    body = execute_inventory(devices, '')
-
-    # if error
-    for i in body:
-        if i == "errors":
-            return body['errors'][0]['message'], 404
-
-    return body['data']['devices']['edges'], 200
 
 
 def get_label_id(label_name):
@@ -181,28 +210,60 @@ def get_label_id(label_name):
     else:
         return label_id
 
-
 ####################################################################################
 
+
+def installed_device(task):
+
+    body = {}
+    variables = {
+        "deviceName": str(str(task['inputData']['device_name'])),
+    }
+
+    response = execute_inventory(device_info_template, variables)
+
+    if response.get('errors'):
+        body['message'] = response['errors'][0]['message']
+        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+                'logs': []}
+
+    if response.get('data'):
+        body['name'] = response['data']['devices']['edges']
+
+        return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': body},
+                'logs': []}
+
+    return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': {'Workflow failed'}},
+            'logs': []}
+
+
 def install_uninstall_device(task):
+
     if str(task['taskType']).find('_by_name') != -1:
-        device_name, device_id, device_is_installed = get_device_info(task['inputData']['device_id'])
+
+        device_name, device_id, device_status = get_device_info(task['inputData']['device_name'])
 
         if device_id is None:
-            body = {"message": device_is_installed}
+            body = {"message": device_status}
             return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
                     'logs': []}
 
         variables = {
             "id": str(device_id)
         }
+
     else:
         variables = {
             "id": str(task['inputData']['device_id'])
         }
 
+    body = {
+        'id': str(variables['id'])
+    }
+
     if str(task['taskType']).find('uninstall') == -1:
         # install task
+
         response = execute_inventory(install_device_template, variables)
         task_type = "installDevice"
     else:
@@ -210,68 +271,157 @@ def install_uninstall_device(task):
         response = execute_inventory(uninstall_device_template, variables)
         task_type = "uninstallDevice"
 
-    for i in response:
-        if i == "errors":
-            body = {"message": response['errors'][0]['message']}
+    if response.get('errors'):
+        body['message'] = response['errors'][0]['message']
+
+        if 'already been installed' not in body['message']:
             return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
                     'logs': []}
 
-    body = {
-        "id": response['data'][task_type]['device']['id'],
-        "name": response['data'][task_type]['device']['name']
-    }
+    if response.get('data'):
+        body['name'] = response['data'][task_type]['device']['name']
 
     return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': body},
             'logs': []}
 
 
-def installed_device_dynamic_fork_tasks(task):
+def install_uninstall_in_batch(task):
+    page_size = int(task['inputData']['page_size'])
+    page_id = str(task['inputData']['page_id'])
 
-    task = task['inputData']['task']
+    variables = {
+        "first": int(page_size),
+        "after": str(page_id)
+    }
 
-    response, code = get_all_devices_info()
+    response = execute_inventory(device_page_id_template, variables)
 
-    if code == 200:
-        dynamic_tasks = []
-        for device_id in response:
-            task_body = copy.deepcopy(task_body_template)
-            task_body["taskReferenceName"] = device_id['node']['name']
-            task_body["subWorkflowParam"]["name"] = task
-            # if optional == "true":
-            #     task_body['optional'] = "True"
-
-            dynamic_tasks.append(task_body)
-
-        dynamic_tasks_i = {}
-        for device_id in response:
-            per_device_params = dict({})
-            per_device_params.update({"device_id": device_id['node']['name']})
-            dynamic_tasks_i.update({device_id['node']['name']: per_device_params})
-
-        return {'status': 'COMPLETED', 'output': {'url': inventory_url,
-                                                  'dynamic_tasks_i': dynamic_tasks_i,
-                                                  'dynamic_tasks': dynamic_tasks},
+    body = {}
+    if response.get('errors'):
+        body['message'] = response['errors'][0]['message']
+        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
                 'logs': []}
+
+    if str(task['taskType']).find('uninstall') == -1:
+        # install task
+        device_template = install_device_template
+        task_type = "installDevice"
     else:
-        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': code, 'response_body': response},
-                'logs': []}
+        # uninstall task
+        device_template = uninstall_device_template
+        task_type = "uninstallDevice"
 
+    device_status = {}
+    for device_id in response['data']['devices']['edges']:
 
-def installed_device(task):
-    device_name, device_id, device_is_installed = get_device_info(task['inputData']['device_id'])
-
-    if device_id is not None:
-        data = {
-            "name": device_name,
-            "id": device_id,
-            "isInstalled": device_is_installed
+        variables = {
+            "id": str(device_id['node']['id'])
         }
-        return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': data},
-                'logs': []}
-    else:
-        data = {"message": device_is_installed}
-        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': data},
-                'logs': []}
+
+        response = execute_inventory(device_template, variables)
+
+        per_device_params = dict({})
+        per_device_params.update({"device_id": device_id['node']['id']})
+        per_device_params.update({"device_name": device_id['node']['name']})
+
+        if task_type is "installDevice":
+            if response.get('errors'):
+                if 'already been installed' not in response['errors'][0]['message']:
+                    per_device_params.update({"status": "failed"})
+                elif 'already been installed' in response['errors'][0]['message']:
+                    per_device_params.update({"status": "was installed before"})
+            elif response.get('data'):
+                per_device_params.update({"status": "success"})
+        elif task_type is "uninstallDevice":
+            if response.get('errors'):
+                per_device_params.update({"status": "failed"})
+            elif response.get('data'):
+                per_device_params.update({"status": "success"})
+
+        device_status.update({device_id['node']['name']: per_device_params})
+
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': device_status},
+            'logs': []}
+
+
+def get_device_pages_ids(task):
+    device_step = 10
+    cursor_count = 20
+    has_next_page = True
+    page_ids = []
+    last_page_id = ''
+
+    while has_next_page:
+        variables = {
+            "first": device_step,
+            "after": str(last_page_id)
+        }
+        response = execute_inventory(device_page_template, variables)
+        print(response)
+        if response.get('errors'):
+            body = {'message': response['errors'][0]['message']}
+            return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+                    'logs': []}
+
+        if response.get('data'):
+
+            has_next_page = response['data']['devices']['pageInfo']['hasNextPage']
+
+            if response['data']['devices']['pageInfo']['hasPreviousPage'] is False:
+                last_page_id = ''
+                page_ids.append(last_page_id)
+
+            if has_next_page is not False:
+                last_page_id = response['data']['devices']['pageInfo']['endCursor']
+                page_ids.append(last_page_id)
+
+            if has_next_page is False:
+                break
+
+    page_loop = {}
+    for i in range(math.ceil(len(page_ids) / cursor_count)):
+        page_loop[i] = []
+        for j in range(cursor_count):
+            try:
+                page_loop[i].append(page_ids[i * cursor_count + j])
+            except Exception as e:
+                print(e)
+                break
+
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200,
+                                              'page_ids': page_loop,
+                                              'page_size': len(page_loop),
+                                              "page_ids_count": len(page_ids)},
+            'logs': []}
+
+
+def page_device_dynamic_fork_tasks(task):
+
+    task_name = task['inputData']['task']
+    page_ids = task['inputData']['page_ids']
+
+    device_step = 40
+
+    dynamic_tasks = []
+    dynamic_tasks_i = {}
+
+    taskReferenceName_id = 0
+
+    for device_id in page_ids:
+        task_body = copy.deepcopy(task_body_template)
+        task_body["taskReferenceName"] = "devices_page_" + str(taskReferenceName_id)
+        task_body["subWorkflowParam"]["name"] = task_name
+        dynamic_tasks.append(task_body)
+
+        per_device_params = dict({})
+        per_device_params.update({"page_id": device_id})
+        per_device_params.update({"page_size": device_step})
+        dynamic_tasks_i.update({"devices_page_" + str(taskReferenceName_id): per_device_params})
+        taskReferenceName_id += 1
+
+    return {'status': 'COMPLETED',
+            'output': {'url': inventory_url, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
+            'logs': []}
 
 
 def add_cli_device(task):
@@ -296,13 +446,10 @@ def add_cli_device(task):
 
     response = execute_inventory(add_device_template, variables)
 
-    for i in response:
-        if i == "errors":
-            body = {"message": response['errors'][0]['message']}
-            return {'status': 'FAILED', 'output': {'url': inventory_url,
-                                                   'response_code': 404,
-                                                   'response_body': body},
-                    'logs': []}
+    if response.get('errors'):
+        body['message'] = response['errors'][0]['message']
+        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+                'logs': []}
 
     body = {
         "id": response['data']['addDevice']['device']['id'],
@@ -343,13 +490,10 @@ def add_netconf_device(task):
 
     response = execute_inventory(add_device_template, variables)
 
-    for i in response:
-        if i == "errors":
-            body = {"message": response['errors'][0]['message']}
-            return {'status': 'FAILED', 'output': {'url': inventory_url,
-                                                   'response_code': 404,
-                                                   'response_body': body},
-                    'logs': []}
+    if response.get('errors'):
+        body['message'] = response['errors'][0]['message']
+        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+                'logs': []}
 
     body = {
         "id": response['data']['addDevice']['device']['id'],
@@ -364,11 +508,28 @@ def add_netconf_device(task):
 def start(cc):
     print('Starting Inventory workers')
 
-    cc.register('INVENTORY_install_device_by_name', {
-        "description": '{"description": "Install device by name", "labels": ["BASICS","INVENTORY"]}',
-        "responseTimeoutSeconds": 60,
+    cc.register('INVENTORY_get_devices_info', {
+        "description": '{"description": "Get information about devices in inventory by device name", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "timeoutPolicy": "TIME_OUT_WF",
+        "retryLogic": "FIXED",
         "inputKeys": [
-            "device_id"
+            "device_name"
+        ],
+        "outputKeys": [
+            "url",
+            "response_code",
+            "response_body"
+        ]
+    }, installed_device)
+
+    cc.register('INVENTORY_install_device_by_name', {
+        "description": '{"description": "Install device by device name", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "inputKeys": [
+            "device_name"
         ],
         "outputKeys": [
             "url",
@@ -378,10 +539,11 @@ def start(cc):
     }, install_uninstall_device)
 
     cc.register('INVENTORY_uninstall_device_by_name', {
-        "description": '{"description": "Install device by name", "labels": ["BASICS","INVENTORY"]}',
-        "responseTimeoutSeconds": 10,
+        "description": '{"description": "Uninstall device by device name", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
         "inputKeys": [
-            "device_id"
+            "device_name"
         ],
         "outputKeys": [
             "url",
@@ -391,8 +553,9 @@ def start(cc):
     }, install_uninstall_device)
 
     cc.register('INVENTORY_install_device_by_id', {
-        "description": '{"description": "Install device by ID number", "labels": ["BASICS","INVENTORY"]}',
-        "responseTimeoutSeconds": 60,
+        "description": '{"description": "Install device by device ID", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
         "inputKeys": [
             "device_id"
         ],
@@ -404,8 +567,9 @@ def start(cc):
     }, install_uninstall_device)
 
     cc.register('INVENTORY_uninstall_device_by_id', {
-        "description": '{"description": "Install device by ID number", "labels": ["BASICS","INVENTORY"]}',
-        "responseTimeoutSeconds": 10,
+        "description": '{"description": "Uninstall device by device ID", "labels": ["BASICS","INVENTORY"]}',
+        "timeoutSeconds": 3600,
+        "responseTimeoutSeconds": 3600,
         "inputKeys": [
             "device_id"
         ],
@@ -416,38 +580,73 @@ def start(cc):
         ]
     }, install_uninstall_device)
 
-    cc.register('INVENTORY_get_device_info', {
-        "description": '{"description": "Get device inventory ID, Name and installed status", "labels": ["BASICS","INVENTORY"]}',
-        "responseTimeoutSeconds": 10,
-        "timeoutPolicy": "TIME_OUT_WF",
-        "retryLogic": "FIXED",
+    cc.register('INVENTORY_get_pages_cursors_fork_tasks', {
+        "name": "INVENTORY_get_pages_cursors_fork_tasks",
+        "description": '{"description": "get all pages cursors as dynamic fork tasks", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
         "inputKeys": [
-            "device_id"
-        ],
-        "outputKeys": [
-            "url",
-            "response_code",
-            "response_body"
-        ]
-    }, installed_device)
-
-    cc.register('INVENTORY_get_all_devices_as_dynamic_fork_tasks', {
-        "name": "INVENTORY_get_all_devices_as_dynamic_fork_tasks",
-        "description": '{"description": "get all devices as dynamic fork tasks", "labels": ["BASICS","INVENTORY"]}',
-        "responseTimeoutSeconds": 10,
-        "inputKeys": [
-            "task"
+            "tasks",
+            "page_ids"
         ],
         "outputKeys": [
             "url",
             "dynamic_tasks_i",
             "dynamic_tasks"
         ]
-    }, installed_device_dynamic_fork_tasks)
+    }, page_device_dynamic_fork_tasks)
+
+    cc.register('INVENTORY_install_in_batch', {
+        "name": "INVENTORY_install_in_batch",
+        "description": '{"description": "install devices in batch started from page cursor", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "inputKeys": [
+            "page_id",
+            "page_size"
+        ],
+        "outputKeys": [
+            "url",
+            "dynamic_tasks_i",
+            "dynamic_tasks"
+        ]
+    }, install_uninstall_in_batch)
+
+    cc.register('INVENTORY_uninstall_in_batch', {
+        "name": "INVENTORY_uninstall_in_batch",
+        "description": '{"description": "uninstall devices in batch started from page cursor", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "inputKeys": [
+            "page_id",
+            "page_size"
+        ],
+        "outputKeys": [
+            "url",
+            "dynamic_tasks_i",
+            "dynamic_tasks"
+        ]
+    }, install_uninstall_in_batch)
+
+    cc.register('INVENTORY_get_pages_cursors', {
+        "name": "INVENTORY_get_pages_cursors",
+        "description": '{"description": "get a list of pages cursors from device inventory", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "inputKeys": [],
+        "outputKeys": [
+            "url",
+            "response_code",
+            "page_ids_count",
+            'page_size',
+            "page_ids",
+        ]
+    }, get_device_pages_ids)
 
     cc.register('INVENTORY_add_cli_device', {
         "description": '{"description": "add a CLI device to inventory database", "labels": ["BASICS","MAIN","INVENTORY","CLI"]}',
-        "responseTimeoutSeconds": 10,
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
         "inputKeys": [
             "device_id",
             "type",
@@ -472,7 +671,8 @@ def start(cc):
 
     cc.register('INVENTORY_add_netconf_device', {
         "description": '{"description": "add a Netconf device to inventory database", "labels": ["BASICS","MAIN","INVENTORY","NETCONF"]}',
-        "responseTimeoutSeconds": 10,
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
         "inputKeys": [
             "device_id",
             "host",

@@ -1,0 +1,14 @@
+{
+	"cli": {
+		"cli-topology:host": "sample-topology",
+		"cli-topology:port": "{{port}}",
+		"cli-topology:transport-type": "ssh",
+		"cli-topology:device-type": "{{device_type}}",
+		"cli-topology:device-version": "{{device_version}}",
+		"cli-topology:password": "{{password}}",
+		"cli-topology:username": "{{username}}",
+		"cli-topology:journal-size": 500,
+		"cli-topology:dry-run-journal-size": 180,
+		"cli-topology:parsing-engine": "{{parsing_engine}}"
+	}
+}

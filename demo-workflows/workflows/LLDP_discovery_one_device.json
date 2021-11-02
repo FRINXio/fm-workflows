@@ -1,0 +1,113 @@
+{
+  "name": "LLDP_discovery_one_device",
+  "description": "{\"description\":\"Discover LLDP config of installed device \",\"labels\":[\"LLDP\"]}",
+
+  "workflowStatusListenerEnabled": true,
+  "version": 1,
+  "tasks": [
+     {
+      "name": "LLDP_input_validation",
+      "taskReferenceName": "lldp_input_validation",
+      "inputParameters": {
+        "device_name": "${workflow.input.device_name}",
+        "device_software": "${workflow.input.device_software}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "decisionTask",
+      "taskReferenceName": "lldp_determine_the_request_method",
+      "inputParameters": {
+        "device_softwaree": "${workflow.input.device_software}"
+      },
+      "type": "DECISION",
+      "caseValueParam": "device_softwaree",
+      "decisionCases": {
+        "ios xr": [
+          {
+            "name": "Netconf_read_structured_device_data",
+            "taskReferenceName": "netconf_read_structured_device_data_ref_2433",
+            "inputParameters": {
+              "device_id": "${workflow.input.device_name}",
+              "uri": "/Cisco-IOS-XR-ethernet-lldp-oper:lldp"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "LLDP_parse_netconf_iosxr",
+            "taskReferenceName": "lldp_parse_netconf_iosxr",
+            "inputParameters": {
+              "netconf_data": "${netconf_read_structured_device_data_ref_2433.output.response_body}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          }
+        ],
+        "saos": [
+           {
+            "name": "CLI_execute_and_read_rpc_cli",
+            "taskReferenceName": "cli_execute_and_read_rpc_cli_saos_6_and_8",
+            "inputParameters": {
+              "device_id": "${workflow.input.device_name}",
+              "template": "lldp show neighbors",
+              "params": ""
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          },
+          {
+            "name": "LLDP_read_and_parse_rpc_cli_saos_6_and_8",
+            "taskReferenceName": "lldp_read_and_parse_rpc_cli_saos_6_and_8",
+            "inputParameters": {
+              "rpc_input": "${cli_execute_and_read_rpc_cli_saos_6_and_8.output.response_body.output.output}"
+            },
+            "type": "SIMPLE",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false
+          }
+        ]
+      },
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+     {
+      "name": "lldp_identification_exclusive_join",
+      "taskReferenceName": "lldp_identification_exclusive_join",
+      "type": "EXCLUSIVE_JOIN",
+      "joinOn": [
+        "lldp_read_and_parse_rpc_cli_saos_6_and_8",
+        "lldp_parse_netconf_iosxr"
+      ]
+    },
+        {
+      "name": "terminate",
+      "taskReferenceName": "terminate_completed",
+      "inputParameters": {
+        "terminationStatus": "COMPLETED",
+        "workflowOutput": {
+          "lldp_config": "${lldp_identification_exclusive_join.output.lldp_config}"
+        }
+      },
+      "type": "TERMINATE",
+      "startDelay": 0,
+      "optional": false
+    }
+  ],
+  "inputParameters": [
+      "{\"device_name\":{\"value\":\"\",\"description\":\"Unique identifier of installed device\"},\"device_software\": {\"value\": \"\",\"description\":\"Software of device. Allowed: [saos, ios xr]\",\"type\":\"string\"}}"
+  ],
+  "schemaVersion": 2,
+  "restartable": true
+}
