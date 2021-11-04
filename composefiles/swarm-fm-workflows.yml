@@ -33,7 +33,7 @@ services:
       mode: replicated
       replicas: 1
   sample-topology:
-    image: frinx/sample-topology
+    image: frinx/sample-topology:latest
     logging: *logging_loki
     volumes:
       - ${DIR_PATH}:/sample-topology
