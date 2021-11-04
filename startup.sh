@@ -74,10 +74,10 @@ cp -r yang-schemas/junos-16-2021 sample-topology/schemas
 __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"
 
-
 INFO='\033[0;96m[INFO]:\033[0;0m'
-docker stack deploy --compose-file composefiles/swarm-fm-workflows.yml $stackName
-# Start sample topology 2
+
+# Start sample topology and deploy composefile/swarm-fm-workflows.yml (must be deployed from ./start_sample_topology.sh
+# because there is exported env variables for composefile
 (cd sample-topology && ./start_sample_topology.sh$sample_topology_parameter)
 
 echo -e "${INFO} Startup finished"

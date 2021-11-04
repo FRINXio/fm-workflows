@@ -78,6 +78,7 @@ do
 done < "$input"
 
 export PORT_RANGE_NETCONF="17000-$highest_port:17000-$highest_port"
+echo $PORT_RANGE_NETCONF
 
 # -------------- PREPARE CLI DEVICES --------------
 # Find highest port in cli devices
@@ -98,5 +99,4 @@ export PORT_RANGE="10000-$highest_port:10000-$highest_port"
 echo $PORT_RANGE
 
 stackName="fm"
-docker service rm "$stackName"_sample-topology
-docker stack deploy --compose-file composefiles/swarm-fm-sample-topology.yml $stackName
+docker stack deploy --compose-file ../composefiles/swarm-fm-workflows.yml $stackName

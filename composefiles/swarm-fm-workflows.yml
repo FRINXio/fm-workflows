@@ -32,6 +32,20 @@ services:
       #     - node.hostname == ${CONSTRAINT_HOSTNAME}
       mode: replicated
       replicas: 1
+  sample-topology:
+    image: frinx/sample-topology
+    logging: *logging_loki
+    volumes:
+      - ${DIR_PATH}:/sample-topology
+    environment:
+      - DOCKER_GWBRIDGE_IP=${DOCKER_GWBRIDGE_IP}
+    sysctls:
+      - net.ipv4.ip_forward=1
+    ports:
+      - ${PORT_RANGE_NETCONF}
+      - ${PORT_RANGE}
+    command:
+      bash -c "${RUN_TESTTOOLS}"
 
 networks:
     default:
