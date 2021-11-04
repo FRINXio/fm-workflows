@@ -7,7 +7,6 @@ export NETCONF_RUN_DIR="$DIR_PATH"/scripts/run_netconf_devices
 
 echo $DIR_PATH
 # Set sample topology env variables
-set -o allexport; source "$DIR_PATH"/.env; set +o allexport
 
 export RUN_TESTTOOLS="./scripts/run_cli_devices/run_devices_docker.sh"
 
