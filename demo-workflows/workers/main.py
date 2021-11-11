@@ -57,6 +57,7 @@ def _register_workers(conductor) -> None:
     from frinx_conductor_workers import netconf_worker
     from frinx_conductor_workers import uniconfig_worker
     from frinx_conductor_workers import http_worker
+    from frinx_conductor_workers import connection_manager_worker
 
     import inventory_worker
     import lldp_worker
@@ -74,6 +75,7 @@ def _register_workers(conductor) -> None:
     cli_worker.start(conductor)
     netconf_worker.start(conductor)
     uniconfig_worker.start(conductor)
+    connection_manager_worker.start(conductor)
     common_worker.start(conductor)
     http_worker.start(conductor)
     platform_worker.start(conductor)
@@ -94,6 +96,7 @@ def _register_workers(conductor) -> None:
 def _import_workflows(workflows_dir: Path = WORKFLOWS_DIR) -> None:
     from frinx_conductor_workers import import_workflows
 
+    import_workflows.import_base_workflows()
     import_workflows.import_workflows(workflows_dir)
 
 
