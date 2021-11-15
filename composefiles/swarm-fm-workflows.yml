@@ -15,7 +15,7 @@ x-logging: &logging_loki
 
 services:
   demo-workflows:
-    image: frinx/demo-workflows:latest
+    image: frinx/demo-workflows:1.8
     logging: *logging_loki
     environment:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
@@ -33,8 +33,9 @@ services:
       #     - node.hostname == ${CONSTRAINT_HOSTNAME}
       mode: replicated
       replicas: 1
+
   sample-topology:
-    image: frinx/sample-topology:latest
+    image: frinx/sample-topology:1.8
     logging: *logging_loki
     volumes:
       - ${DIR_PATH}:/sample-topology
