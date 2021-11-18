@@ -62,7 +62,11 @@ setManagerIpAddrEnv
 # =======================================
 
 echo -e "Pulling submodules..."
-git submodule update --init --recursive
+if [[ ! -d '.git' ]]; then
+  git clone https://github.com/FRINXio/yang-schemas.git
+else
+ git submodule update --init --recursive
+fi
 # Update yang-schema submodule
 (cd yang-schemas && git pull origin main && git checkout main)
 
