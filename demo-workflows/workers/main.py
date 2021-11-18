@@ -122,8 +122,8 @@ def main():
     conductor = FrinxConductorWrapper(
         server_url=conductor_url_base,
         headers=conductor_headers,
-        polling_interval=1,
-        max_thread_count=200
+        polling_interval=0.5,
+        max_thread_count=20
     )
 
     _register_workers(conductor)

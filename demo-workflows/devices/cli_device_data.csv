@@ -5,8 +5,8 @@ XR01,ios xr,6.x,cisco,cisco,10006,uniconfig,IN_SERVICE,CLI
 XR02,ios xr,6.x,cisco,cisco,10007,uniconfig,IN_SERVICE,XR
 VRP01,vrp,*,huawei,huawei,10008,uniconfig,IN_SERVICE,CLI
 Leaf01,ios,15.4,cisco,cisco,10009,uniconfig,IN_SERVICE,CLI
-Leaf02,ios,15.4,cisco,cisco,100010,uniconfig,IN_SERVICE,CLI
-Leaf03,ios,15.4,cisco,cisco,100011,uniconfig,IN_SERVICE,CLI
+Leaf02,ios,15.4,cisco,cisco,10010,uniconfig,IN_SERVICE,CLI
+Leaf03,ios,15.4,cisco,cisco,10011,uniconfig,IN_SERVICE,CLI
 Leaf04,ios,15.4,cisco,cisco,10012,uniconfig,IN_SERVICE,CLI
 Leaf05,ios,15.4,cisco,cisco,10013,uniconfig,IN_SERVICE,CLI
 Spine01,ios,15.4,cisco,cisco,10014,uniconfig,IN_SERVICE,CLI
