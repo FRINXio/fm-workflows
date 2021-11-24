@@ -18,9 +18,9 @@
           "timeout": 3600,
           "uri": "http://krakend:8080/api/uniresource",
           "body": {
-            "query": "query SearchPools($pool_name: String!) {\n    SearchPoolsByTags(\n        tags: { matchesAny: [{matchesAll: [$pool_tag]}]}\n        ) {\n        id\n    }\n}",
+            "query": "query SearchPools($pool_tag: String!) {\n    SearchPoolsByTags(\n        tags: { matchesAny: [{matchesAll: [$pool_tag]}]}\n        ) {\n        id\n    }\n}",
             "variables": {
-              "$pool_tag": "${workflow.input.pool_tag}"
+              "pool_tag": "${workflow.input.pool_tag}"
             }
           }
         }
