@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <edit-oper xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
     <target>
         <candidate/>
@@ -7,10 +8,10 @@
         <lldp xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-ethernet-lldp-oper">
             <global-lldp>
                 <lldp-info>
-                    <system-name>mnd-gt0002-bpe09.test.aorta.net</system-name>
+                    <system-name>fzp-ti3331-gea34.iaji.bxwib.zai</system-name>
                     <re-init>2</re-init>
                     <timer>30</timer>
-                    <chassis-id>b026.8032.9af9</chassis-id>
+                    <chassis-id>g315.7381.4bo4</chassis-id>
                     <hold-time>120</hold-time>
                     <chassis-id-sub-type>4</chassis-id-sub-type>
                 </lldp-info>
@@ -19,6 +20,36 @@
                 <node>
                     <node-name>0/RSP1/CPU0</node-name>
                     <interfaces>
+                        <interface>
+                            <interface-name>Bundle-Ether12</interface-name>
+                            <port-description>10GE to MND-GT0002-AR151 BE14 - members Te0/0/0/14</port-description>
+                            <interface-name-xr>Bundle-Ether12</interface-name-xr>
+                            <tx-enabled>0</tx-enabled>
+                            <rx-enabled>1</rx-enabled>
+                            <port-id>Bundle-Ether12</port-id>
+                            <local-network-addresses>
+                                <lldp-addr-entry>
+                                    <ma-subtype>1</ma-subtype>
+                                    <address>
+                                        <ipv4-address>172.16.1.80</ipv4-address>
+                                        <address-type>ipv4</address-type>
+                                    </address>
+                                    <if-num>50331648</if-num>
+                                </lldp-addr-entry>
+                                <lldp-addr-entry>
+                                    <ma-subtype>1</ma-subtype>
+                                    <address>
+                                        <address-type>ipv6</address-type>
+                                        <ipv6-address>2001:730:2200::5474:f609</ipv6-address>
+                                    </address>
+                                    <if-num>268435456</if-num>
+                                </lldp-addr-entry>
+                            </local-network-addresses>
+                            <if-index>4383</if-index>
+                            <tx-state>INIT</tx-state>
+                            <rx-state>WAIT FOR FRAME</rx-state>
+                            <port-id-sub-type>5</port-id-sub-type>
+                        </interface>
                         <interface>
                             <interface-name>Bundle-Ether1</interface-name>
                             <port-description>BPE10</port-description>
@@ -148,7 +179,7 @@
                         <unrecognized-tl-vs>0</unrecognized-tl-vs>
                         <out-of-memory-errors>0</out-of-memory-errors>
                         <discarded-packets>0</discarded-packets>
-                        <transmitted-packets>277648</transmitted-packets>
+                        <transmitted-packets>690770</transmitted-packets>
                         <aged-out-entries>0</aged-out-entries>
                         <received-packets>0</received-packets>
                         <queue-overflow-errors>0</queue-overflow-errors>
@@ -159,13 +190,13 @@
                     <neighbors>
                         <details>
                             <detail>
-                                <device-id>mnd-gt0002-bpe10.test</device-id>
+                                <device-id>fzp-ti3331-gea03.iaji</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>BPE10</port-description>
-                                        <time-remaining>112</time-remaining>
+                                        <time-remaining>114</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -186,19 +217,18 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>b0:26:80:23:5a:d0</peer-mac-address>
-                                        <system-name>mnd-gt0002-bpe10.test</system-name>
+                                        <peer-mac-address>53:23:c2:e8:ec:f8</peer-mac-address>
+                                        <system-name>fzp-ti3331-gea03.iaji</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.5.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether1</receiving-parent-interface-name>
                                     <mib>
                                         <port-id-len>14</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>2</rem-index>
+                                        <rem-index>16</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>208</rem-local-port-num>
@@ -206,8 +236,8 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/0</receiving-interface-name>
-                                    <device-id>mnd-gt0002-bpe10.test</device-id>
-                                    <chassis-id>b026.8032.cd49</chassis-id>
+                                    <device-id>fzp-ti3331-gea03.iaji</device-id>
+                                    <chassis-id>g315.7381.sp24</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>TenGigE0/0/0/0</port-id-detail>
                                 </lldp-neighbor>
@@ -216,7 +246,7 @@
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>BPE9</port-description>
-                                        <time-remaining>116</time-remaining>
+                                        <time-remaining>100</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -237,19 +267,18 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>b0:26:80:32:cd:53</peer-mac-address>
-                                        <system-name>mnd-gt0002-bpe10.test</system-name>
+                                        <peer-mac-address>53:23:c2:f9:7b:7b</peer-mac-address>
+                                        <system-name>fzp-ti3331-gea03.iaji</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.5.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether1</receiving-parent-interface-name>
                                     <mib>
                                         <port-id-len>13</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>13</rem-index>
+                                        <rem-index>17</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>208</rem-local-port-num>
@@ -257,21 +286,21 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/0</receiving-interface-name>
-                                    <device-id>mnd-gt0002-bpe10.test</device-id>
-                                    <chassis-id>b026.8032.cd49</chassis-id>
+                                    <device-id>fzp-ti3331-gea03.iaji</device-id>
+                                    <chassis-id>g315.7381.sp24</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Bundle-Ether1</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/0</interface-name>
                             </detail>
                             <detail>
-                                <device-id>mnd-gt0001-cs501</device-id>
+                                <device-id>fzp-ti3330-sj930</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B</enabled-capabilities>
                                     <detail>
                                         <port-description>10 Gig Ethernet Port</port-description>
-                                        <time-remaining>115</time-remaining>
+                                        <time-remaining>106</time-remaining>
                                         <enabled-capabilities>B</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -292,8 +321,8 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>2c:39:c1:47:2c:75</peer-mac-address>
-                                        <system-name>mnd-gt0001-cs501</system-name>
+                                        <peer-mac-address>cf:3c:83:8c:9a:5d</peer-mac-address>
+                                        <system-name>fzp-ti3330-sj930</system-name>
                                         <system-capabilities>B</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>8700 4-slot Packetwave Platform</system-description>
@@ -303,38 +332,38 @@
                                         <org-def-tlv-list>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244529</tlv-info-indes>
+                                                <tlv-info-indes>18129217</tlv-info-indes>
                                                 <tlv-value>00:01:00:00:23</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244530</tlv-info-indes>
+                                                <tlv-info-indes>18129218</tlv-info-indes>
                                                 <tlv-value>00:00:00</tlv-value>
                                                 <tlv-subtype>2</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244531</tlv-info-indes>
+                                                <tlv-info-indes>18129219</tlv-info-indes>
                                                 <tlv-value>03:00:00:10:01</tlv-value>
                                                 <tlv-subtype>3</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244532</tlv-info-indes>
+                                                <tlv-info-indes>18129220</tlv-info-indes>
                                                 <tlv-value>24:00</tlv-value>
                                                 <tlv-subtype>4</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>9098</oui>
-                                                <tlv-info-indes>10244533</tlv-info-indes>
+                                                <tlv-info-indes>18129221</tlv-info-indes>
                                                 <tlv-value>03</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                         </org-def-tlv-list>
                                         <port-id-len>3</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>8</rem-index>
+                                        <rem-index>25</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>210</rem-local-port-num>
@@ -342,21 +371,21 @@
                                         <combined-capabilities>262148</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/2</receiving-interface-name>
-                                    <device-id>mnd-gt0001-cs501</device-id>
-                                    <chassis-id>2c39.c147.2c00</chassis-id>
+                                    <device-id>fzp-ti3330-sj930</device-id>
+                                    <chassis-id>1s84.s026.1s33</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>2/6</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/2</interface-name>
                             </detail>
                             <detail>
-                                <device-id>mnd-gt0001-ec5</device-id>
+                                <device-id>fzp-ti3330-as9</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B</enabled-capabilities>
                                     <detail>
                                         <port-description>10 Gig Ethernet Port</port-description>
-                                        <time-remaining>90</time-remaining>
+                                        <time-remaining>98</time-remaining>
                                         <enabled-capabilities>B</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -365,7 +394,7 @@
                                                     <ipv4-address>172.16.1.67</ipv4-address>
                                                     <address-type>ipv4</address-type>
                                                 </address>
-                                                <if-num>2</if-num>
+                                                <if-num>3</if-num>
                                             </lldp-addr-entry>
                                             <lldp-addr-entry>
                                                 <ma-subtype>2</ma-subtype>
@@ -373,7 +402,7 @@
                                                     <address-type>ipv6</address-type>
                                                     <ipv6-address>fe80::223:8aff:feaa:ea20</ipv6-address>
                                                 </address>
-                                                <if-num>0</if-num>
+                                                <if-num>3</if-num>
                                             </lldp-addr-entry>
                                             <lldp-addr-entry>
                                                 <ma-subtype>2</ma-subtype>
@@ -381,12 +410,12 @@
                                                     <address-type>ipv6</address-type>
                                                     <ipv6-address>fe80::223:8aff:feaa:ea3f</ipv6-address>
                                                 </address>
-                                                <if-num>0</if-num>
+                                                <if-num>8</if-num>
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>00:23:8a:aa:ea:22</peer-mac-address>
-                                        <system-name>mnd-gt0001-ec5</system-name>
+                                        <peer-mac-address>e3:26:c8:61:5c:0a</peer-mac-address>
+                                        <system-name>fzp-ti3330-as9</system-name>
                                         <system-capabilities>B</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Ciena 5160 Service Aggregation Switch</system-description>
@@ -396,56 +425,56 @@
                                         <org-def-tlv-list>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>673</oui>
-                                                <tlv-info-indes>10244502</tlv-info-indes>
+                                                <tlv-info-indes>18129204</tlv-info-indes>
                                                 <tlv-value>00:00:00:00</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244503</tlv-info-indes>
+                                                <tlv-info-indes>18129205</tlv-info-indes>
                                                 <tlv-value>00:00:00:00:23</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244504</tlv-info-indes>
+                                                <tlv-info-indes>18129206</tlv-info-indes>
                                                 <tlv-value>00:00:00</tlv-value>
                                                 <tlv-subtype>2</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244505</tlv-info-indes>
+                                                <tlv-info-indes>18129207</tlv-info-indes>
                                                 <tlv-value>03:00:00:08:01</tlv-value>
                                                 <tlv-subtype>3</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244506</tlv-info-indes>
+                                                <tlv-info-indes>18129208</tlv-info-indes>
                                                 <tlv-value>05:f6</tlv-value>
                                                 <tlv-subtype>4</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>9098</oui>
-                                                <tlv-info-indes>10244507</tlv-info-indes>
+                                                <tlv-info-indes>18129209</tlv-info-indes>
                                                 <tlv-value>03</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>32962</oui>
-                                                <tlv-info-indes>10244508</tlv-info-indes>
+                                                <tlv-info-indes>18129210</tlv-info-indes>
                                                 <tlv-value>00:01</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>32962</oui>
-                                                <tlv-info-indes>10244509</tlv-info-indes>
+                                                <tlv-info-indes>18129211</tlv-info-indes>
                                                 <tlv-value>04:88:09:01:01</tlv-value>
                                                 <tlv-subtype>4</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                         </org-def-tlv-list>
                                         <port-id-len>1</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>9</rem-index>
+                                        <rem-index>23</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>213</rem-local-port-num>
@@ -453,21 +482,21 @@
                                         <combined-capabilities>262148</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/5</receiving-interface-name>
-                                    <device-id>mnd-gt0001-ec5</device-id>
-                                    <chassis-id>0023.8aaa.ea20</chassis-id>
+                                    <device-id>fzp-ti3330-as9</device-id>
+                                    <chassis-id>3318.7bbb.ab13</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>1</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/5</interface-name>
                             </detail>
                             <detail>
-                                <device-id>MND-GT0002-DTV002.MND-GT0002</device-id>
+                                <device-id>SUD-JE3331-DEV331.SUD-JE3331</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B,R</enabled-capabilities>
                                     <detail>
                                         <port-description>TenGigabitEthernet1/51</port-description>
-                                        <time-remaining>112</time-remaining>
+                                        <time-remaining>111</time-remaining>
                                         <enabled-capabilities>B,R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -480,28 +509,27 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>24:e9:b3:26:cf:b2</peer-mac-address>
-                                        <system-name>MND-GT0002-DTV002.MND-GT0002</system-name>
+                                        <peer-mac-address>c7:ec:f1:ed:79:9a</peer-mac-address>
+                                        <system-name>SUD-JE3331-DEV331.SUD-JE3331</system-name>
                                         <system-capabilities>B,R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS Software, Catalyst 4500 L3 Switch Software
                                             (cat4500e-ENTSERVICESK9-M), Version 15.0(2)SG11, RELEASE SOFTWARE (fc2)
                                             Technical Support: http://www.cisco.com/techsupport
                                             Copyright (c) 1986-2016 by Cisco Systems, Inc.
-                                            Compiled Mon 24-Oct-16 10:41 by
-                                        </system-description>
+                                            Compiled Mon 24-Oct-16 10:41 by</system-description>
                                     </detail>
                                     <mib>
                                         <org-def-tlv-list>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244522</tlv-info-indes>
+                                                <tlv-info-indes>18129224</tlv-info-indes>
                                                 <tlv-value>02:80:00:00:00</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>32962</oui>
-                                                <tlv-info-indes>10244523</tlv-info-indes>
+                                                <tlv-info-indes>18129225</tlv-info-indes>
                                                 <tlv-value>00:01</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
@@ -516,23 +544,75 @@
                                         <combined-capabilities>1310740</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/9</receiving-interface-name>
-                                    <device-id>MND-GT0002-DTV002.MND-GT0002</device-id>
-                                    <chassis-id>24e9.b326.cfbf</chassis-id>
+                                    <device-id>SUD-JE3331-DEV331.SUD-JE3331</device-id>
+                                    <chassis-id>12a4.g815.sogo</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Te1/51</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/9</interface-name>
                             </detail>
                             <detail>
-                                <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
+                                <device-id>fzp-ti3331-bw090</device-id>
+                                <lldp-neighbor>
+                                    <header-version>0</header-version>
+                                    <enabled-capabilities>R</enabled-capabilities>
+                                    <detail>
+                                        <port-description>10GE to BPE09 Te0/0/0/14</port-description>
+                                        <time-remaining>111</time-remaining>
+                                        <enabled-capabilities>R</enabled-capabilities>
+                                        <network-addresses>
+                                            <lldp-addr-entry>
+                                                <ma-subtype>1</ma-subtype>
+                                                <address>
+                                                    <ipv4-address>172.29.111.158</ipv4-address>
+                                                    <address-type>ipv4</address-type>
+                                                </address>
+                                                <if-num>144</if-num>
+                                            </lldp-addr-entry>
+                                            <lldp-addr-entry>
+                                                <ma-subtype>2</ma-subtype>
+                                                <address>
+                                                    <address-type>ipv6</address-type>
+                                                    <ipv6-address>2001:b88::33:5</ipv6-address>
+                                                </address>
+                                                <if-num>144</if-num>
+                                            </lldp-addr-entry>
+                                        </network-addresses>
+                                        <port-vlan-id>0</port-vlan-id>
+                                        <peer-mac-address>7f:e4:34:dc:fa:10</peer-mac-address>
+                                        <system-name>fzp-ti3331-bw090</system-name>
+                                        <system-capabilities>R</system-capabilities>
+                                        <media-attachment-unit-type>0</media-attachment-unit-type>
+                                        <system-description>6.6.3, NCS-5500</system-description>
+                                    </detail>
+                                    <receiving-parent-interface-name>Bundle-Ether12</receiving-parent-interface-name>
+                                    <mib>
+                                        <port-id-len>15</port-id-len>
+                                        <chassis-id-len>14</chassis-id-len>
+                                        <rem-index>18</rem-index>
+                                        <rem-time-mark>0</rem-time-mark>
+                                        <chassis-id-sub-type>4</chassis-id-sub-type>
+                                        <rem-local-port-num>222</rem-local-port-num>
+                                        <port-id-sub-type>5</port-id-sub-type>
+                                        <combined-capabilities>1048592</combined-capabilities>
+                                    </mib>
+                                    <receiving-interface-name>TenGigE0/0/0/14</receiving-interface-name>
+                                    <device-id>fzp-ti3331-bw090</device-id>
+                                    <chassis-id>4sa0.6506.2sp4</chassis-id>
+                                    <hold-time>120</hold-time>
+                                    <port-id-detail>TenGigE0/0/0/14</port-id-detail>
+                                </lldp-neighbor>
+                                <interface-name>TenGigE0/0/0/14</interface-name>
+                            </detail>
+                            <detail>
+                                <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>1st 10GE to BPE9 Te0/0/0/19 - member of BE42 -
-                                            MND-GT0002-MND-GT0002-EBRR42
-                                        </port-description>
-                                        <time-remaining>102</time-remaining>
+                                            MND-GT0002-MND-GT0002-EBRR42</port-description>
+                                        <time-remaining>110</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -553,13 +633,12 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>a8:0c:0d:2e:bd:55</peer-mac-address>
-                                        <system-name>mnd-gt0002-cr133.core.as33915.net</system-name>
+                                        <peer-mac-address>4b:09:4f:e5:0b:7d</peer-mac-address>
+                                        <system-name>fzp-ti3331-sw088.sxwa.bj88409.zai</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.6.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether2</receiving-parent-interface-name>
                                     <mib>
@@ -573,8 +652,8 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/19</receiving-interface-name>
-                                    <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
-                                    <chassis-id>40ce.2471.b1f9</chassis-id>
+                                    <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
+                                    <chassis-id>23sa.1260.g0o4</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>TenGigE0/1/0/21</port-id-detail>
                                 </lldp-neighbor>
@@ -583,9 +662,8 @@
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>10GE to BPE9 BE2 - members Te0/1/0/21 -
-                                            MND-GT0002-MND-GT0002-ECNL42
-                                        </port-description>
-                                        <time-remaining>110</time-remaining>
+                                            MND-GT0002-MND-GT0002-ECNL42</port-description>
+                                        <time-remaining>90</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -606,13 +684,12 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>40:ce:24:71:b1:fb</peer-mac-address>
-                                        <system-name>mnd-gt0002-cr133.core.as33915.net</system-name>
+                                        <peer-mac-address>a3:cb:66:ba:07:d3</peer-mac-address>
+                                        <system-name>fzp-ti3331-sw088.sxwa.bj88409.zai</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.6.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether2</receiving-parent-interface-name>
                                     <mib>
@@ -626,8 +703,8 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/19</receiving-interface-name>
-                                    <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
-                                    <chassis-id>40ce.2471.b1f9</chassis-id>
+                                    <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
+                                    <chassis-id>23sa.1260.g0o4</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Bundle-Ether42</port-id-detail>
                                 </lldp-neighbor>
@@ -636,13 +713,13 @@
                         </details>
                         <devices>
                             <device>
-                                <device-id>mnd-gt0002-bpe10.test</device-id>
+                                <device-id>fzp-ti3331-gea03.iaji</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>BPE10</port-description>
-                                        <time-remaining>112</time-remaining>
+                                        <time-remaining>114</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -663,19 +740,18 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>b0:26:80:23:5a:d0</peer-mac-address>
-                                        <system-name>mnd-gt0002-bpe10.test</system-name>
+                                        <peer-mac-address>53:23:c2:e8:ec:f8</peer-mac-address>
+                                        <system-name>fzp-ti3331-gea03.iaji</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.5.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether1</receiving-parent-interface-name>
                                     <mib>
                                         <port-id-len>14</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>2</rem-index>
+                                        <rem-index>16</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>208</rem-local-port-num>
@@ -683,8 +759,8 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/0</receiving-interface-name>
-                                    <device-id>mnd-gt0002-bpe10.test</device-id>
-                                    <chassis-id>b026.8032.cd49</chassis-id>
+                                    <device-id>fzp-ti3331-gea03.iaji</device-id>
+                                    <chassis-id>g315.7381.sp24</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>TenGigE0/0/0/0</port-id-detail>
                                 </lldp-neighbor>
@@ -693,7 +769,7 @@
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>BPE9</port-description>
-                                        <time-remaining>116</time-remaining>
+                                        <time-remaining>100</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -714,19 +790,18 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>b0:26:80:32:cd:53</peer-mac-address>
-                                        <system-name>mnd-gt0002-bpe10.test</system-name>
+                                        <peer-mac-address>53:23:c2:f9:7b:7b</peer-mac-address>
+                                        <system-name>fzp-ti3331-gea03.iaji</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.5.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether1</receiving-parent-interface-name>
                                     <mib>
                                         <port-id-len>13</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>13</rem-index>
+                                        <rem-index>17</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>208</rem-local-port-num>
@@ -734,21 +809,21 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/0</receiving-interface-name>
-                                    <device-id>mnd-gt0002-bpe10.test</device-id>
-                                    <chassis-id>b026.8032.cd49</chassis-id>
+                                    <device-id>fzp-ti3331-gea03.iaji</device-id>
+                                    <chassis-id>g315.7381.sp24</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Bundle-Ether1</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/0</interface-name>
                             </device>
                             <device>
-                                <device-id>mnd-gt0001-cs501</device-id>
+                                <device-id>fzp-ti3330-sj930</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B</enabled-capabilities>
                                     <detail>
                                         <port-description>10 Gig Ethernet Port</port-description>
-                                        <time-remaining>115</time-remaining>
+                                        <time-remaining>106</time-remaining>
                                         <enabled-capabilities>B</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -769,8 +844,8 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>2c:39:c1:47:2c:75</peer-mac-address>
-                                        <system-name>mnd-gt0001-cs501</system-name>
+                                        <peer-mac-address>cf:3c:83:8c:9a:5d</peer-mac-address>
+                                        <system-name>fzp-ti3330-sj930</system-name>
                                         <system-capabilities>B</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>8700 4-slot Packetwave Platform</system-description>
@@ -780,38 +855,38 @@
                                         <org-def-tlv-list>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244529</tlv-info-indes>
+                                                <tlv-info-indes>18129217</tlv-info-indes>
                                                 <tlv-value>00:01:00:00:23</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244530</tlv-info-indes>
+                                                <tlv-info-indes>18129218</tlv-info-indes>
                                                 <tlv-value>00:00:00</tlv-value>
                                                 <tlv-subtype>2</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244531</tlv-info-indes>
+                                                <tlv-info-indes>18129219</tlv-info-indes>
                                                 <tlv-value>03:00:00:10:01</tlv-value>
                                                 <tlv-subtype>3</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244532</tlv-info-indes>
+                                                <tlv-info-indes>18129220</tlv-info-indes>
                                                 <tlv-value>24:00</tlv-value>
                                                 <tlv-subtype>4</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>9098</oui>
-                                                <tlv-info-indes>10244533</tlv-info-indes>
+                                                <tlv-info-indes>18129221</tlv-info-indes>
                                                 <tlv-value>03</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                         </org-def-tlv-list>
                                         <port-id-len>3</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>8</rem-index>
+                                        <rem-index>25</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>210</rem-local-port-num>
@@ -819,21 +894,21 @@
                                         <combined-capabilities>262148</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/2</receiving-interface-name>
-                                    <device-id>mnd-gt0001-cs501</device-id>
-                                    <chassis-id>2c39.c147.2c00</chassis-id>
+                                    <device-id>fzp-ti3330-sj930</device-id>
+                                    <chassis-id>1s84.s026.1s33</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>2/6</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/2</interface-name>
                             </device>
                             <device>
-                                <device-id>mnd-gt0001-ec5</device-id>
+                                <device-id>fzp-ti3330-as9</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B</enabled-capabilities>
                                     <detail>
                                         <port-description>10 Gig Ethernet Port</port-description>
-                                        <time-remaining>90</time-remaining>
+                                        <time-remaining>98</time-remaining>
                                         <enabled-capabilities>B</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -842,7 +917,7 @@
                                                     <ipv4-address>172.16.1.67</ipv4-address>
                                                     <address-type>ipv4</address-type>
                                                 </address>
-                                                <if-num>2</if-num>
+                                                <if-num>3</if-num>
                                             </lldp-addr-entry>
                                             <lldp-addr-entry>
                                                 <ma-subtype>2</ma-subtype>
@@ -850,7 +925,7 @@
                                                     <address-type>ipv6</address-type>
                                                     <ipv6-address>fe80::223:8aff:feaa:ea20</ipv6-address>
                                                 </address>
-                                                <if-num>0</if-num>
+                                                <if-num>3</if-num>
                                             </lldp-addr-entry>
                                             <lldp-addr-entry>
                                                 <ma-subtype>2</ma-subtype>
@@ -858,12 +933,12 @@
                                                     <address-type>ipv6</address-type>
                                                     <ipv6-address>fe80::223:8aff:feaa:ea3f</ipv6-address>
                                                 </address>
-                                                <if-num>0</if-num>
+                                                <if-num>8</if-num>
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>00:23:8a:aa:ea:22</peer-mac-address>
-                                        <system-name>mnd-gt0001-ec5</system-name>
+                                        <peer-mac-address>e3:26:c8:61:5c:0a</peer-mac-address>
+                                        <system-name>fzp-ti3330-as9</system-name>
                                         <system-capabilities>B</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Ciena 5160 Service Aggregation Switch</system-description>
@@ -873,56 +948,56 @@
                                         <org-def-tlv-list>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>673</oui>
-                                                <tlv-info-indes>10244502</tlv-info-indes>
+                                                <tlv-info-indes>18129204</tlv-info-indes>
                                                 <tlv-value>00:00:00:00</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244503</tlv-info-indes>
+                                                <tlv-info-indes>18129205</tlv-info-indes>
                                                 <tlv-value>00:00:00:00:23</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244504</tlv-info-indes>
+                                                <tlv-info-indes>18129206</tlv-info-indes>
                                                 <tlv-value>00:00:00</tlv-value>
                                                 <tlv-subtype>2</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244505</tlv-info-indes>
+                                                <tlv-info-indes>18129207</tlv-info-indes>
                                                 <tlv-value>03:00:00:08:01</tlv-value>
                                                 <tlv-subtype>3</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244506</tlv-info-indes>
+                                                <tlv-info-indes>18129208</tlv-info-indes>
                                                 <tlv-value>05:f6</tlv-value>
                                                 <tlv-subtype>4</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>9098</oui>
-                                                <tlv-info-indes>10244507</tlv-info-indes>
+                                                <tlv-info-indes>18129209</tlv-info-indes>
                                                 <tlv-value>03</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>32962</oui>
-                                                <tlv-info-indes>10244508</tlv-info-indes>
+                                                <tlv-info-indes>18129210</tlv-info-indes>
                                                 <tlv-value>00:01</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>32962</oui>
-                                                <tlv-info-indes>10244509</tlv-info-indes>
+                                                <tlv-info-indes>18129211</tlv-info-indes>
                                                 <tlv-value>04:88:09:01:01</tlv-value>
                                                 <tlv-subtype>4</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                         </org-def-tlv-list>
                                         <port-id-len>1</port-id-len>
                                         <chassis-id-len>14</chassis-id-len>
-                                        <rem-index>9</rem-index>
+                                        <rem-index>23</rem-index>
                                         <rem-time-mark>0</rem-time-mark>
                                         <chassis-id-sub-type>4</chassis-id-sub-type>
                                         <rem-local-port-num>213</rem-local-port-num>
@@ -930,21 +1005,21 @@
                                         <combined-capabilities>262148</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/5</receiving-interface-name>
-                                    <device-id>mnd-gt0001-ec5</device-id>
-                                    <chassis-id>0023.8aaa.ea20</chassis-id>
+                                    <device-id>fzp-ti3330-as9</device-id>
+                                    <chassis-id>3318.7bbb.ab13</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>1</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/5</interface-name>
                             </device>
                             <device>
-                                <device-id>MND-GT0002-DTV002.MND-GT0002</device-id>
+                                <device-id>SUD-JE3331-DEV331.SUD-JE3331</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B,R</enabled-capabilities>
                                     <detail>
                                         <port-description>TenGigabitEthernet1/51</port-description>
-                                        <time-remaining>112</time-remaining>
+                                        <time-remaining>111</time-remaining>
                                         <enabled-capabilities>B,R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -957,28 +1032,27 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>24:e9:b3:26:cf:b2</peer-mac-address>
-                                        <system-name>MND-GT0002-DTV002.MND-GT0002</system-name>
+                                        <peer-mac-address>c7:ec:f1:ed:79:9a</peer-mac-address>
+                                        <system-name>SUD-JE3331-DEV331.SUD-JE3331</system-name>
                                         <system-capabilities>B,R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS Software, Catalyst 4500 L3 Switch Software
                                             (cat4500e-ENTSERVICESK9-M), Version 15.0(2)SG11, RELEASE SOFTWARE (fc2)
                                             Technical Support: http://www.cisco.com/techsupport
                                             Copyright (c) 1986-2016 by Cisco Systems, Inc.
-                                            Compiled Mon 24-Oct-16 10:41 by
-                                        </system-description>
+                                            Compiled Mon 24-Oct-16 10:41 by</system-description>
                                     </detail>
                                     <mib>
                                         <org-def-tlv-list>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>4623</oui>
-                                                <tlv-info-indes>10244522</tlv-info-indes>
+                                                <tlv-info-indes>18129224</tlv-info-indes>
                                                 <tlv-value>02:80:00:00:00</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
                                             <lldp-org-def-tlv-entry>
                                                 <oui>32962</oui>
-                                                <tlv-info-indes>10244523</tlv-info-indes>
+                                                <tlv-info-indes>18129225</tlv-info-indes>
                                                 <tlv-value>00:01</tlv-value>
                                                 <tlv-subtype>1</tlv-subtype>
                                             </lldp-org-def-tlv-entry>
@@ -993,23 +1067,75 @@
                                         <combined-capabilities>1310740</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/9</receiving-interface-name>
-                                    <device-id>MND-GT0002-DTV002.MND-GT0002</device-id>
-                                    <chassis-id>24e9.b326.cfbf</chassis-id>
+                                    <device-id>SUD-JE3331-DEV331.SUD-JE3331</device-id>
+                                    <chassis-id>12a4.g815.sogo</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Te1/51</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/9</interface-name>
                             </device>
                             <device>
-                                <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
+                                <device-id>fzp-ti3331-bw090</device-id>
+                                <lldp-neighbor>
+                                    <header-version>0</header-version>
+                                    <enabled-capabilities>R</enabled-capabilities>
+                                    <detail>
+                                        <port-description>10GE to BPE09 Te0/0/0/14</port-description>
+                                        <time-remaining>111</time-remaining>
+                                        <enabled-capabilities>R</enabled-capabilities>
+                                        <network-addresses>
+                                            <lldp-addr-entry>
+                                                <ma-subtype>1</ma-subtype>
+                                                <address>
+                                                    <ipv4-address>172.29.111.158</ipv4-address>
+                                                    <address-type>ipv4</address-type>
+                                                </address>
+                                                <if-num>144</if-num>
+                                            </lldp-addr-entry>
+                                            <lldp-addr-entry>
+                                                <ma-subtype>2</ma-subtype>
+                                                <address>
+                                                    <address-type>ipv6</address-type>
+                                                    <ipv6-address>2001:b88::33:5</ipv6-address>
+                                                </address>
+                                                <if-num>144</if-num>
+                                            </lldp-addr-entry>
+                                        </network-addresses>
+                                        <port-vlan-id>0</port-vlan-id>
+                                        <peer-mac-address>7f:e4:34:dc:fa:10</peer-mac-address>
+                                        <system-name>fzp-ti3331-bw090</system-name>
+                                        <system-capabilities>R</system-capabilities>
+                                        <media-attachment-unit-type>0</media-attachment-unit-type>
+                                        <system-description>6.6.3, NCS-5500</system-description>
+                                    </detail>
+                                    <receiving-parent-interface-name>Bundle-Ether12</receiving-parent-interface-name>
+                                    <mib>
+                                        <port-id-len>15</port-id-len>
+                                        <chassis-id-len>14</chassis-id-len>
+                                        <rem-index>18</rem-index>
+                                        <rem-time-mark>0</rem-time-mark>
+                                        <chassis-id-sub-type>4</chassis-id-sub-type>
+                                        <rem-local-port-num>222</rem-local-port-num>
+                                        <port-id-sub-type>5</port-id-sub-type>
+                                        <combined-capabilities>1048592</combined-capabilities>
+                                    </mib>
+                                    <receiving-interface-name>TenGigE0/0/0/14</receiving-interface-name>
+                                    <device-id>fzp-ti3331-bw090</device-id>
+                                    <chassis-id>4sa0.6506.2sp4</chassis-id>
+                                    <hold-time>120</hold-time>
+                                    <port-id-detail>TenGigE0/0/0/14</port-id-detail>
+                                </lldp-neighbor>
+                                <interface-name>TenGigE0/0/0/14</interface-name>
+                            </device>
+                            <device>
+                                <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>1st 10GE to BPE9 Te0/0/0/19 - member of BE42 -
-                                            MND-GT0002-MND-GT0002-EBRR42
-                                        </port-description>
-                                        <time-remaining>102</time-remaining>
+                                            MND-GT0002-MND-GT0002-EBRR42</port-description>
+                                        <time-remaining>110</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -1030,13 +1156,12 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>a8:0c:0d:2e:bd:55</peer-mac-address>
-                                        <system-name>mnd-gt0002-cr133.core.as33915.net</system-name>
+                                        <peer-mac-address>4b:09:4f:e5:0b:7d</peer-mac-address>
+                                        <system-name>fzp-ti3331-sw088.sxwa.bj88409.zai</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.6.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether2</receiving-parent-interface-name>
                                     <mib>
@@ -1050,8 +1175,8 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/19</receiving-interface-name>
-                                    <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
-                                    <chassis-id>40ce.2471.b1f9</chassis-id>
+                                    <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
+                                    <chassis-id>23sa.1260.g0o4</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>TenGigE0/1/0/21</port-id-detail>
                                 </lldp-neighbor>
@@ -1060,9 +1185,8 @@
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <detail>
                                         <port-description>10GE to BPE9 BE2 - members Te0/1/0/21 -
-                                            MND-GT0002-MND-GT0002-ECNL42
-                                        </port-description>
-                                        <time-remaining>110</time-remaining>
+                                            MND-GT0002-MND-GT0002-ECNL42</port-description>
+                                        <time-remaining>91</time-remaining>
                                         <enabled-capabilities>R</enabled-capabilities>
                                         <network-addresses>
                                             <lldp-addr-entry>
@@ -1083,13 +1207,12 @@
                                             </lldp-addr-entry>
                                         </network-addresses>
                                         <port-vlan-id>0</port-vlan-id>
-                                        <peer-mac-address>40:ce:24:71:b1:fb</peer-mac-address>
-                                        <system-name>mnd-gt0002-cr133.core.as33915.net</system-name>
+                                        <peer-mac-address>a3:cb:66:ba:07:d3</peer-mac-address>
+                                        <system-name>fzp-ti3331-sw088.sxwa.bj88409.zai</system-name>
                                         <system-capabilities>R</system-capabilities>
                                         <media-attachment-unit-type>0</media-attachment-unit-type>
                                         <system-description>Cisco IOS XR Software, Version 6.6.3[Default]
-                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series
-                                        </system-description>
+                                            Copyright (c) 2019 by Cisco Systems, Inc., ASR9K Series</system-description>
                                     </detail>
                                     <receiving-parent-interface-name>Bundle-Ether2</receiving-parent-interface-name>
                                     <mib>
@@ -1103,8 +1226,8 @@
                                         <combined-capabilities>1048592</combined-capabilities>
                                     </mib>
                                     <receiving-interface-name>TenGigE0/0/0/19</receiving-interface-name>
-                                    <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
-                                    <chassis-id>40ce.2471.b1f9</chassis-id>
+                                    <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
+                                    <chassis-id>23sa.1260.g0o4</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Bundle-Ether42</port-id-detail>
                                 </lldp-neighbor>
@@ -1113,14 +1236,14 @@
                         </devices>
                         <summaries>
                             <summary>
-                                <device-id>mnd-gt0002-bpe10.test</device-id>
+                                <device-id>fzp-ti3331-gea03.iaji</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <receiving-parent-interface-name>Bundle-Ether1</receiving-parent-interface-name>
                                     <receiving-interface-name>TenGigE0/0/0/0</receiving-interface-name>
-                                    <device-id>mnd-gt0002-bpe10.test</device-id>
-                                    <chassis-id>b026.8032.cd49</chassis-id>
+                                    <device-id>fzp-ti3331-gea03.iaji</device-id>
+                                    <chassis-id>g315.7381.sp24</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>TenGigE0/0/0/0</port-id-detail>
                                 </lldp-neighbor>
@@ -1129,63 +1252,77 @@
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <receiving-parent-interface-name>Bundle-Ether1</receiving-parent-interface-name>
                                     <receiving-interface-name>TenGigE0/0/0/0</receiving-interface-name>
-                                    <device-id>mnd-gt0002-bpe10.test</device-id>
-                                    <chassis-id>b026.8032.cd49</chassis-id>
+                                    <device-id>fzp-ti3331-gea03.iaji</device-id>
+                                    <chassis-id>g315.7381.sp24</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Bundle-Ether1</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/0</interface-name>
                             </summary>
                             <summary>
-                                <device-id>mnd-gt0001-cs501</device-id>
+                                <device-id>fzp-ti3330-sj930</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B</enabled-capabilities>
                                     <receiving-parent-interface-name>Bundle-Ether24</receiving-parent-interface-name>
                                     <receiving-interface-name>TenGigE0/0/0/2</receiving-interface-name>
-                                    <device-id>mnd-gt0001-cs501</device-id>
-                                    <chassis-id>2c39.c147.2c00</chassis-id>
+                                    <device-id>fzp-ti3330-sj930</device-id>
+                                    <chassis-id>1s84.s026.1s33</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>2/6</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/2</interface-name>
                             </summary>
                             <summary>
-                                <device-id>mnd-gt0001-ec5</device-id>
+                                <device-id>fzp-ti3330-as9</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B</enabled-capabilities>
                                     <receiving-parent-interface-name>Bundle-Ether25</receiving-parent-interface-name>
                                     <receiving-interface-name>TenGigE0/0/0/5</receiving-interface-name>
-                                    <device-id>mnd-gt0001-ec5</device-id>
-                                    <chassis-id>0023.8aaa.ea20</chassis-id>
+                                    <device-id>fzp-ti3330-as9</device-id>
+                                    <chassis-id>3318.7bbb.ab13</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>1</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/5</interface-name>
                             </summary>
                             <summary>
-                                <device-id>MND-GT0002-DTV002.MND-GT0002</device-id>
+                                <device-id>SUD-JE3331-DEV331.SUD-JE3331</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>B,R</enabled-capabilities>
                                     <receiving-interface-name>TenGigE0/0/0/9</receiving-interface-name>
-                                    <device-id>MND-GT0002-DTV002.MND-GT0002</device-id>
-                                    <chassis-id>24e9.b326.cfbf</chassis-id>
+                                    <device-id>SUD-JE3331-DEV331.SUD-JE3331</device-id>
+                                    <chassis-id>12a4.g815.sogo</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Te1/51</port-id-detail>
                                 </lldp-neighbor>
                                 <interface-name>TenGigE0/0/0/9</interface-name>
                             </summary>
                             <summary>
-                                <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
+                                <device-id>fzp-ti3331-bw090</device-id>
+                                <lldp-neighbor>
+                                    <header-version>0</header-version>
+                                    <enabled-capabilities>R</enabled-capabilities>
+                                    <receiving-parent-interface-name>Bundle-Ether12</receiving-parent-interface-name>
+                                    <receiving-interface-name>TenGigE0/0/0/14</receiving-interface-name>
+                                    <device-id>fzp-ti3331-bw090</device-id>
+                                    <chassis-id>4sa0.6506.2sp4</chassis-id>
+                                    <hold-time>120</hold-time>
+                                    <port-id-detail>TenGigE0/0/0/14</port-id-detail>
+                                </lldp-neighbor>
+                                <interface-name>TenGigE0/0/0/14</interface-name>
+                            </summary>
+                            <summary>
+                                <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
                                 <lldp-neighbor>
                                     <header-version>0</header-version>
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <receiving-parent-interface-name>Bundle-Ether2</receiving-parent-interface-name>
                                     <receiving-interface-name>TenGigE0/0/0/19</receiving-interface-name>
-                                    <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
-                                    <chassis-id>40ce.2471.b1f9</chassis-id>
+                                    <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
+                                    <chassis-id>23sa.1260.g0o4</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>TenGigE0/1/0/21</port-id-detail>
                                 </lldp-neighbor>
@@ -1194,8 +1331,8 @@
                                     <enabled-capabilities>R</enabled-capabilities>
                                     <receiving-parent-interface-name>Bundle-Ether2</receiving-parent-interface-name>
                                     <receiving-interface-name>TenGigE0/0/0/19</receiving-interface-name>
-                                    <device-id>mnd-gt0002-cr133.core.as33915.net</device-id>
-                                    <chassis-id>40ce.2471.b1f9</chassis-id>
+                                    <device-id>fzp-ti3331-sw088.sxwa.bj88409.zai</device-id>
+                                    <chassis-id>23sa.1260.g0o4</chassis-id>
                                     <hold-time>120</hold-time>
                                     <port-id-detail>Bundle-Ether42</port-id-detail>
                                 </lldp-neighbor>
@@ -1355,6 +1492,36 @@
                             <port-id-sub-type>5</port-id-sub-type>
                         </interface>
                         <interface>
+                            <interface-name>TenGigE0/0/0/14</interface-name>
+                            <port-description>10GE to MND-GT0002-AR151 Te0/0/0/14</port-description>
+                            <interface-name-xr>TenGigE0/0/0/14</interface-name-xr>
+                            <tx-enabled>1</tx-enabled>
+                            <rx-enabled>1</rx-enabled>
+                            <port-id>TenGigE0/0/0/14</port-id>
+                            <local-network-addresses>
+                                <lldp-addr-entry>
+                                    <ma-subtype>1</ma-subtype>
+                                    <address>
+                                        <ipv4-address>172.16.1.80</ipv4-address>
+                                        <address-type>ipv4</address-type>
+                                    </address>
+                                    <if-num>50331648</if-num>
+                                </lldp-addr-entry>
+                                <lldp-addr-entry>
+                                    <ma-subtype>1</ma-subtype>
+                                    <address>
+                                        <address-type>ipv6</address-type>
+                                        <ipv6-address>2001:730:2200::5474:f609</ipv6-address>
+                                    </address>
+                                    <if-num>268435456</if-num>
+                                </lldp-addr-entry>
+                            </local-network-addresses>
+                            <if-index>222</if-index>
+                            <tx-state>IDLE</tx-state>
+                            <rx-state>WAIT FOR FRAME</rx-state>
+                            <port-id-sub-type>5</port-id-sub-type>
+                        </interface>
+                        <interface>
                             <interface-name>TenGigE0/0/0/19</interface-name>
                             <port-description>mnd-gt0002-cr133</port-description>
                             <interface-name-xr>TenGigE0/0/0/19</interface-name-xr>
@@ -1386,16 +1553,32 @@
                         </interface>
                     </interfaces>
                     <statistics>
-                        <discarded-tl-vs>5122267</discarded-tl-vs>
+                        <discarded-tl-vs>9064613</discarded-tl-vs>
                         <encapsulation-errors>0</encapsulation-errors>
                         <table-overflow-errors>0</table-overflow-errors>
                         <bad-packets>0</bad-packets>
-                        <unrecognized-tl-vs>5122267</unrecognized-tl-vs>
+                        <unrecognized-tl-vs>9064613</unrecognized-tl-vs>
                         <out-of-memory-errors>0</out-of-memory-errors>
-                        <discarded-packets>42450</discarded-packets>
-                        <transmitted-packets>1633235</transmitted-packets>
+                        <discarded-packets>42451</discarded-packets>
+                        <transmitted-packets>2981840</transmitted-packets>
+                        <aged-out-entries>1</aged-out-entries>
+                        <received-packets>3741701</received-packets>
+                        <queue-overflow-errors>0</queue-overflow-errors>
+                    </statistics>
+                </node>
+                <node>
+                    <node-name>0/1/CPU0</node-name>
+                    <statistics>
+                        <discarded-tl-vs>0</discarded-tl-vs>
+                        <encapsulation-errors>0</encapsulation-errors>
+                        <table-overflow-errors>0</table-overflow-errors>
+                        <bad-packets>0</bad-packets>
+                        <unrecognized-tl-vs>0</unrecognized-tl-vs>
+                        <out-of-memory-errors>0</out-of-memory-errors>
+                        <discarded-packets>0</discarded-packets>
+                        <transmitted-packets>0</transmitted-packets>
                         <aged-out-entries>0</aged-out-entries>
-                        <received-packets>1999943</received-packets>
+                        <received-packets>0</received-packets>
                         <queue-overflow-errors>0</queue-overflow-errors>
                     </statistics>
                 </node>
