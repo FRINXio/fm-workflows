@@ -23,4 +23,4 @@ RUN apk add ulogd
 WORKDIR /sample-topology
 COPY ./ ./
 
-ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_9_rc1-frinxodl-executable.jar /./netconf-testtool/
+ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_10_rc5-frinxodl-SNAPSHOT-executable.jar /./netconf-testtool/
