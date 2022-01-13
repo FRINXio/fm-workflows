@@ -61,19 +61,13 @@ setManagerIpAddrEnv
 # Program starts here
 # =======================================
 
+# Pull cli-testtool submodule
 echo -e "Pulling submodules..."
 if [[ ! -d '.git' ]]; then
   git clone https://github.com/FRINXio/yang-schemas.git
 else
- git submodule update --init --recursive
+ git submodule update --init sample-topology/cli-testtool
 fi
-# Update yang-schema submodule
-(cd yang-schemas && git pull origin main && git checkout main)
-
-echo -e "Copying specific pulled schemas into schema folder..."
-cp -r yang-schemas/cisco-iosxr-653 sample-topology/schemas
-cp -r yang-schemas/cisco-iosxr-663 sample-topology/schemas
-cp -r yang-schemas/junos-16-2021 sample-topology/schemas
 
 __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"

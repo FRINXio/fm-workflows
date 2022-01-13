@@ -19,3 +19,8 @@
 
 - **--all** (run all devices)
 
+
+### Developers
+
+#### Build docker image - frinx/sample-topology:latest
+To build `frinx/sample-topology:latest` docker image run script `./build_st_docker_image.sh`
