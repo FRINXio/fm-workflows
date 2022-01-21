@@ -22,8 +22,7 @@ jobs:
 
       - name: Build image
         run: |
-          git submodule update --init --recursive
-          docker build -f sample-topology/Dockerfile -t  $SAMPLE_TOPOLOGY_IMAGE_NAME ./sample-topology/
+          ./sample-topology/build_st_docker_image.sh $SAMPLE_TOPOLOGY_IMAGE_NAME ./sample-topology/
           docker build -f demo-workflows/Dockerfile -t $DEMO_WORKFLOWS_IMAGE_NAME ./demo-workflows/
 
       - name: Log into Docker Hub
