@@ -17,6 +17,10 @@ DESCRIPTION:
    -ad|--all-devices   Run CLI and netconf devices
    -nd|--only-netconf-devices   Run only netconf devices
 
+   Run only specific instances:
+   -i65|--iosxr653   Run only iosxr 653 instance. Devices [iosxr653_1, iosxr653_2]
+   -i66|--iosxr663   Run only iosxr 663 instance. Devices [iosxr663_1]
+   -j|--junos        Run only junos instance. Devices [junos_1]
 
 EOF
 }
@@ -39,6 +43,12 @@ function argumentsCheck {
 
         -nd|--only-netconf-devices)
             sample_topology_parameter+=" --only-netconf";;
+        -i65|--iosxr653)
+            sample_topology_parameter+=" -i65";;
+        -i66|--iosxr663)
+            sample_topology_parameter+=" -i66";;
+        -j|--junos)
+            sample_topology_parameter+=" -j";;
 
         *)
             echo "Unknow option: ${1}"

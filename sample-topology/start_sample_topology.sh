@@ -9,6 +9,7 @@ echo $DIR_PATH
 # Set sample topology env variables
 
 export RUN_TESTTOOLS="./scripts/run_cli_devices/run_devices_docker.sh"
+INSTANCES_TO_SIMULATE=""
 
 function show_help() {
 cat << EOF
@@ -24,6 +25,11 @@ DESCRIPTION:
   COMMON SETTINGS
     --only-netconf     Run only netconf devices
     --all    Run all CLI and Netconf devices
+
+   Run only specific instances:
+   -i65|--iosxr653   Run only iosxr 653 instance. Devices [iosxr653_1, iosxr653_2]
+   -i66|--iosxr663   Run only iosxr 663 instance. Devices [iosxr663_1]
+   -j|--junos        Run only junos instance. Devices [junos_1]
 
    -h|--help    Print this help and exit
    -d|--debug   Enable verbose
@@ -47,6 +53,13 @@ function argumentsCheck {
         --all)
             echo "Starting Netconf and CLI devices"
             export RUN_TESTTOOLS="./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh";;
+        -i65|--iosxr653)
+            INSTANCES_TO_SIMULATE+="IOSXR653,";;
+        -i66|--iosxr663)
+            INSTANCES_TO_SIMULATE+="IOSXR663,";;
+        -j|--junos)
+            INSTANCES_TO_SIMULATE+="JUNOS,";;
+
         *)
             echo -e "${ERROR} Unknow option: ${1}"
             show_help
@@ -57,6 +70,8 @@ function argumentsCheck {
 }
 
 argumentsCheck "$@"
+export INSTANCES_TO_SIMULATE
+echo "Starting simulation of these devics: $INSTANCES_TO_SIMULATE"
 
 # -------------- PREPARE NETCONF DEVICES --------------
 # Find highest port in generated devices

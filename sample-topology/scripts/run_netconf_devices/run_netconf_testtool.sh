@@ -3,6 +3,9 @@
 echo "STARTING NETCONF DEVICES"
 netconf_testtool_file=$(find /./netconf-testtool/ | grep netconf-testtool-)
 
+# Generate testtool_instances.txt & netconf_devices.txt
+python2.7 /./sample-topology/scripts/run_netconf_devices/generate_devices_setup.py
+
 # RUN DEVICES WITH NETCONF TESTTOOL
 input=/./sample-topology/scripts/run_netconf_devices/testtool_instances.txt
 line_count=0

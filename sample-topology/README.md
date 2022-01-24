@@ -15,9 +15,14 @@
 
 #### Optional Parameters
 
-- **--only-netconf** (Run only netconf devices)
+- **-nd | --only-netconf** (Run only netconf devices)
 
-- **--all** (run all devices)
+- **-ad | --all** (run all devices)
+
+**Run specific devices (default will run all devices, required atleast 10gb of free RAM)**
+-   **-i65 | --iosxr653**   Run only iosxr 653 instance. Devices [iosxr653_1, iosxr653_2]
+-   **-i66 | --iosxr663**   Run only iosxr 663 instance. Devices [iosxr663_1]
+-   **-j | --junos**        Run only junos instance. Devices [junos_1]
 
 
 ### Developers
