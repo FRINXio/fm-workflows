@@ -39,6 +39,7 @@ services:
     logging: *logging_loki
     environment:
       - DOCKER_GWBRIDGE_IP=${DOCKER_GWBRIDGE_IP}
+      - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
     sysctls:
       - net.ipv4.ip_forward=1
     ports:
