@@ -61,14 +61,6 @@ setManagerIpAddrEnv
 # Program starts here
 # =======================================
 
-# Pull cli-testtool submodule
-echo -e "Pulling submodules..."
-if [[ ! -d '.git' ]]; then
-  git clone https://github.com/FRINXio/yang-schemas.git
-else
- git submodule update --init sample-topology/cli-testtool
-fi
-
 __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"
 
