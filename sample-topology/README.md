@@ -22,5 +22,5 @@
 
 ### Developers
 
-#### Build docker image - frinx/sample-topology:latest
-To build `frinx/sample-topology:latest` docker image run script `./build_st_docker_image.sh`
+#### Build docker image - frinx/sample-topology:<TAG>
+To build docker image run script `./build_st_docker_image.sh frinx/sample-topology:<TAG>`

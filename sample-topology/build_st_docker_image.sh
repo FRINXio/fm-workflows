@@ -11,8 +11,9 @@ pushd ${ST_DIR}/..
   echo -e "Pulling submodules..."
   if [[ ! -d '.git' ]]; then
     git clone https://github.com/FRINXio/yang-schemas.git
+    git clone https://github.com/FRINXio/cli-testtool.git sample-topology/cli-testtool
   else
-    git submodule update --init yang-schemas
+    git submodule update --init --recursive
   fi
 
   echo -e "Copying specific pulled schemas into schema folder..."
