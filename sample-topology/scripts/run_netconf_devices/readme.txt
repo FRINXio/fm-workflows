@@ -1,7 +1,9 @@
 
 testool_instances.txt and netconf_devices.txt MUST HAVE EMPTY LINE AT THE END OF FILE
 
-- Modify INSTANCES_DETAILS to change instances or to change devices to simulate modify DEVICES_DETAILS inside generate_devices_setup.py
+To customize list of simulated devices or instances need modify constants INSTANCES_DETAILS & DEVICES_DETAILS generate_device_setup.py
+
+Process:
 - Run netconf testtool instances (every running instance can have maximum 100 devices and only one schema can run on instance)
 - Push netconf config and operation data to running simulated devices
 
