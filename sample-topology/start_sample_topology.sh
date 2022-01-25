@@ -73,45 +73,13 @@ argumentsCheck "$@"
 export INSTANCES_TO_SIMULATE
 echo "Starting simulation of these devics: $INSTANCES_TO_SIMULATE"
 
-# -------------- PREPARE NETCONF DEVICES --------------
-# Find highest port in generated devices
-highest_port=17000
-input=$NETCONF_RUN_DIR/testtool_instances.txt
-while IFS= read -r line
-do
-  # devices_array: [0]=schema_name, [1]=device_count, [2]=start_port
-  read -ra devices_array <<<"$line"
-  port=${devices_array[2]}
-  device_count=${devices_array[1]}
-  if [ "$port" -gt "$highest_port" ];then
-    highest_port=$port
-  fi
-  if [ "$device_count" -gt 1 ];then
-    last_device_port=$((device_count - 1))
-    highest_port=$((highest_port + last_device_port))
-  fi
-done < "$input"
+# Open netconf ports for simulated devices (used in composefile)
+export PORT_RANGE_NETCONF="17000-17200:17000-17200"
+echo "Opening ports for netconf devices: $PORT_RANGE_NETCONF"
 
-export PORT_RANGE_NETCONF="17000-$highest_port:17000-$highest_port"
-echo $PORT_RANGE_NETCONF
-
-# -------------- PREPARE CLI DEVICES --------------
-# Find highest port in cli devices
-highest_port=10000
-input=$RUN_CLI_DEVICES_DIR/cli_devices.txt
-while IFS= read -r line
-do
-  # devices_array: [0]=device name,[1]=port
-  read -ra devices_array <<<"$line"
-  port=${devices_array[1]}
-  if [ "$port" -gt "$highest_port" ];then
-    highest_port=$port
-  fi
-done < "$input"
-
-# Use in docker compose to open ports
-export PORT_RANGE="10000-$highest_port:10000-$highest_port"
-echo $PORT_RANGE
+# Open cli ports for simulated devices (used in composefile)
+export PORT_RANGE="10000-10015:10000-10015"
+echo "Opening ports for cli devices: $PORT_RANGE"
 
 stackName="fm"
 docker stack deploy --compose-file ../composefiles/swarm-fm-workflows.yml $stackName
