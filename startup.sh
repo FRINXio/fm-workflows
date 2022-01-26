@@ -17,7 +17,7 @@ DESCRIPTION:
    -ad|--all-devices   Run CLI and netconf devices
    -nd|--only-netconf-devices   Run only netconf devices
 
-   Run only specific instances:
+   Run only specific netconf instance (use with parameter -ad or -nd):
    -i65|--iosxr653   Run only iosxr 653 instance. Devices [iosxr653_1, iosxr653_2]
    -i66|--iosxr663   Run only iosxr 663 instance. Devices [iosxr663_1]
    -j|--junos        Run only junos instance. Devices [junos_1]
@@ -25,7 +25,8 @@ DESCRIPTION:
 EOF
 }
 
-sample_topology_parameter=""
+export RUN_TESTTOOLS="./scripts/run_cli_devices/run_devices_docker.sh"
+INSTANCES_TO_SIMULATE=""
 
 function argumentsCheck {
     while [ $# -gt 0 ]
@@ -37,19 +38,18 @@ function argumentsCheck {
 
         -d|--debug) 
             set -x;;
-
         -ad|--all-devices)
-            sample_topology_parameter+=" --all";;
-
+            echo "Starting Netconf and CLI devices"
+            export RUN_TESTTOOLS="./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh";;
         -nd|--only-netconf-devices)
-            sample_topology_parameter+=" --only-netconf";;
+            echo "Starting only Netconf devices"
+            export RUN_TESTTOOLS="./scripts/run_netconf_devices/run_netconf_testtool.sh";;
         -i65|--iosxr653)
-            sample_topology_parameter+=" -i65";;
+            INSTANCES_TO_SIMULATE+="IOSXR653,";;
         -i66|--iosxr663)
-            sample_topology_parameter+=" -i66";;
+            INSTANCES_TO_SIMULATE+="IOSXR663,";;
         -j|--junos)
-            sample_topology_parameter+=" -j";;
-
+            INSTANCES_TO_SIMULATE+="JUNOS,";;
         *)
             echo "Unknow option: ${1}"
             show_help
@@ -74,11 +74,22 @@ setManagerIpAddrEnv
 __SCRIPT_NAME="$(basename "${0}")"
 stackName="fm"
 
-INFO='\033[0;96m[INFO]:\033[0;0m'
+export INSTANCES_TO_SIMULATE
+echo "Simulating these devices: $INSTANCES_TO_SIMULATE"
 
-# Start sample topology and deploy composefile/swarm-fm-workflows.yml (must be deployed from ./start_sample_topology.sh
-# because there is exported env variables for composefile
-(cd sample-topology && ./start_sample_topology.sh$sample_topology_parameter)
+# Open netconf ports for simulated devices (used in composefile)
+export PORT_RANGE_NETCONF="17000-17200:17000-17200"
+echo "Opening ports for netconf devices: $PORT_RANGE_NETCONF"
+
+# Open cli ports for simulated devices (used in composefile)
+export PORT_RANGE="10000-10015:10000-10015"
+echo "Opening ports for cli devices: $PORT_RANGE"
+
+stackName="fm"
+docker stack deploy --compose-file composefiles/swarm-fm-workflows.yml $stackName
+
+
+INFO='\033[0;96m[INFO]:\033[0;0m'
 
 echo -e "${INFO} Startup finished"
 echo -e "================================================================================"
