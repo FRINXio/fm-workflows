@@ -3,6 +3,7 @@
 from collections import namedtuple
 from sys import argv
 from python_graphql_client import GraphqlClient
+import os
 
 # graphql client settings
 inventory_url = "http://inventory:8000/graphql"
@@ -82,6 +83,8 @@ def get_label_id(label_name):
 
 
 def import_devices(device_data_csv, device_data_json):
+    INSTANCES_TO_SIMULATE = os.getenv("INSTANCES_TO_SIMULATE")
+    RUN_TESTTOOLS = os.getenv("RUN_TESTTOOLS")
 
     # definition of replacements in the DEVICE_DATA_JSON file
     json_replacements = {}
@@ -116,6 +119,16 @@ def import_devices(device_data_csv, device_data_json):
         # create a dict for easier use
         device_data_tuple = device_data_def(*data_list)
         device_data = dict(device_data_tuple._asdict())
+
+        # Validate if current device type (CLI or NETCONF) is simulated. labels = CLI or NETCONF
+        if device_data['labels'].lower() not in RUN_TESTTOOLS:
+            continue
+
+        if device_data["labels"] == "NETCONF":
+            # get base name from device id ex. IOSXR653_1 -> IOSXR653
+            device_base_name = device_data["device_id"].split("_")[0]
+            if device_base_name not in INSTANCES_TO_SIMULATE:
+                continue
 
         # copy the postman collections json
         device_json = device_import_json
