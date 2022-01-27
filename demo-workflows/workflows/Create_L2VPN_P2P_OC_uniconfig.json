@@ -1,34 +1,29 @@
 {
-  "updateTime": 1636538576189,
+  "updateTime": 1643101545111,
   "name": "Create_L2VPN_P2P_OC_uniconfig",
   "description": "{\"description\": \"Create P2P L2VPN in uniconfig\", \"labels\": [\"DEMO\",\"L2VPN\",\"UNICONFIG\",\"OPENCONFIG\"]}",
   "version": 2,
-  "failureWorkflow": "UC_TX_rollback",
-  "inputParameters": [
-    "{\"node01\":{\"value\":\"IOS01\",\"description\":\"First node of P2P connection\",\"type\":\"string\"},\"node02\":{\"value\":\"IOS02\",\"description\":\"Second node of P2P connection\",\"type\":\"string\"},\"interface01\":{\"value\":\"GigabitEthernet1\",\"description\":\"Customer facing service interface on first node\",\"type\":\"string\"},\"vcid\":{\"value\":\"444\",\"description\":\"Virtual Circuit Identifier (globally unique)\",\"type\":\"string\"},\"interface02\":{\"value\":\"GigabitEthernet3\",\"description\":\"Customer facing service interface on second node\",\"type\":\"string\"}}"
-  ],
-  "outputParameters": {
-    "response_body": "Journal for ${workflow.input.node01}:  ${read_journal_cli_device_ref_LJUO.output.journal} --------  Journal for ${workflow.input.node02}:  ${read_journal_cli_device_ref_CDGP.output.journal}"
-  },
-  "schemaVersion": 2,
-  "restartable": true,
-  "workflowStatusListenerEnabled": false,
-  "ownerEmail": "fm-workflows",
-  "timeoutPolicy": "ALERT_ONLY",
-  "timeoutSeconds": 0,
-  "variables": {},
   "tasks": [
     {
       "name": "UC_TX_start",
       "taskReferenceName": "tx_start_1",
-      "type": "SUB_WORKFLOW",
       "inputParameters": {
         "devices": "${workflow.input.node01}, ${workflow.input.node02}"
       },
+      "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
       "subWorkflowParam": {
         "name": "UC_TX_start",
         "version": 1
-      }
+      },
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
     },
     {
       "name": "UNICONFIG_sync_from_network",
@@ -46,8 +41,7 @@
       "optional": false,
       "defaultExclusiveJoinTask": [],
       "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
+      "loopOver": []
     },
     {
       "name": "UNICONFIG_replace_config_with_oper",
@@ -65,8 +59,7 @@
       "optional": false,
       "defaultExclusiveJoinTask": [],
       "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
+      "loopOver": []
     },
     {
       "name": "UNICONFIG_write_structured_device_data",
@@ -90,8 +83,7 @@
       "optional": false,
       "defaultExclusiveJoinTask": [],
       "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
+      "loopOver": []
     },
     {
       "name": "UNICONFIG_write_structured_device_data",
@@ -114,8 +106,19 @@
       "optional": false,
       "defaultExclusiveJoinTask": [],
       "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_dryrun_commit",
+      "label": "simple",
+      "type": "SIMPLE",
+      "taskReferenceName": "UNICONFIG_dryrun_commitRefName_rxWZ",
+      "optional": false,
+      "startDelay": 0,
+      "inputParameters": {
+        "devices": "${workflow.input.node01}, ${workflow.input.node02}",
+        "uniconfig_context": "${tx_start_1.output.uniconfig_context}"
+      }
     },
     {
       "name": "UNICONFIG_commit",
@@ -133,14 +136,13 @@
       "optional": false,
       "defaultExclusiveJoinTask": [],
       "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
+      "loopOver": []
     },
     {
       "name": "decisionTask",
       "taskReferenceName": "decisionTaskRef_9LC8",
       "inputParameters": {
-        "param": "${uniconfig_commit_ref_RXFF.output.response_body.output.overall-status}"
+        "param": "${uniconfig_commit_ref_RXFF.output.responses[0].response_body.output.overall-status}"
       },
       "type": "DECISION",
       "caseValueParam": "param",
@@ -166,8 +168,7 @@
             "optional": false,
             "defaultExclusiveJoinTask": [],
             "asyncComplete": false,
-            "loopOver": [],
-            "label": "sub workflow"
+            "loopOver": []
           }
         ]
       },
@@ -192,8 +193,7 @@
           "optional": false,
           "defaultExclusiveJoinTask": [],
           "asyncComplete": false,
-          "loopOver": [],
-          "label": "sub workflow"
+          "loopOver": []
         }
       ],
       "forkTasks": [],
@@ -202,68 +202,23 @@
       "optional": false,
       "defaultExclusiveJoinTask": [],
       "asyncComplete": false,
-      "loopOver": [],
-      "label": "decision"
-    },
-
-     {
-      "name": "UC_TX_start",
-      "taskReferenceName": "tx_start_2",
-      "type": "SUB_WORKFLOW",
-      "subWorkflowParam": {
-        "name": "UC_TX_start",
-        "version": 1
-      }
-    },
-    {
-      "name": "CLI_get_cli_journal",
-      "taskReferenceName": "read_journal_cli_device_ref_LJUO",
-      "inputParameters": {
-        "device_id": "${workflow.input.node01}",
-        "uniconfig_context": "${tx_start_2.output.uniconfig_context}"
-      },
-      "type": "SIMPLE",
-      "decisionCases": {},
-      "defaultCase": [],
-      "forkTasks": [],
-      "startDelay": 0,
-      "joinOn": [],
-      "optional": false,
-      "defaultExclusiveJoinTask": [],
-      "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
-    },
-    {
-      "name": "CLI_get_cli_journal",
-      "taskReferenceName": "read_journal_cli_device_ref_CDGP",
-      "inputParameters": {
-        "device_id": "${workflow.input.node02}",
-        "uniconfig_context": "${tx_start_2.output.uniconfig_context}"
-      },
-      "type": "SIMPLE",
-      "decisionCases": {},
-      "defaultCase": [],
-      "forkTasks": [],
-      "startDelay": 0,
-      "joinOn": [],
-      "optional": false,
-      "defaultExclusiveJoinTask": [],
-      "asyncComplete": false,
-      "loopOver": [],
-      "label": "simple"
-    },
-    {
-      "name": "sub_workflow_task",
-      "taskReferenceName": "tx_close",
-      "type": "SUB_WORKFLOW",
-      "inputParameters": {
-        "uniconfig_context": "${tx_start_2.output.uniconfig_context}"
-      },
-      "subWorkflowParam": {
-        "name": "UC_TX_close",
-        "version": 1
-      }
+      "loopOver": []
     }
-  ]
+  ],
+  "inputParameters": [
+    "{\"node01\":{\"value\":\"IOS01\",\"description\":\"First node of P2P connection\",\"type\":\"string\"},\"node02\":{\"value\":\"IOS02\",\"description\":\"Second node of P2P connection\",\"type\":\"string\"},\"interface01\":{\"value\":\"GigabitEthernet1\",\"description\":\"Customer facing service interface on first node\",\"type\":\"string\"},\"vcid\":{\"value\":\"444\",\"description\":\"Virtual Circuit Identifier (globally unique)\",\"type\":\"string\"},\"interface02\":{\"value\":\"GigabitEthernet3\",\"description\":\"Customer facing service interface on second node\",\"type\":\"string\"}}"
+  ],
+  "outputParameters": {
+    "response_body": "Journal for ${workflow.input.node01}:  ${read_journal_cli_device_ref_LJUO.output.journal} --------  Journal for ${workflow.input.node02}:  ${read_journal_cli_device_ref_CDGP.output.journal}"
+  },
+  "failureWorkflow": "UC_TX_rollback",
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "fm-workflows",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Create_L2VPN_P2P_OC_uniconfig:2"
 }
