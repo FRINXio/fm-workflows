@@ -53,7 +53,7 @@ function argumentsCheck {
         -j|--junos)
             INSTANCES_TO_SIMULATE+="JUNOS,";;
         -ci|--clean-inventory)
-            docker exec -it --user root "$(docker ps -qf "name=fm_inventory-postgres")" psql -U postgres -a inventory -c 'delete from device_inventory;'
+            docker exec -it "$(docker ps -qf "name=fm_inventory-postgres")" psql -U postgres -a inventory -c 'delete from device_inventory;'
             echo "Device inventory has been cleaned.";;
         *)
             echo "Unknow option: ${1}"
