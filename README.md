@@ -7,7 +7,7 @@ Download container images with
 ```
 
 Make sure FRINX-machine (https://github.com/FRINXio/FRINX-machine) is running. <br>
-<br>To attach containers to running FM swarm deployment (please check allowed parameters in below section sample topology 2)
+<br>To attach containers to running FM swarm deployment (please check allowed parameters in below section sample topology)
 ```sh
 ./startup.sh
 ```
@@ -82,27 +82,39 @@ Automatically:
 ### Requirements
 
 - **HW**
-  - Minimum 4gb free ram for simulating all devices
+  - Minimum 6gb free ram for simulating all devices
   - Minimum 1gb ram for simulating only CLI devices
 - **Running uniconfig**
 
 ### Startup
 **ST default run only cli devices**
 
-- **Run ./start_sample_topology.sh**
-- **Multinode UC** In case of multinode run ./start_sample_topology.sh on manager with arguments and then also need to run ./start_sample_topology.sh on workers without arguments 
+- **Run ./startup.sh**
+- **Multinode UC** In case of multinode run ./startup.sh on manager with arguments and then also need to run ./startup.sh on workers without arguments 
 
 #### Optional Parameters
 
-- **--only-netconf** (Run only netconf devices)
+- **-nd | --only-netconf-devices** (Run only netconf devices)
+- **-ad | --all-devices** (Run all devices CLI + Netconf. There can be added filtering netconf instances ex. --iosxr653 will run all CLI devices and iosxr653 netconf device)
+- **-ci | --clean-inventory** ( Clean device inventory. Devices will not be uninstalled from UC !)
 
-- **--all** (run all devices)
-- 
-**Run specific devices**:
 
-For run only some specific devices (for ex. run only one netconf device) you can edit files below
-- **CLI devices** /sample-topology/scripts/run_cli_devices/cli_devices.txt
-- **NETCONF devices** /sample-topology/scripts/run_netconf_devices/netconf_devices.txt
+**Run specific netconf devices**:
+
+Each netconf testtool instance need atleast 2gb free ram if you dont have enough free ram you can run only selected netconf instances.
+-   **-i65 | --iosxr653**   Run only iosxr 653 instance. Devices [iosxr653_1, iosxr653_2]
+-   **-i66 | --iosxr663**   Run only iosxr 663 instance. Devices [iosxr663_1]
+-   **-j | --junos**        Run only junos instance. Devices [junos_1]
+
+**Parameter examples:**
+
+``./startup.sh`` - Run all CLI devices
+
+``./startup.sh -ci -nd`` - Clean device inventory and then run all netconf devices 
+
+``./startup.sh -ci -nd -i65`` - Clean device inventory and run only iosxr653_1 and iosxr653_2 devices
+
+``./startup.sh -ci -ad -j -i66`` - Clean device inventory, run all cli devices and run also junos_1 and iosxr663 netconf devices
 
 **List of simulated devices**
 
