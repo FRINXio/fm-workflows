@@ -3,14 +3,7 @@
 scriptName="$(basename "${0}")"
 ST_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-SAMPLE_TOPOLOGY_IMAGE_NAME="frinx/sample-topology"
-SAMPLE_TOPOLOGY_TAG=${1}
-
-if [ -z "$SAMPLE_TOPOLOGY_TAG" ]
-then
-      echo "Please insert image tag as argument"
-      exit 1;
-fi
+SAMPLE_TOPOLOGY_IMAGE_NAME=${1}
 
 pushd ${ST_DIR}/.. 
 
@@ -29,6 +22,6 @@ pushd ${ST_DIR}/..
   cp -r yang-schemas/junos-16-2021 sample-topology/schemas
 
   # After all schemas are copied to sample-topology/schemas then build image
-  docker build sample-topology/ -t "$SAMPLE_TOPOLOGY_IMAGE_NAME:$SAMPLE_TOPOLOGY_TAG"
+  docker build sample-topology/ -t ${SAMPLE_TOPOLOGY_IMAGE_NAME}
 
 popd
