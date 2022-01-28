@@ -2,7 +2,7 @@ device_id,device_type,device_version,password,username,port,zone_name,service_st
 IOS01,ios,15.4,cisco,cisco,10004,uniconfig,IN_SERVICE,CLI
 IOS02,ios,15.4,cisco,cisco,10005,uniconfig,IN_SERVICE,CLI
 XR01,ios xr,6.x,cisco,cisco,10006,uniconfig,IN_SERVICE,CLI
-XR02,ios xr,6.x,cisco,cisco,10007,uniconfig,IN_SERVICE,XR
+XR02,ios xr,6.x,cisco,cisco,10007,uniconfig,IN_SERVICE,CLI
 VRP01,vrp,*,huawei,huawei,10008,uniconfig,IN_SERVICE,CLI
 Leaf01,ios,15.4,cisco,cisco,10009,uniconfig,IN_SERVICE,CLI
 Leaf02,ios,15.4,cisco,cisco,10010,uniconfig,IN_SERVICE,CLI

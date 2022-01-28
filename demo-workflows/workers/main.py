@@ -41,7 +41,6 @@ def configure_logging(
 def _import_devices() -> None:
 
     import_devices("../devices/cli_device_data.csv", "../devices/cli_device_import.json")
-    # Sample topology 2 import devices
     import_devices("../devices/cli_saos_device_data.csv",
                    "../devices/cli_saos_device_import.json")
     import_devices("../devices/netconf_device_data_iosxr.csv",

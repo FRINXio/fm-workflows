@@ -19,6 +19,8 @@ services:
     logging: *logging_loki
     environment:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
+      - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
+      - RUN_TESTTOOLS=${RUN_TESTTOOLS}
     healthcheck:
       test: |
         cat /home/app/healthcheck &&
