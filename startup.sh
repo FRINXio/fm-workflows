@@ -13,6 +13,8 @@ DESCRIPTION:
    -h|--help    Print this help and exit
    -d|--debug   Enable verbose
 
+   -ci|--clean-inventory    Clean device inventory
+
    SAMPLE-TOPOLOGY Parameters:
    -ad|--all-devices   Run CLI and netconf devices
    -nd|--only-netconf-devices   Run only netconf devices
@@ -50,6 +52,9 @@ function argumentsCheck {
             INSTANCES_TO_SIMULATE+="IOSXR663,";;
         -j|--junos)
             INSTANCES_TO_SIMULATE+="JUNOS,";;
+        -ci|--clean-inventory)
+            docker exec -it "$(docker ps -qf "name=fm_inventory-postgres")" psql -U postgres -a inventory -c 'delete from device_inventory;'
+            echo "Device inventory has been cleaned.";;
         *)
             echo "Unknow option: ${1}"
             show_help

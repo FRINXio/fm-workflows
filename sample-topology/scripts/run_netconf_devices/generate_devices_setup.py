@@ -10,7 +10,7 @@ DEVICES_DETAILS = {"IOSXR653": [{"name": "iosxr653_1", "port": 17000}, {"name": 
                    "IOSXR663": [{"name": "iosxr663_1", "port": 17100}],
                    "JUNOS": [{"name": "junos_1", "port": 17200}]}
 
-ALL_INSTANCES = ["IOSXR653,IOSXR663,JUNOS,"]
+ALL_INSTANCES = ["IOSXR653", "IOSXR663", "JUNOS"]
 SELECTED_INSTANCES = os.getenv("INSTANCES_TO_SIMULATE")
 
 
@@ -18,7 +18,7 @@ class GenerateDeviceSetup:
     """ Generate testtool_instances.txt & netconf_devices.txt files"""
     TESTTOOL_INSTANCE_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'testtool_instances.txt')
     NETCONF_DEVICES_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'netconf_devices.txt')
-    # convert str to list ex. "IOSXR653,IOSXR663,JUNOS," -> ["IOSXR653, IOSXR663, JUNOS"]
+    # convert str to list ex. "IOSXR653,IOSXR663,JUNOS," -> ["IOSXR653", "IOSXR663", "JUNOS"]
     SELECTED_INSTANCES = ALL_INSTANCES if not SELECTED_INSTANCES else list(filter(None, SELECTED_INSTANCES.split(",")))
 
     def __init__(self):
