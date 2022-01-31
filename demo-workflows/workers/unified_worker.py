@@ -5,7 +5,7 @@ import json
 import copy
 from string import Template
 from frinx_conductor_workers.frinx_rest import uniconfig_url_base, additional_uniconfig_request_params, parse_response, add_uniconfig_tx_cookie
-import frinx_conductor_workers.uniconfig_worker
+from frinx_conductor_workers import uniconfig_worker
 
 uniconfig_url_unified_oper_shallow = uniconfig_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig&depth=3"
 uniconfig_url_unified_oper = uniconfig_url_base + "/data/network-topology:network-topology/topology=unified?content=nonconfig"
@@ -103,6 +103,8 @@ def read_structured_data(task):
     uniconfig_tx_id = task['inputData']['uniconfig_tx_id'] if 'uniconfig_tx_id' in task["inputData"] else ""
 
     id_url = Template(uniconfig_url_unified_mount).substitute({"id": device_id}) + "/yang-ext:mount" + (uri if uri else "") + "?content=config"
+    # If headers in additional_uniconfig_request_parm delete them (using custom headers with tx cookie)
+    if "headers" in additional_uniconfig_request_params: del additional_uniconfig_request_params['headers']
 
     r = requests.get(id_url, headers=add_uniconfig_tx_cookie(uniconfig_tx_id), **additional_uniconfig_request_params)
     response_code, response_json = parse_response(r)
