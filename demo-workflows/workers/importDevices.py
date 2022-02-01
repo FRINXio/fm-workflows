@@ -154,7 +154,8 @@ def _is_simulated(device_data: dict) -> bool:
     - Check if device type (CLI, NETCONF) is simulated if not -> Return False
     - Check if netconf device is simulated if not -> Return False
     """
-    instance_to_simulate = os.getenv("INSTANCES_TO_SIMULATE")
+    all_instances = "IOSXR653,IOSXR663,JUNOS,"
+    instance_to_simulate = all_instances if not os.getenv("INSTANCES_TO_SIMULATE") else os.getenv("INSTANCES_TO_SIMULATE")
     run_testtools = os.getenv("RUN_TESTTOOLS")
 
     # Validate if current device type (CLI or NETCONF) is simulated. labels = CLI or NETCONF
