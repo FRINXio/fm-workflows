@@ -4,8 +4,9 @@ from scripts.run_netconf_devices.generate_devices_setup import GenerateDeviceSet
     ALL_INSTANCES
 from pathlib import Path
 
-GENERATED_NETCONF_DEVICES_FILEPATH = Path("..", "scripts", "run_netconf_devices", "netconf_devices.txt")
-GENERATED_TESTTOOL_INSTANCES_FILEPATH = Path("..", "scripts", "run_netconf_devices", "testtool_instances.txt")
+GENERATED_NETCONF_DEVICES_FILEPATH = Path("sample-topology", "scripts", "run_netconf_devices", "netconf_devices.txt")
+GENERATED_TESTTOOL_INSTANCES_FILEPATH = Path("sample-topology", "scripts", "run_netconf_devices",
+                                             "testtool_instances.txt")
 
 
 def _read_txt_file(file_path: Path) -> list:
