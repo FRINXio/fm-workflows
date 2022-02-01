@@ -1,0 +1,1 @@
+Before run test set demo-workflows folder as sources root
