@@ -83,9 +83,6 @@ def get_label_id(label_name):
 
 
 def import_devices(device_data_csv, device_data_json):
-    INSTANCES_TO_SIMULATE = os.getenv("INSTANCES_TO_SIMULATE")
-    RUN_TESTTOOLS = os.getenv("RUN_TESTTOOLS")
-
     # definition of replacements in the DEVICE_DATA_JSON file
     json_replacements = {}
 
@@ -112,7 +109,6 @@ def import_devices(device_data_csv, device_data_json):
     all_device_data = all_device_data[1:]
 
     for device in all_device_data:
-
         # prepare a list with device data
         data_list = device.strip().split(',')
 
@@ -120,15 +116,9 @@ def import_devices(device_data_csv, device_data_json):
         device_data_tuple = device_data_def(*data_list)
         device_data = dict(device_data_tuple._asdict())
 
-        # Validate if current device type (CLI or NETCONF) is simulated. labels = CLI or NETCONF
-        if device_data['labels'].lower() not in RUN_TESTTOOLS:
+        # Check if device is simulated if not skip adding device into device inventory
+        if not _is_simulated(device_data):
             continue
-
-        if device_data["labels"] == "NETCONF":
-            # get base name from device id ex. IOSXR653_1 -> IOSXR653
-            device_base_name = device_data["device_id"].split("_")[0]
-            if device_base_name not in INSTANCES_TO_SIMULATE:
-                continue
 
         # copy the postman collections json
         device_json = device_import_json
@@ -153,6 +143,31 @@ def import_devices(device_data_csv, device_data_json):
 
         response = execute(install_device_template, variables)
         print(response)
+
+
+def _is_simulated(device_data: dict) -> bool:
+    """
+    INSTANCES_TO_SIMULATE - string with simulated netconf instances divided by ',' ex. "IOSXR653,IOSXR663,JUNOS,"
+    RUN_TESTTOOLS - Use to detect what type of devices are simulated NETCONF, CLI or both of them
+    ex. ./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh
+
+    - Check if device type (CLI, NETCONF) is simulated if not -> Return False
+    - Check if netconf device is simulated if not -> Return False
+    """
+    all_instances = "IOSXR653,IOSXR663,JUNOS,"
+    instance_to_simulate = all_instances if not os.getenv("INSTANCES_TO_SIMULATE") else os.getenv("INSTANCES_TO_SIMULATE")
+    run_testtools = os.getenv("RUN_TESTTOOLS")
+
+    # Validate if current device type (CLI or NETCONF) is simulated. labels = CLI or NETCONF
+    if device_data['labels'].lower() not in run_testtools:
+        return False
+
+    if device_data["labels"] == "NETCONF":
+        # get base name from device id ex. IOSXR653_1 -> IOSXR653
+        device_base_name = device_data["device_id"].split("_")[0]
+        if device_base_name not in instance_to_simulate:
+            return False
+    return True
 
 
 if __name__ == '__main__':
