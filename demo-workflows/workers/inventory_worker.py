@@ -1,6 +1,7 @@
 from python_graphql_client import GraphqlClient
 import copy
 import math
+from frinx_conductor_workers.frinx_rest import x_tenant_id
 
 # graphql client settings
 inventory_url = "http://inventory:8000/graphql"
@@ -9,7 +10,7 @@ inventory_headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
     "Connection": "keep-alive",
-    "x-tenant-id": "frinx",
+    "x-tenant-id": x_tenant_id,
     "DNT": "1",
     "Keep-Alive": "timeout=5"
 }
