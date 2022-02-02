@@ -1,7 +1,7 @@
 {
   "updateTime": 1636637902354,
   "name": "Install_all_from_inventory",
-  "description": "",
+  "description": "{\"description\": \"Install all devices from device inventory\", \"labels\": [\"INVENTORY\"]}",
   "version": 1,
   "tasks": [
     {
