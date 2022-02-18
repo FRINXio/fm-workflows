@@ -1,0 +1,120 @@
+{
+  "updateTime": 1645184202977,
+  "name": "Device_memory_monitoring",
+  "description": "{\"description\":\"Write memory statistics from device to InfluxDB\",\"labels\":[\"INFLUXDB\"]}",
+  "version": 1,
+  "inputParameters": [
+    "{\"node-id\":{\"value\":\"asr9k\",\"description\":\"node-id of the device that we read the data from\",\"type\":\"string\",\"constraint\":\"\"}}"
+  ],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "tasks": [
+    {
+      "name": "Netconf_read_structured_device_data",
+      "taskReferenceName": "Netconf_read_structured_device_dataRefName_EZW5",
+      "inputParameters": {
+        "device_id": "${workflow.input.node-id}",
+        "uri": "/Cisco-IOS-XR-nto-misc-shmem-oper:memory-summary",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_WeAg",
+      "inputParameters": {
+        "lambdaValue": "${Netconf_read_structured_device_dataRefName_EZW5.output.response_body.memory-summary.nodes.node}",
+        "scriptExpression": "return $.lambdaValue.length"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "lambda"
+    },
+    {
+      "name": "Loop Task",
+      "taskReferenceName": "LoopTask",
+      "inputParameters": {
+        "value": "${lambda_WeAg.output.result}"
+      },
+      "type": "DO_WHILE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopCondition": "if ( $.LoopTask['iteration'] < $.value ) { true; } else { false; }",
+      "loopOver": [
+        {
+          "name": "LAMBDA_TASK",
+          "taskReferenceName": "lambda_rMMU",
+          "inputParameters": {
+            "lambdaValue": "${Netconf_read_structured_device_dataRefName_EZW5.output.response_body.memory-summary.nodes.node}",
+            "iterator": "${LoopTask.output.iteration}",
+            "scriptExpression": "if($.iterator == null){\n return $.lambdaValue[0]\n} else {\n return $.lambdaValue[$.iterator];\n}"
+          },
+          "type": "LAMBDA",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": []
+        },
+        {
+          "name": "INFLUXDB_write_data",
+          "taskReferenceName": "INFLUXDB_write_dataRefName_HmZZ",
+          "inputParameters": {
+            "bucket": "devices",
+            "tags": {
+              "node-id": "${workflow.input.node-id}", 
+              "node-name": "${lambda_rMMU.output.result.node-name}"
+            },
+            "fields": "${lambda_rMMU.output.result.summary}",
+            "measurement": "memory"
+          },
+          "type": "SIMPLE",
+          "decisionCases": {},
+          "defaultCase": [],
+          "forkTasks": [],
+          "startDelay": 0,
+          "joinOn": [],
+          "optional": false,
+          "defaultExclusiveJoinTask": [],
+          "asyncComplete": false,
+          "loopOver": [],
+          "label": "simple"
+        }
+      ]
+    }
+  ]
+}
