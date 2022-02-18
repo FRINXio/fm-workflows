@@ -25,6 +25,7 @@ services:
     secrets:
       - frinx_auth
       - frinx_rbac
+      - frinx_influxdb
     configs:
       - source: fm_set_env_secrets
         target: /set_env_secrets.sh
@@ -62,6 +63,8 @@ secrets:
   frinx_auth:
     external: true
   frinx_rbac:
+    external: true
+  frinx_influxdb:
     external: true
 
 configs:

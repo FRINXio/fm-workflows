@@ -1,0 +1,101 @@
+{
+  "updateTime": 1645184202977,
+  "name": "Device_interface_monitoring",
+  "description": "{\"description\":\"Write interface statistics from device to InfluxDB\",\"labels\":[\"INFLUXDB\"]}",
+  "version": 1,
+  "inputParameters": [
+    "{\"node-id\":{\"value\":\"asr9k\",\"description\":\"node-id of the device that we read the data from\",\"type\":\"string\",\"constraint\":\"\"},\"interface-name\":{\"value\":\"MgmtEth0/RSP0/CPU0/0\",\"description\":\"interface of the device that we read the stats data from\",\"type\":\"string\",\"constraint\":\"\"}}"
+  ],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "tasks": [
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "URI_encode_aFfh",
+      "inputParameters": {
+        "lambdaValue": "${workflow.input.interface-name}",
+        "scriptExpression": "var encoded = encodeURIComponent($.lambdaValue);\nreturn encoded"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "lambda"
+    },
+    {
+      "name": "Netconf_read_structured_device_data",
+      "taskReferenceName": "Netconf_read_structured_device_dataRefName_EZW4",
+      "inputParameters": {
+        "device_id": "${workflow.input.node-id}",
+        "uri": "/Cisco-IOS-XR-pfi-im-cmd-oper:interfaces/interface-xr/interface=${URI_encode_aFfh.output.result}",
+        "uniconfig_tx_id": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
+    },
+    {
+      "name": "jsonJQ_task",
+      "taskReferenceName": "jsonJQ_YtC5",
+      "inputParameters": {
+        "key": "${Netconf_read_structured_device_dataRefName_EZW4.output.response_body.interface}",
+        "queryExpression": ".key | select(. != null) | .[] | .\"interface-statistics\".\"full-interface-stats\""
+      },
+      "type": "JSON_JQ_TRANSFORM",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "json jq"
+    },
+    {
+      "name": "INFLUXDB_write_data",
+      "taskReferenceName": "INFLUXDB_write_dataRefName_HmZZ",
+      "inputParameters": {
+        "bucket": "devices",
+        "tags": {
+          "node-id": "${workflow.input.node-id}", 
+          "interface-name": "${workflow.input.interface-name}"
+        },
+        "fields": "${jsonJQ_YtC5.output.result}",
+        "measurement": "full-interface-stats"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ WORKDIR /home/app
 
 
 ### Install application setup
-RUN pip3 install psycopg2 marshmallow-dataclass jinja2 python_graphql_client==0.4.3
+RUN pip3 install psycopg2 marshmallow-dataclass jinja2 python_graphql_client==0.4.3 influxdb_client==1.26.0
 RUN pip3 install frinx-conductor-client==1.0.5 frinx-conductor-workers==1.0.5
 RUN apt-get update
 RUN apt-get -y install nano
