@@ -46,7 +46,7 @@
       "taskReferenceName": "UNICONFIG_read_structured_device_dataRefName_8xGO",
       "inputParameters": {
         "device_id": "${workflow.input.device_id}",
-        "uri": "${workflow.input.URI}"
+        "uri": "${workflow.input.uri}"
       },
       "type": "SIMPLE",
       "decisionCases": {},
@@ -133,7 +133,9 @@
       "loopOver": []
     }
   ],
-  "inputParameters": [],
+  "inputParameters": [
+    "{\"device_id\":{\"value\":\"IOSXR\",\"description\":\"Device/node to be configured\",\"type\":\"string\"},\"uri\":{\"value\":\"\",\"description\":\"URI that will be searched. Leave blank unless specifically needed\",\"type\":\"string\"},\"Description\":{\"value\":\"test map description\",\"description\":\"Description of interface that will be filtered. Policy-map will be applied to interface with matching description.\",\"type\":\"string\"},\"Policy_map_name\":{\"value\":\"test_map\",\"description\":\"Policy map that should be applied to interface that fits the criteria\",\"type\":\"string\"}}"
+  ],
   "outputParameters": {},
   "schemaVersion": 2,
   "restartable": true,
