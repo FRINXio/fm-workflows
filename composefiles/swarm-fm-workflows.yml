@@ -21,6 +21,14 @@ services:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
       - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
       - RUN_TESTTOOLS=${RUN_TESTTOOLS}
+    entrypoint: ["/set_env_secrets.sh", "python3 main.py"]
+    secrets:
+      - frinx_auth
+      - frinx_rbac
+    configs:
+      - source: fm_set_env_secrets
+        target: /set_env_secrets.sh
+        mode: 0777
     healthcheck:
       test: |
         cat /home/app/healthcheck &&
@@ -49,6 +57,16 @@ services:
       - ${PORT_RANGE}
     command:
       bash -c "${RUN_TESTTOOLS}"
+
+secrets:
+  frinx_auth:
+    external: true
+  frinx_rbac:
+    external: true
+
+configs:
+  fm_set_env_secrets:
+    external: true
 
 networks:
     default:
