@@ -4,7 +4,7 @@
   "version": 1,
   "tasks": [
     {
-      "name": "UNICONFIG_get_all_devices_as_dynamic_fork_tasks",
+      "name": "INVENTORY_get_all_devices_as_dynamic_fork_tasks",
       "taskReferenceName": "read_unified",
       "inputParameters": {
         "task": "Create_loopback_interface_uniconfig",
