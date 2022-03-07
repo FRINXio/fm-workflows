@@ -1,6 +1,7 @@
 from python_graphql_client import GraphqlClient
 import copy
 import math
+import json
 from frinx_conductor_workers.frinx_rest import x_tenant_id
 
 # graphql client settings
@@ -169,6 +170,13 @@ def get_zone_id(zone_name):
     for node in body['data']['zones']['edges']:
         if node['node']['name'] == zone_name:
             return node['node']['id']
+
+
+def get_all_devices():
+    device_id_name = "query { devices { edges { node { name } } } }"
+
+    body = execute_inventory(device_id_name, '')
+    return body['data']['devices']['edges']
 
 
 def get_device_info(device_name):
@@ -424,6 +432,36 @@ def page_device_dynamic_fork_tasks(task):
             'output': {'url': inventory_url, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
             'logs': []}
 
+def all_devices_fork_tasks(task):
+
+    task_name = task['inputData']['task']
+    add_params = task['inputData']['task_params']
+    add_params = json.loads(add_params) if isinstance(add_params, str) else (add_params if add_params else {})
+    optional = task['inputData']['optional'] if 'optional' in task['inputData'] else "false"
+
+    ids = get_all_devices()
+  
+    dynamic_tasks = []
+    dynamic_tasks_i = {}
+
+    for device in ids:
+        device_id = device['node']['name']
+
+        task_body = copy.deepcopy(task_body_template)
+        if optional == "true": 
+            task_body['optional'] = True
+        task_body["taskReferenceName"] = device_id 
+        task_body["subWorkflowParam"]["name"] = task_name
+        dynamic_tasks.append(task_body)
+
+        per_device_params = dict(add_params)
+        per_device_params.update({"device_id": device_id})
+        dynamic_tasks_i.update({device_id: per_device_params})
+
+    return {'status': 'COMPLETED',
+            'output': {'url': inventory_url, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
+            'logs': []}
+
 
 def add_cli_device(task):
     body = copy.deepcopy(cli_device_template)
@@ -525,6 +563,24 @@ def start(cc):
         ]
     }, installed_device)
 
+    cc.register('INVENTORY_get_all_devices_as_dynamic_fork_tasks', {
+        "description": '{"description": "Get all devices as dynamic fork task", "labels": ["BASICS","INVENTORY"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "timeoutPolicy": "TIME_OUT_WF",
+        "retryLogic": "FIXED",
+        "inputKeys": [
+            "task",
+            "task_params",
+            "optional"
+        ],
+        "outputKeys": [
+            "url",
+            "dynamic_tasks_i",
+            "dynamic_tasks"
+        ]
+    }, all_devices_fork_tasks)
+
     cc.register('INVENTORY_install_device_by_name', {
         "description": '{"description": "Install device by device name", "labels": ["BASICS","INVENTORY"]}',
         "responseTimeoutSeconds": 3600,
@@ -587,7 +643,7 @@ def start(cc):
         "responseTimeoutSeconds": 3600,
         "timeoutSeconds": 3600,
         "inputKeys": [
-            "tasks",
+            "task",
             "page_ids"
         ],
         "outputKeys": [
