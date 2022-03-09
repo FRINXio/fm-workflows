@@ -1,0 +1,4 @@
+cryptography==2.1.4
+MockSSH==1.4.5
+ncclient==0.6.12
+pathlib==1.0.1
