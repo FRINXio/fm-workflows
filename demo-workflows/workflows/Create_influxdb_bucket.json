@@ -1,0 +1,26 @@
+{
+    "name": "Create_influxdb_bucket",
+    "description": "{\"description\":\"Create InfluxDB bucket\",\"labels\":[\"INFLUXDB\"]}",
+    "version": 1,
+    "ownerEmail": "",
+    "restartable": true,
+    "timeoutPolicy": "ALERT_ONLY",
+    "timeoutSeconds": 0,
+    "outputParameters": {},
+    "variables": {},
+    "schemaVersion": 2,
+    "updateTime": 0,
+    "tasks": [
+      {
+        "name": "INFLUXDB_create_bucket_if_not_exist",
+        "label": "simple",
+        "type": "SIMPLE",
+        "taskReferenceName": "INFLUXDB_create_bucket_if_not_existRefName_tKMV",
+        "optional": false,
+        "startDelay": 0,
+        "inputParameters": {
+          "bucket": "${workflow.input.bucket}"
+        }
+      }
+    ]
+  }
