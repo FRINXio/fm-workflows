@@ -51,6 +51,9 @@ services:
     environment:
       - DOCKER_GWBRIDGE_IP=${DOCKER_GWBRIDGE_IP}
       - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
+    networks:
+      - uniconfig-network
+      - default
     sysctls:
       - net.ipv4.ip_forward=1
     ports:
@@ -75,3 +78,6 @@ networks:
     default:
         external: true
         name: frinx-machine
+    uniconfig-network:
+        external: true
+        name: uniconfig-network
