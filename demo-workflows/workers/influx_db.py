@@ -3,8 +3,8 @@ import os
 
 from influxdb_client import InfluxDBClient, BucketsApi
 from influxdb_client.client.write_api import SYNCHRONOUS
+from frinx_conductor_workers.frinx_rest import influxdb_url_base
 
-influxdb_url="http://influxdb:8086"
 # You can generate an API token from the "API Tokens Tab" in the UI
 token = os.getenv("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN","eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0")
 org = os.getenv("DOCKER_INFLUXDB_INIT_ORG","frinx-machine")
@@ -15,19 +15,19 @@ def create_bucket_if_not_exist(task):
         bucket_name = task['inputData']['bucket']
 
         if bucket_name is '':
-            return {'status': 'FAILED', 'output': {'url': influxdb_url, 'response_code': 500, 'response_body': "Failed"}, 'logs': []}
+            return {'status': 'FAILED', 'output': {'url': influxdb_url_base, 'response_code': 500, 'response_body': "Failed"}, 'logs': []}
 
-        with InfluxDBClient(url=influxdb_url, token=token, org=org) as client:
+        with InfluxDBClient(url=influxdb_url_base, token=token, org=org) as client:
 
             bucket_api=client.buckets_api()
             bucket = bucket_api.find_bucket_by_name(bucket_name)
             if bucket != None:
                 print(bucket.name)
-                return {'status': 'COMPLETED', 'output': {'url': influxdb_url, 'response_code': 200, 'bucket_name': bucket.name, 'response_body': "Bucket with name " + bucket.name + " exist before"}, 'logs': []}
+                return {'status': 'COMPLETED', 'output': {'url': influxdb_url_base, 'response_code': 200, 'bucket_name': bucket.name, 'response_body': "Bucket with name " + bucket.name + " exist before"}, 'logs': []}
             else:
                 bucket = bucket_api.create_bucket(bucket_name=bucket_name, org=org)
                 print(bucket.name)
-                return {'status': 'COMPLETED', 'output': {'url': influxdb_url, 'response_code': 200, 'bucket_name': bucket.name, 'response_body': "Created new bucket with name " + bucket.name}, 'logs': []}
+                return {'status': 'COMPLETED', 'output': {'url': influxdb_url_base, 'response_code': 200, 'bucket_name': bucket.name, 'response_body': "Created new bucket with name " + bucket.name}, 'logs': []}
     except:
         return {'status': 'FAILED', 'output': {'url': "influxdb", 'response_code': 500, 'response_body': "Creating of bucket was unsucessful"},
                     'logs': []}
@@ -40,7 +40,7 @@ def store_ops_data(task):
         fields = task['inputData']['fields']
         bucket = task['inputData']['bucket']
 
-        with InfluxDBClient(url=influxdb_url, token=token, org=org) as client:
+        with InfluxDBClient(url=influxdb_url_base, token=token, org=org) as client:
 
             write_api = client.write_api(write_options=SYNCHRONOUS)
 

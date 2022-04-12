@@ -4,10 +4,9 @@ from collections import namedtuple
 from sys import argv
 from python_graphql_client import GraphqlClient
 import os
-from frinx_conductor_workers.frinx_rest import x_tenant_id
+from frinx_conductor_workers.frinx_rest import x_tenant_id, inventory_url_base
 
 # graphql client settings
-inventory_url = "http://inventory:8000/graphql"
 inventory_headers = {
     "Accept-Encoding": "gzip, deflate, br",
     "Content-Type": "application/json",
@@ -17,7 +16,7 @@ inventory_headers = {
     "DNT": "1"
 }
 
-client = GraphqlClient(endpoint=inventory_url, headers=inventory_headers)
+client = GraphqlClient(endpoint=inventory_url_base, headers=inventory_headers)
 
 
 def execute(body, variables):
