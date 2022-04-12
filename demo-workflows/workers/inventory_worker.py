@@ -2,10 +2,9 @@ from python_graphql_client import GraphqlClient
 import copy
 import math
 import json
-from frinx_conductor_workers.frinx_rest import x_tenant_id
+from frinx_conductor_workers.frinx_rest import x_tenant_id, inventory_url_base
 
 # graphql client settings
-inventory_url = "http://inventory:8000/graphql"
 inventory_headers = {
     "Accept-Encoding": "gzip, deflate, br",
     "Content-Type": "application/json",
@@ -16,7 +15,7 @@ inventory_headers = {
     "Keep-Alive": "timeout=5"
 }
 
-client = GraphqlClient(endpoint=inventory_url, headers=inventory_headers)
+client = GraphqlClient(endpoint=inventory_url_base, headers=inventory_headers)
 
 
 def execute(body, variables):
@@ -233,16 +232,16 @@ def installed_device(task):
 
     if response.get('errors'):
         body['message'] = response['errors'][0]['message']
-        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+        return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                 'logs': []}
 
     if response.get('data'):
         body['name'] = response['data']['devices']['edges']
 
-        return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': body},
+        return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200, 'response_body': body},
                 'logs': []}
 
-    return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': {'Workflow failed'}},
+    return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': {'Workflow failed'}},
             'logs': []}
 
 
@@ -254,7 +253,7 @@ def install_uninstall_device(task):
 
         if device_id is None:
             body = {"message": device_status}
-            return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+            return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                     'logs': []}
 
         variables = {
@@ -284,13 +283,13 @@ def install_uninstall_device(task):
         body['message'] = response['errors'][0]['message']
 
         if 'already been installed' not in body['message']:
-            return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+            return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                     'logs': []}
 
     if response.get('data'):
         body['name'] = response['data'][task_type]['device']['name']
 
-    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': body},
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200, 'response_body': body},
             'logs': []}
 
 
@@ -308,7 +307,7 @@ def install_uninstall_in_batch(task):
     body = {}
     if response.get('errors'):
         body['message'] = response['errors'][0]['message']
-        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+        return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                 'logs': []}
 
     if str(task['taskType']).find('uninstall') == -1:
@@ -349,7 +348,7 @@ def install_uninstall_in_batch(task):
 
         device_status.update({device_id['node']['name']: per_device_params})
 
-    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': device_status},
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200, 'response_body': device_status},
             'logs': []}
 
 
@@ -369,7 +368,7 @@ def get_device_pages_ids(task):
         print(response)
         if response.get('errors'):
             body = {'message': response['errors'][0]['message']}
-            return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+            return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                     'logs': []}
 
         if response.get('data'):
@@ -397,7 +396,7 @@ def get_device_pages_ids(task):
                 print(e)
                 break
 
-    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200,
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200,
                                               'page_ids': page_loop,
                                               'page_size': len(page_loop),
                                               "page_ids_count": len(page_ids)},
@@ -429,7 +428,7 @@ def page_device_dynamic_fork_tasks(task):
         taskReferenceName_id += 1
 
     return {'status': 'COMPLETED',
-            'output': {'url': inventory_url, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
+            'output': {'url': inventory_url_base, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
             'logs': []}
 
 def all_devices_fork_tasks(task):
@@ -459,7 +458,7 @@ def all_devices_fork_tasks(task):
         dynamic_tasks_i.update({device_id: per_device_params})
 
     return {'status': 'COMPLETED',
-            'output': {'url': inventory_url, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
+            'output': {'url': inventory_url_base, 'dynamic_tasks_i': dynamic_tasks_i, 'dynamic_tasks': dynamic_tasks},
             'logs': []}
 
 
@@ -487,7 +486,7 @@ def add_cli_device(task):
 
     if response.get('errors'):
         body['message'] = response['errors'][0]['message']
-        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+        return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                 'logs': []}
 
     body = {
@@ -496,7 +495,7 @@ def add_cli_device(task):
         "isInstalled": response['data']['addDevice']['device']['isInstalled']
     }
 
-    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': body},
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200, 'response_body': body},
             'logs': []}
 
 
@@ -531,7 +530,7 @@ def add_netconf_device(task):
 
     if response.get('errors'):
         body['message'] = response['errors'][0]['message']
-        return {'status': 'FAILED', 'output': {'url': inventory_url, 'response_code': 404, 'response_body': body},
+        return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
                 'logs': []}
 
     body = {
@@ -540,7 +539,7 @@ def add_netconf_device(task):
         "isInstalled": response['data']['addDevice']['device']['isInstalled']
     }
 
-    return {'status': 'COMPLETED', 'output': {'url': inventory_url, 'response_code': 200, 'response_body': body},
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200, 'response_body': body},
             'logs': []}
 
 
