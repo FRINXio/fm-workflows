@@ -59,7 +59,7 @@
       "taskReferenceName": "jsonJQ_YtC5",
       "inputParameters": {
         "key": "${Netconf_read_structured_device_dataRefName_EZW4.output.response_body.interface}",
-        "queryExpression": ".key | select(. != null) | .[] | .\"interface-statistics\".\"full-interface-stats\""
+        "queryExpression": ".key | select(. != null) | .[].\"data-rates\" + .[].\"interface-statistics\".\"full-interface-stats\""
       },
       "type": "JSON_JQ_TRANSFORM",
       "decisionCases": {},
