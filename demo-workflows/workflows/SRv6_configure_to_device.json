@@ -1,0 +1,28 @@
+{
+  "name": "SRv6_configure_to_device",
+  "description": "{\"description\":\"SRv6 prefix configure to device\",\"labels\":[\"DB\"]}",
+  "workflowStatusListenerEnabled": true,
+  "version": 1,
+  "tasks": [
+    {
+      "name": "SRv6_configure_device",
+      "taskReferenceName": "srv6_configure_device",
+      "description": "SRv6 configure on device",
+      "inputParameters": {
+        "node_id": "${workflow.input.node_id}",
+        "ipv6": "${workflow.input.ipv6}",
+        "ipv6_prefix": "${workflow.input.ipv6_prefix}",
+        "vrf_name": "${workflow.input.vrf_name}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    }
+  ],
+  "inputParameters": [
+    "{\"node_id\":{\"value\":\"\",\"description\":\"Mandatory: node id of the device\"},\"ipv6\":{\"value\":\"fc66:abba:cafe::\",\"description\":\"IPV6\"},\"ipv6_prefix\":{\"value\":\"48\",\"description\":\"IPV6 prefix\"},\"vrf_name\":{\"value\":\"vrf1\",\"description\":\"Name of vrf\"}}"
+  ],
+  "schemaVersion": 2,
+  "restartable": true
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Create_and_link_cml_node",
+  "description": "{\"description\":\"Create cml node and link to unmanaged switch\",\"labels\":[]}",
+  "workflowStatusListenerEnabled": true,
+  "version": 1,
+  "tasks": [
+    {
+      "name": "GENERATE_ipaddress",
+      "taskReferenceName": "generate_ip_address",
+      "description": "generate ip",
+      "inputParameters": {},
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+
+    {
+      "name": "CREATE_cml_node",
+      "taskReferenceName": "create_cml_node",
+      "description": "create and run CML node",
+      "inputParameters": {
+        "node_name": "${workflow.input.node_name}",
+        "position": "${workflow.input.position}",
+        "ip_address": "${generate_ip_address.output.ip_address}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "CREATE_link_between_unmanaged_switch_and_created_node",
+      "taskReferenceName": "create_link_between_unmanaged_switch_and_created_node",
+      "description": "create and run CML node",
+      "inputParameters": {
+        "node_id": "${create_cml_node.output.node_id}"
+      },
+      "type": "SIMPLE",
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false
+    }
+  ],
+  "inputParameters": [
+    "{\"node_name\":{\"value\":\"\",\"description\":\"Mandatory: node name \"},\"position\":{\"value\":\"\",\"description\":\"X and Y position \"}}"
+  ],
+  "schemaVersion": 2,
+  "restartable": true
+}

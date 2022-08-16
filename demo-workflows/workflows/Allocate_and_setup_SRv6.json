@@ -1,0 +1,56 @@
+{
+  "name": "Allocate_and_setup_SRv6",
+  "description": "{\"description\":\"Allocate and setup SRv6 address to device\",\"labels\":[\"UNIRESOURCE\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "Allocate_SRv6_address",
+      "taskReferenceName": "allocate_srv6_address",
+      "inputParameters": {
+        "node_id": "${workflow.input.node_id}"
+      },
+      "type": "SUB_WORKFLOW",
+      "subWorkflowParam": {
+        "name": "Allocate_SRv6_address",
+        "version": 1
+      },
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false,
+      "label": "sub-workflow"
+    },
+    {
+      "name": "SRv6_configure_to_device",
+      "taskReferenceName": "srv6_configure_to_device",
+      "inputParameters": {
+        "node_id": "${workflow.input.node_id}",
+        "vrf_name": "${workflow.input.vrf_name}",
+        "ipv6": "${allocate_srv6_address.output.result.address}",
+        "ipv6_prefix": "${allocate_srv6_address.output.result.prefix}"
+      },
+      "type": "SUB_WORKFLOW",
+      "subWorkflowParam": {
+        "name": "SRv6_configure_to_device",
+        "version": 1
+      },
+      "startDelay": 0,
+      "optional": false,
+      "asyncComplete": false,
+      "label": "sub-workflow"
+    }
+  ],
+  "schemaVersion": 2,
+  "restartable": true,
+  "inputParameters": [
+    "{\"node_id\":{\"value\":\"\",\"description\":\"Mandatory: node id of the device\"},\"vrf_name\":{\"value\":\"vrf1\",\"description\":\"Name of vrf\"}}"
+  ],
+  "outputParameters": {
+  },
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Allocate_and_setup_SRv6:1"
+}

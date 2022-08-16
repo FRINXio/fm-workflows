@@ -1,0 +1,353 @@
+{
+  "name": "Resource_deallocation_helper",
+  "description": "{\"description\":\"SUB_Workflow for check and deallocation resources. Do not use directly.\",\"labels\":[\"UNIRESOURCE\"]}",
+  "workflowStatusListenerEnabled": true,
+  "version": 1,
+  "tasks": [
+    {
+      "label": "decision",
+      "name": "decisionDeallocationType",
+      "type": "DECISION",
+      "taskReferenceName": "decision_deallocation_type",
+      "inputParameters": {
+        "type": "${workflow.input.type}"
+      },
+      "caseValueParam": "type",
+      "decisionCases": {
+        "resource": [
+          {
+            "name": "UNISTORE_read_uniconfig_topology",
+            "taskReferenceName": "read_existing_resources",
+            "description": "{\"description\": \"Read existing domain configuration from the device.\"}",
+            "inputParameters": {
+              "uri": "${workflow.input.alt_id.path}"
+            },
+            "type": "SIMPLE",
+            "optional": true,
+            "startDelay": 0
+          },
+          {
+            "name": "LAMBDA_TASK",
+            "taskReferenceName": "resource_info_w",
+            "inputParameters": {
+              "response_code": "${read_existing_resources.output.error_message.response_code}",
+              "scriptExpression": "if ($.response_code == 404 || $.response_code == null){ return false} else { return true;}"
+            },
+            "type": "LAMBDA",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "label": "decision",
+            "name": "decisionTaskPrefixLength",
+            "type": "DECISION",
+            "taskReferenceName": "decision_using_resource",
+            "inputParameters": {
+              "resource_type": "${resource_info_w.output.result}"
+            },
+            "caseValueParam": "resource_type",
+            "decisionCases": {
+              "false": [
+                {
+                  "name": "LAMBDA_TASK",
+                  "taskReferenceName": "check_expired_date",
+                  "inputParameters": {
+                    "expired_date": "${workflow.input.alt_id.expired_date}",
+                    "scriptExpression": "if (typeof $.expired_date === 'string' || $.expired_date instanceof String){ var expired_date = new Date($.expired_date); var date_now = new Date(); if (date_now > expired_date){ return true;}} return false;"
+                  },
+                  "type": "LAMBDA",
+                  "decisionCases": {},
+                  "defaultCase": [],
+                  "forkTasks": [],
+                  "startDelay": 0,
+                  "joinOn": [],
+                  "optional": false,
+                  "defaultExclusiveJoinTask": [],
+                  "asyncComplete": false,
+                  "loopOver": []
+                },
+                {
+                  "name": "decide_task",
+                  "taskReferenceName": "should_delete_resource",
+                  "inputParameters": {
+                    "is_date_expired": "${check_expired_date.output.result}"
+                  },
+                  "type": "DECISION",
+                  "caseValueParam": "is_date_expired",
+                  "decisionCases": {
+                    "true": [
+                      {
+                        "name": "Resource_or_pool_deallocation",
+                        "taskReferenceName": "resource_or_pool_deallocation",
+                        "inputParameters": {
+                          "pool_id": "${workflow.input.pool_id}",
+                          "resource": "${workflow.input.resource}",
+                          "type": "resource"
+                        },
+                        "type": "SUB_WORKFLOW",
+                        "subWorkflowParam": {
+                          "name": "Resource_or_pool_deallocation",
+                          "version": 1
+                        },
+                        "startDelay": 0,
+                        "optional": true,
+                        "asyncComplete": false,
+                        "label": "sub-workflow"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "true": [
+                {
+                  "name": "HTTP_task",
+                  "taskReferenceName": "graphql_change_alt_id_2",
+                  "inputParameters": {
+                    "http_request": {
+                      "contentType": "application/json",
+                      "method": "POST",
+                      "headers": {
+                        "x-tenant-id": "frinx",
+                        "from": "workflow",
+                        "x-auth-user-groups": "All.ReadWrite"
+                      },
+                      "timeout": 3600,
+                      "uri": "http://uniresource:8884/query",
+                      "body": {
+                        "query": "mutation UpdateResourceAltId($input: Map!, $poolId: ID!, $alternativeId: Map!) {\n                UpdateResourceAltId(input: $input, poolId: $poolId, alternativeId:$alternativeId) {\n                    AlternativeId\n                    Properties\n                }\n            }",
+                        "variables": {
+                          "poolId": "${workflow.input.pool_id}",
+                          "alternativeId": {
+                            "status": "active",
+                            "expired_date": {}
+                          },
+                          "input": "${workflow.input.resource}"
+                        }
+                      }
+                    }
+                  },
+                  "type": "SIMPLE",
+                  "decisionCases": {},
+                  "defaultCase": [],
+                  "forkTasks": [],
+                  "startDelay": 0,
+                  "joinOn": [],
+                  "optional": false,
+                  "defaultExclusiveJoinTask": [],
+                  "asyncComplete": false,
+                  "loopOver": []
+                }
+              ]
+            },
+            "defaultCase": [],
+            "startDelay": 0,
+            "optional": false
+          }
+        ],
+        "multi_path_resource": [
+          {
+            "name": "Loop Task",
+            "taskReferenceName": "loopTask",
+            "type": "DO_WHILE",
+            "inputParameters": {
+              "paths": "${workflow.input.alt_id.path}"
+            },
+            "loopCondition": "if ($.loopTask.iteration >= $.paths.length) { false; } else { true; }",
+            "loopOver": [
+              {
+                "name": "LAMBDA_TASK",
+                "taskReferenceName": "lambda_path_from_paths",
+                "inputParameters": {
+                  "paths": "${workflow.input.alt_id.path}",
+                  "i": "${loopTask.output.iteration}",
+                  "scriptExpression": "if ($.i == null) {return $.paths['0']} else {return $.paths['${loopTask.output.iteration}']}"
+                },
+                "type": "LAMBDA",
+                "decisionCases": {},
+                "defaultCase": [],
+                "forkTasks": [],
+                "startDelay": 0,
+                "joinOn": [],
+                "optional": false,
+                "defaultExclusiveJoinTask": [],
+                "asyncComplete": false,
+                "loopOver": []
+              },
+              {
+                "name": "UNISTORE_read_uniconfig_topology",
+                "taskReferenceName": "read_existing_resource_path",
+                "description": "{\"description\": \"Read existing domain configuration from the device.\"}",
+                "inputParameters": {
+                  "uri": "${lambda_path_from_paths.output.result}"
+                },
+                "type": "SIMPLE",
+                "optional": true,
+                "startDelay": 0
+              },
+              {
+                "name": "LAMBDA_TASK",
+                "taskReferenceName": "lambda_data_on_path_exists",
+                "inputParameters": {
+                  "response_code": "${read_existing_resource_path.output.error_message.response_code}",
+                  "scriptExpression": "if ($.response_code == 404 || $.response_code == null){ return false} else { return true;}"
+                },
+                "type": "LAMBDA",
+                "decisionCases": {},
+                "defaultCase": [],
+                "forkTasks": [],
+                "startDelay": 0,
+                "joinOn": [],
+                "optional": false,
+                "defaultExclusiveJoinTask": [],
+                "asyncComplete": false,
+                "loopOver": []
+              },
+              {
+                "label": "decision",
+                "name": "decisionTaskPathExits",
+                "type": "DECISION",
+                "taskReferenceName": "decision_path_exits",
+                "inputParameters": {
+                  "resource_type": "${lambda_data_on_path_exists.output.result}"
+                },
+                "caseValueParam": "resource_type",
+                "decisionCases": {
+                  "true": [
+                    {
+                      "name": "HTTP_task",
+                      "taskReferenceName": "graphql_change_alt_id_3",
+                      "inputParameters": {
+                        "http_request": {
+                          "contentType": "application/json",
+                          "method": "POST",
+                          "headers": {
+                            "x-tenant-id": "frinx",
+                            "from": "workflow",
+                            "x-auth-user-groups": "All.ReadWrite"
+                          },
+                          "timeout": 3600,
+                          "uri": "http://uniresource:8884/query",
+                          "body": {
+                            "query": "mutation UpdateResourceAltId($input: Map!, $poolId: ID!, $alternativeId: Map!) {\n                UpdateResourceAltId(input: $input, poolId: $poolId, alternativeId:$alternativeId) {\n                    AlternativeId\n                    Properties\n                }\n            }",
+                            "variables": {
+                              "poolId": "${workflow.input.pool_id}",
+                              "alternativeId": {
+                                "status": "active",
+                                "expired_date": {}
+                              },
+                              "input": "${workflow.input.resource}"
+                            }
+                          }
+                        }
+                      },
+                      "type": "SIMPLE",
+                      "decisionCases": {},
+                      "defaultCase": [],
+                      "forkTasks": [],
+                      "startDelay": 0,
+                      "joinOn": [],
+                      "optional": false,
+                      "defaultExclusiveJoinTask": [],
+                      "asyncComplete": false,
+                      "loopOver": []
+                    },
+                    {
+                      "name": "terminate",
+                      "taskReferenceName": "terminate_loop_through_resource_paths",
+                      "inputParameters": {
+                        "terminationStatus": "COMPLETED",
+                        "workflowOutput": {
+                          "status": "active"
+                        }
+                      },
+                      "type": "TERMINATE",
+                      "startDelay": 0,
+                      "optional": false
+                    }
+                  ]
+                },
+                "defaultCase": [],
+                "startDelay": 0,
+                "optional": false
+              }
+            ],
+            "startDelay": 0,
+            "optional": true
+          },
+          {
+            "name": "LAMBDA_TASK",
+            "taskReferenceName": "check_expired_date_2",
+            "inputParameters": {
+              "expired_date": "${workflow.input.alt_id.expired_date}",
+              "scriptExpression": "if (typeof $.expired_date === 'string' || $.expired_date instanceof String){ var expired_date = new Date($.expired_date); var date_now = new Date(); if (date_now > expired_date){ return true;}} return false;"
+            },
+            "type": "LAMBDA",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "decide_task",
+            "taskReferenceName": "should_delete_resource_2",
+            "inputParameters": {
+              "is_date_expired": "${check_expired_date_2.output.result}"
+            },
+            "type": "DECISION",
+            "caseValueParam": "is_date_expired",
+            "decisionCases": {
+              "true": [
+                {
+                  "name": "Resource_or_pool_deallocation",
+                  "taskReferenceName": "resource_or_pool_deallocation_2",
+                  "inputParameters": {
+                    "pool_id": "${workflow.input.pool_id}",
+                    "resource": "${workflow.input.resource}",
+                    "type": "resource"
+                  },
+                  "type": "SUB_WORKFLOW",
+                  "subWorkflowParam": {
+                    "name": "Resource_or_pool_deallocation",
+                    "version": 1
+                  },
+                  "startDelay": 0,
+                  "optional": true,
+                  "asyncComplete": false,
+                  "label": "sub-workflow"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "defaultCase": [],
+      "startDelay": 0,
+      "optional": false
+    }
+  ],
+  "inputParameters": [
+    "{\"pool_id\":{\"description\":\"Unique identifier of device\",\"type\":\"string\"},\"type\":{\"description\":\"Resource type by path (multi_path_resource, resource)\",\"type\":\"string\"},\"resource\":{\"description\":\"Properties for resource\",\"type\":\"string\"},\"alt_id\":{\"description\":\"Alternative id for resource\",\"type\":\"string\"}}"
+  ],
+  "outputParameters": {
+  },
+  "schemaVersion": 2,
+  "restartable": true,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Resource_deallocation_helper:1"
+}

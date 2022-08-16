@@ -66,6 +66,9 @@ def _register_workers(conductor) -> None:
     import device_worker
     import lldp_identification_worker
     import influx_db
+    import cml_worker
+    import cleaning_worker
+    import softbank_worker
     # import vll_worker
     # import vll_service_worker
     # import vpls_worker
@@ -86,6 +89,9 @@ def _register_workers(conductor) -> None:
     device_worker.start(conductor)
     lldp_identification_worker.start(conductor)
     influx_db.start(conductor)
+    cml_worker.start(conductor)
+    cleaning_worker.start(conductor)
+    softbank_worker.start(conductor)
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
@@ -133,8 +139,8 @@ def main():
     _import_workflows()
     logger.info("All workflows are imported")
 
-    _import_devices()
-    logger.info("All devices are imported")
+   # _import_devices()
+    #logger.info("All devices are imported")
 
     _configure_healthcheck()
     logger.debug("Health check is configured")

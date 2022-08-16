@@ -1,0 +1,127 @@
+{
+  "name": "Cleanup_executor",
+  "description": "{\"description\":\"SUB_Workflow for cleanup pool, resources and nested pools. Do not use directly.\",\"labels\":[\"UNIRESOURCE\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "Get_resources_as_dynamic_fork_tasks",
+      "taskReferenceName": "get_resources_as_dynamic_fork_tasks",
+      "inputParameters": {
+        "data": "${workflow.input.data}",
+        "type": "delete_with_nested_pools"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": [],
+      "label": "simple"
+    },
+    {
+      "name": "dynamic_fork",
+      "taskReferenceName": "fork",
+      "inputParameters": {
+        "dynamic_tasks": "${get_resources_as_dynamic_fork_tasks.output.dynamic_tasks}",
+        "dynamic_tasks_i": "${get_resources_as_dynamic_fork_tasks.output.dynamic_tasks_i}"
+      },
+      "type": "FORK_JOIN_DYNAMIC",
+      "decisionCases": {},
+      "dynamicForkTasksParam": "dynamic_tasks",
+      "dynamicForkTasksInputParamName": "dynamic_tasks_i",
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": true,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "join",
+      "taskReferenceName": "join",
+      "inputParameters": {},
+      "type": "JOIN",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_Next_Search",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx",
+            "from": "workflow",
+            "x-auth-user-groups": "All.ReadWrite"
+          },
+          "timeout": 3600,
+          "uri": "http://uniresource:8884/query",
+          "body": {
+            "query": "query QueryResources($poolId: ID!, $first: Int, $last: Int, $before: String, $after: String) {\n    QueryResources(poolId: $poolId, first:$first, last:$last, before:$before, after:$after) {\n   edges {\n            node {       id\n           Properties\n           ParentPool {\n         id\n           Name\n}  NestedPool {\n                        id\n                        Name\n               Tags{ Tag }     }\n                    AlternativeId    }\n             cursor {\n                ID\n            }\n            }}\n}",
+            "variables": {
+              "poolId": "${workflow.input.poolId}",
+              "last": 50,
+              "before": "${get_resources_as_dynamic_fork_tasks.output.cursor}"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_Next_Search",
+      "inputParameters": {
+        "lambdaValue": "${graphql_Next_Search.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "schemaVersion": 2,
+  "restartable": true,
+  "inputParameters": [],
+  "outputParameters": {
+    "data": "${lambda_Next_Search.output.result.data.QueryResources.edges}"
+  },
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Cleanup_executor:1"
+}

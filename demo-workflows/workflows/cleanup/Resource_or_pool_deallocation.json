@@ -1,0 +1,143 @@
+{
+  "name": "Resource_or_pool_deallocation",
+  "description": "{\"description\":\"SUB_Workflow for deallocation resource or empty pool. Can be used directly.\",\"labels\":[\"UNIRESOURCE\"]}",
+  "workflowStatusListenerEnabled": true,
+  "version": 1,
+  "tasks": [
+    {
+      "label": "decision",
+      "name": "decisionDeallocationType",
+      "type": "DECISION",
+      "taskReferenceName": "decision_deallocation_type",
+      "inputParameters": {
+        "type": "${workflow.input.type}"
+      },
+      "caseValueParam": "type",
+      "decisionCases": {
+        "resource": [
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_freeResource",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "All.ReadWrite"
+                },
+                "timeout": 3600,
+                "uri": "http://uniresource:8884/query",
+                "body": {
+                  "query": "mutation freeResource($pool_id: ID!, $input: Map!) {\n    FreeResource(\n        poolId: $pool_id,\n        input: $input\n    )\n}",
+                  "variables": {
+                    "pool_id": "${workflow.input.pool_id}",
+                    "input": "${workflow.input.resource}"
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ],
+        "multi_path_resource": [
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_freeResource_1",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "All.ReadWrite"
+                },
+                "timeout": 3600,
+                "uri": "http://uniresource:8884/query",
+                "body": {
+                  "query": "mutation freeResource($pool_id: ID!, $input: Map!) {\n    FreeResource(\n        poolId: $pool_id,\n        input: $input\n    )\n}",
+                  "variables": {
+                    "pool_id": "${workflow.input.pool_id}",
+                    "input": "${workflow.input.resource}"
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ],
+        "pool": [
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_freePool",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "All.ReadWrite"
+                },
+                "timeout": 3600,
+                "uri": "http://uniresource:8884/query",
+                "body": {
+                  "query": "mutation deleteResourcePool (\n    $pool_id: ID!) {\n    DeleteResourcePool(\n        input: {\n            resourcePoolId: $pool_id\n        }\n    ) {\n        resourcePoolId\n    }\n}",
+                  "variables": {
+                    "pool_id": "${workflow.input.pool_id}"
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ]
+      },
+      "defaultCase": [],
+      "startDelay": 0,
+      "optional": false
+    }
+  ],
+  "inputParameters": [
+    "{\"pool_id\":{\"description\":\"Unique identifier of pool\",\"type\":\"string\"},\"type\":{\"description\":\"Input data type (resource, multi_path_resource, pool)\",\"type\":\"string\"},\"resource\":{\"description\":\"Resource property (e.g. { 'address': '0.0.0.0' } - change to double quotes).\",\"type\":\"json\"}}"
+  ],
+  "outputParameters": {
+  },
+  "schemaVersion": 2,
+  "restartable": true,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Resource_or_pool_deallocation:1"
+}

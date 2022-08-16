@@ -1,0 +1,266 @@
+{
+  "name": "Cleanup_pool",
+  "description": "{\"description\":\"Cleanup pool by tag. Warning: all related resources and Nested pools will be deleted!\",\"labels\":[\"UNIRESOURCE\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_Search",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx",
+            "from": "workflow",
+            "x-auth-user-groups": "All.ReadWrite"
+          },
+          "timeout": 3600,
+          "uri": "http://uniresource:8884/query",
+          "body": {
+            "query": "query SearchPools($pool_tag: String!) {\n    SearchPoolsByTags(tags: { matchesAny: [{matchesAll: [$pool_tag]}]}) {\n        id\n        Name\n  }\n}",
+            "variables": {
+              "pool_tag": "${workflow.input.pool_tag}"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_Search",
+      "inputParameters": {
+        "lambdaValue": "${graphql_Search.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "label": "decision",
+      "name": "decisionTaskResourcesLength",
+      "taskReferenceName": "pool_exists",
+      "inputParameters": {
+        "pool_exists": "${lambda_Search.output.result.data.SearchPoolsByTags}"
+      },
+      "type": "DECISION",
+      "caseExpression": "$.pool_exists.length > 0 ? 'True' : 'False'",
+      "decisionCases": {
+        "False": [
+          {
+            "name": "terminate",
+            "taskReferenceName": "terminate_cleanup_pool",
+            "inputParameters": {
+              "terminationStatus": "COMPLETED",
+              "workflowOutput": {
+                "status": "active"
+              }
+            },
+            "type": "TERMINATE",
+            "startDelay": 0,
+            "optional": false
+          }
+        ]
+      },
+      "defaultCase": [],
+      "startDelay": 0,
+      "optional": false
+    },
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_Get_resources",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx",
+            "from": "workflow",
+            "x-auth-user-groups": "All.ReadWrite"
+          },
+          "timeout": 3600,
+          "uri": "http://uniresource:8884/query",
+          "body": {
+            "query": "query QueryResources($poolId: ID!, $first: Int, $last: Int, $before: String, $after: String) {\n    QueryResources(poolId: $poolId, first:$first, last:$last, before:$before after:$after) {\n  edges {\n            node {       id\n           Properties\n           ParentPool {\n         id\n           Name\n  }  NestedPool {\n                        id\n                        Name\n              Tags{ Tag }      }\n                    AlternativeId    }\n             cursor {\n                ID\n            }\n            }}\n}",
+            "variables": {
+              "last": 50,
+              "poolId": "${lambda_Search.output.result.data.SearchPoolsByTags.0.id}"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_Search_2",
+      "inputParameters": {
+        "lambdaValue": "${graphql_Get_resources.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "label": "decision",
+      "name": "decisionTaskResourcesLength",
+      "taskReferenceName": "are_there_any_resources",
+      "inputParameters": {
+        "resources": "${lambda_Search_2.output.result.data.QueryResources.edges}"
+      },
+      "type": "DECISION",
+      "caseExpression": "$.resources.length > 0 ? 'True' : 'False'",
+      "decisionCases": {
+        "True": [
+          {
+            "name": "Set_Data",
+            "type": "SET_VARIABLE",
+            "taskReferenceName": "set_data",
+            "inputParameters": {
+              "data": "${lambda_Search_2.output.result.data.QueryResources.edges}"
+            }
+          },
+          {
+            "name": "Loop Task",
+            "taskReferenceName": "loopTask",
+            "type": "DO_WHILE",
+            "inputParameters": {
+              "resources": "${workflow.variables.data}"
+            },
+            "loopCondition": "if ($.resources.length > 0) { true; } else { false; }",
+            "loopOver": [
+              {
+                "name": "Cleanup_executor",
+                "taskReferenceName": "nested_pools_cleanup_executor",
+                "inputParameters": {
+                  "data": "${workflow.variables.data}",
+                  "poolId": "${lambda_Search.output.result.data.SearchPoolsByTags.0.id}"
+                },
+                "type": "SUB_WORKFLOW",
+                "subWorkflowParam": {
+                  "name": "Cleanup_executor",
+                  "version": 1
+                },
+                "startDelay": 0,
+                "optional": false,
+                "asyncComplete": false,
+                "label": "sub-workflow"
+              },
+              {
+                "name": "Cleanup_executor",
+                "taskReferenceName": "cleanup_executor",
+                "inputParameters": {
+                  "data": "${workflow.variables.data}",
+                  "poolId": "${lambda_Search.output.result.data.SearchPoolsByTags.0.id}"
+                },
+                "type": "SUB_WORKFLOW",
+                "subWorkflowParam": {
+                  "name": "Cleanup_executor",
+                  "version": 1
+                },
+                "startDelay": 0,
+                "optional": false,
+                "asyncComplete": false,
+                "label": "sub-workflow"
+              },
+              {
+                "name": "Set_Data",
+                "type": "SET_VARIABLE",
+                "taskReferenceName": "update_data",
+                "inputParameters": {
+                  "data": "${cleanup_executor.output.data}"
+                }
+              }
+            ],
+            "defaultCase": [],
+            "startDelay": 0,
+            "optional": false
+          }
+        ]
+      },
+      "defaultCase": [],
+      "startDelay": 0,
+      "optional": false
+    },
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_deleteResourcePool",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx",
+            "from": "workflow",
+            "x-auth-user-groups": "All.ReadWrite"
+          },
+          "timeout": 3600,
+          "uri": "http://uniresource:8884/query",
+          "body": {
+            "query": "mutation deleteResourcePool (\n    $pool_id: ID!) {\n    DeleteResourcePool(\n        input: {\n            resourcePoolId: $pool_id\n        }\n    ) {\n        resourcePoolId\n    }\n}",
+            "variables": {
+              "pool_id": "${lambda_Search.output.result.data.SearchPoolsByTags.0.id}"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ],
+  "schemaVersion": 2,
+  "restartable": true,
+  "inputParameters": [],
+  "outputParameters": {
+  },
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "hasSchedule": false,
+  "expectedScheduleName": "Cleanup_pool:1"
+}

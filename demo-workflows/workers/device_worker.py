@@ -9,8 +9,6 @@ import copy
 import time
 
 
-
-
 def validate_input_parameters_device_identification(task):
     """
     Validate user inputs in WF

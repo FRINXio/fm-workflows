@@ -11,7 +11,7 @@
           "contentType": "application/json",
           "method": "POST",
           "headers": {
-            "x-tenant-id": "frinx_test",
+            "x-tenant-id": "frinx",
             "from": "workflow",
             "x-auth-user-groups": "OWNER"
           },
@@ -62,7 +62,7 @@
           "contentType": "application/json",
           "method": "POST",
           "headers": {
-            "x-tenant-id": "frinx_test",
+            "x-tenant-id": "frinx",
             "from": "workflow",
             "x-auth-user-groups": "OWNER"
           },
