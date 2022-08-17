@@ -1,0 +1,450 @@
+{
+  "name": "Allocate_cml_node_ipv4_address",
+  "description": "{\"description\":\"Allocate cml ipv4 address in uniresource\",\"labels\":[\"UNIRESOURCE\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_Search_cml_node_pool",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx",
+            "from": "workflow",
+            "x-auth-user-groups": "All.ReadWrite"
+          },
+          "timeout": 3600,
+          "uri": "http://uniresource:8884/query",
+          "body": {
+            "query": "query SearchPools($pool_tag: String!) {\n    SearchPoolsByTags(\n        tags: { matchesAny: [{matchesAll: [$pool_tag]}]}\n        ) {\n        id\n    }\n}",
+            "variables": {
+              "pool_tag": "CML-NODE-IPv4-ADDRESS-POOL"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_Search_cml_node_pool",
+      "inputParameters": {
+        "lambdaValue": "${graphql_Search_cml_node_pool.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "label": "decision",
+      "name": "decisionTask",
+      "type": "DECISION",
+      "taskReferenceName": "decision_tYpT",
+      "inputParameters": {
+        "param": "${lambda_Search_cml_node_pool.output.result}"
+      },
+      "caseExpression": "$.param.data.SearchPoolsByTags.length",
+      "decisionCases": {
+        "0": [
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_query_type",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "All.ReadWrite"
+                },
+                "timeout": 3600,
+                "uri": "http://uniresource:8884/query",
+                "body": {
+                  "query": "query QueryIpv6($resource: String) {\n    QueryResourceTypes(byName: $resource) {\n        id   \n    }\n    QueryAllocationStrategies(byName: $resource) {\n        id\n    }\n}",
+                  "variables": {
+                    "resource": "ipv4"
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "LAMBDA_TASK",
+            "taskReferenceName": "lambda_query_type",
+            "inputParameters": {
+              "lambdaValue": "${graphql_query_type.output.body}",
+              "scriptExpression": "return JSON.parse($.lambdaValue);"
+            },
+            "type": "LAMBDA",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_create_ipv4_pool",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "All.ReadWrite"
+                },
+                "timeout": 3600,
+                "uri": "http://uniresource:8884/query",
+                "body": {
+                  "query": "mutation CreatePool(\n    $pool_name: String!,\n    $resource_id: ID!,\n    $strategy_id: ID!,\n    $address: String!,\n    $prefix: Int!) {\n    CreateAllocatingPool(\n        input: {\n            resourceTypeId: $resource_id,\n            poolName: $pool_name,\n            allocationStrategyId: $strategy_id,\n            poolDealocationSafetyPeriod: 0,\n            poolPropertyTypes: {\n                address: \"string\",\n                prefix: \"int\"\n            },\n            poolProperties: {\n                address: $address,\n                prefix: $prefix\n            },\n            tags: [$pool_name, \"do_not_delete\"],\n        }\n    ) {\n        pool { id Name}\n    }\n}",
+                  "variables": {
+                    "pool_name": "CML-NODE-IPv4-ADDRESS-POOL",
+                    "resource_id": "${lambda_query_type.output.result.data.QueryResourceTypes.0.id}",
+                    "strategy_id": "${lambda_query_type.output.result.data.QueryAllocationStrategies.0.id}",
+                    "address": "192.168.253.95",
+                    "prefix": 27
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "LAMBDA_TASK",
+            "taskReferenceName": "lambda_query_pool_allocation",
+            "inputParameters": {
+              "lambdaValue": "${graphql_create_ipv4_pool.output.body}",
+              "scriptExpression": "return JSON.parse($.lambdaValue);"
+            },
+            "type": "LAMBDA",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_claim_first_reserved_ipv4_address",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "OWNER"
+                },
+                "timeout": 3600,
+                "uri": "http://krakend:8080/api/uniresource",
+                "body": {
+                  "query": "mutation claimIpv4Resource($poolId: ID!, $description: String, $alternativeId: Map!) {\n                ClaimResourceWithAltId( poolId: $poolId, description: $description, userInput: {}, alternativeId: $alternativeId){\n                    id\n                    Properties\n                    AlternativeId\n             }\n            }",
+                  "variables": {
+                    "poolId": "${lambda_query_pool_allocation.output.result.data.CreateAllocatingPool.pool.id}",
+                    "alternativeId": {
+                      "status": "active",
+                      "node_name": "${workflow.input.node_name}"
+                    },
+                    "description": "Ipv4 reserved resource."
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_claim_second_reserved_ipv4_address",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "OWNER"
+                },
+                "timeout": 3600,
+                "uri": "http://krakend:8080/api/uniresource",
+                "body": {
+                  "query": "mutation claimIpv4Resource($poolId: ID!, $description: String, $alternativeId: Map!) {\n                ClaimResourceWithAltId( poolId: $poolId, description: $description, userInput: {}, alternativeId: $alternativeId){\n                    id\n                    Properties\n                    AlternativeId\n             }\n            }",
+                  "variables": {
+                    "poolId": "${lambda_query_pool_allocation.output.result.data.CreateAllocatingPool.pool.id}",
+                    "alternativeId": {
+                      "status": "active",
+                      "node_name": "${workflow.input.node_name}"
+                    },
+                    "description": "Ipv4 reserved resource."
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_claim_third_reserved_ipv4_address",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "OWNER"
+                },
+                "timeout": 3600,
+                "uri": "http://krakend:8080/api/uniresource",
+                "body": {
+                  "query": "mutation claimIpv4Resource($poolId: ID!, $description: String, $alternativeId: Map!) {\n                ClaimResourceWithAltId( poolId: $poolId, description: $description, userInput: {}, alternativeId: $alternativeId){\n                    id\n                    Properties\n                    AlternativeId\n             }\n            }",
+                  "variables": {
+                    "poolId": "${lambda_query_pool_allocation.output.result.data.CreateAllocatingPool.pool.id}",
+                    "alternativeId": {
+                      "status": "active",
+                      "node_name": "${workflow.input.node_name}"
+                    },
+                    "description": "Ipv4 reserved resource."
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          },
+          {
+            "name": "HTTP_task",
+            "taskReferenceName": "graphql_claim_fourth_reserved_ipv4_address",
+            "inputParameters": {
+              "http_request": {
+                "contentType": "application/json",
+                "method": "POST",
+                "headers": {
+                  "x-tenant-id": "frinx",
+                  "from": "workflow",
+                  "x-auth-user-groups": "OWNER"
+                },
+                "timeout": 3600,
+                "uri": "http://krakend:8080/api/uniresource",
+                "body": {
+                  "query": "mutation claimIpv4Resource($poolId: ID!, $description: String, $alternativeId: Map!) {\n                ClaimResourceWithAltId( poolId: $poolId, description: $description, userInput: {}, alternativeId: $alternativeId){\n                    id\n                    Properties\n                    AlternativeId\n             }\n            }",
+                  "variables": {
+                    "poolId": "${lambda_query_pool_allocation.output.result.data.CreateAllocatingPool.pool.id}",
+                    "alternativeId": {
+                      "status": "active",
+                      "node_name": "${workflow.input.node_name}"
+                    },
+                    "description": "Ipv4 reserved resource."
+                  }
+                }
+              }
+            },
+            "type": "SIMPLE",
+            "decisionCases": {},
+            "defaultCase": [],
+            "forkTasks": [],
+            "startDelay": 0,
+            "joinOn": [],
+            "optional": false,
+            "defaultExclusiveJoinTask": [],
+            "asyncComplete": false,
+            "loopOver": []
+          }
+        ]
+      },
+      "defaultCase": [],
+      "startDelay": 0,
+      "optional": false
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_PoolId",
+      "inputParameters": {
+        "lambdaValue": "${lambda_Search_cml_node_pool.output.result}",
+        "lambdaValue2": "${lambda_query_pool_allocation.output.result}",
+        "scriptExpression": "if ($.lambdaValue.data.SearchPoolsByTags.length > 0)\n\treturn ($.lambdaValue.data.SearchPoolsByTags[\"0\"].id);\nelse\n\treturn ($.lambdaValue2.data.CreateAllocatingPool.pool.id);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "HTTP_task",
+      "taskReferenceName": "graphql_claim_ipv4_address",
+      "inputParameters": {
+        "http_request": {
+          "contentType": "application/json",
+          "method": "POST",
+          "headers": {
+            "x-tenant-id": "frinx",
+            "from": "workflow",
+            "x-auth-user-groups": "OWNER"
+          },
+          "timeout": 3600,
+          "uri": "http://krakend:8080/api/uniresource",
+          "body": {
+            "query": "mutation claimIpv4Resource($poolId: ID!, $description: String, $alternativeId: Map!) {\n                ClaimResourceWithAltId( poolId: $poolId, description: $description, userInput: {}, alternativeId: $alternativeId){\n                    id\n                    Properties\n                    AlternativeId\n             }\n            }",
+            "variables": {
+              "poolId": "${lambda_PoolId.output.result}",
+              "alternativeId": {
+                "status": "active",
+                "node_name": "${workflow.input.node_name}"
+              },
+              "description": "${workflow.input.node_name}"
+            }
+          }
+        }
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "LAMBDA_TASK",
+      "taskReferenceName": "lambda_claim_ipv4_address",
+      "inputParameters": {
+        "lambdaValue": "${graphql_claim_ipv4_address.output.body}",
+        "scriptExpression": "return JSON.parse($.lambdaValue);"
+      },
+      "type": "LAMBDA",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "label": "decision",
+      "name": "decisionTask",
+      "type": "DECISION",
+      "taskReferenceName": "decision_address_is_claimed",
+      "inputParameters": {
+        "param": "${lambda_claim_ipv4_address.output.result}"
+      },
+      "caseExpression": "$.param.data ? 'True' : 'False'",
+      "decisionCases": {
+        "False": [
+          {
+            "name": "terminate",
+            "taskReferenceName": "terminate_allocate_root_pool",
+            "inputParameters": {
+              "terminationStatus": "FAILED",
+              "workflowOutput": {
+                "error": "${lambda_claim_ipv4_address.output.result.errors.0.message}"
+              }
+            },
+            "type": "TERMINATE",
+            "startDelay": 0,
+            "optional": false
+          }
+        ]
+      },
+      "defaultCase": [],
+      "startDelay": 0,
+      "optional": false
+    }
+  ],
+  "schemaVersion": 2,
+  "restartable": true,
+  "inputParameters": [],
+  "outputParameters": {
+    "node_ip_address": "${lambda_claim_ipv4_address.output.result.data.ClaimResourceWithAltId.Properties.address}"
+  },
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin-user",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "hasSchedule": false,
+  "expectedScheduleName": "Allocate_cml_node_ipv4_address:1"
+}

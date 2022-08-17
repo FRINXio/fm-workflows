@@ -45,22 +45,22 @@ services:
       mode: replicated
       replicas: 1
 
-  sample-topology:
-    image: frinx/sample-topology:1.10
-    logging: *logging_loki
-    environment:
-      - DOCKER_GWBRIDGE_IP=${DOCKER_GWBRIDGE_IP}
-      - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
-    networks:
-      - uniconfig-network
-      - default
-    sysctls:
-      - net.ipv4.ip_forward=1
-    ports:
-      - ${PORT_RANGE_NETCONF}
-      - ${PORT_RANGE}
-    command:
-      bash -c "${RUN_TESTTOOLS}"
+  # sample-topology:
+  #   image: frinx/sample-topology:1.10
+  #   logging: *logging_loki
+  #   environment:
+  #     - DOCKER_GWBRIDGE_IP=${DOCKER_GWBRIDGE_IP}
+  #     - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
+  #   networks:
+  #     - uniconfig-network
+  #     - default
+  #   sysctls:
+  #     - net.ipv4.ip_forward=1
+  #   ports:
+  #     - ${PORT_RANGE_NETCONF}
+  #     - ${PORT_RANGE}
+  #   command:
+  #     bash -c "${RUN_TESTTOOLS}"
 
 secrets:
   frinx_auth:

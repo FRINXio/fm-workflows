@@ -5,16 +5,21 @@
   "version": 1,
   "tasks": [
     {
-      "name": "GENERATE_ipaddress",
-      "taskReferenceName": "generate_ip_address",
-      "description": "generate ip",
-      "inputParameters": {},
-      "type": "SIMPLE",
+      "name": "Allocate_cml_node_ipv4_address",
+      "taskReferenceName": "allocate_cml_node_ipv4_address",
+      "inputParameters": {
+        "node_name": "${workflow.input.node_name}"
+      },
+      "type": "SUB_WORKFLOW",
+      "subWorkflowParam": {
+        "name": "Allocate_cml_node_ipv4_address",
+        "version": 1
+      },
       "startDelay": 0,
       "optional": false,
-      "asyncComplete": false
+      "asyncComplete": false,
+      "label": "sub-workflow"
     },
-
     {
       "name": "CREATE_cml_node",
       "taskReferenceName": "create_cml_node",
@@ -22,7 +27,7 @@
       "inputParameters": {
         "node_name": "${workflow.input.node_name}",
         "position": "${workflow.input.position}",
-        "ip_address": "${generate_ip_address.output.ip_address}"
+        "ip_address": "${allocate_cml_node_ipv4_address.output.node_ip_address}"
       },
       "type": "SIMPLE",
       "startDelay": 0,
