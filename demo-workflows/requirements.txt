@@ -1,6 +1,6 @@
 psycopg2==2.9.3
 marshmallow-dataclass==8.5.3
-jinja2==3.0.3 
+jinja2==3.0.3
 python_graphql_client==0.4.3
 influxdb_client==1.26.0
 frinx-conductor-client==1.0.5

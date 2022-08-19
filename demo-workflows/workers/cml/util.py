@@ -1,7 +1,8 @@
 import requests
+import os
 
 BASE_URL = "https://147.75.87.193/api/v0"
-CREDENTIAL = {}
+CREDENTIAL = {"username": os.getenv('CML_USERNAME'), "password": os.getenv('CML_PASSWORD')}
 LAB_ID = "414f6afb-6757-4cf7-9ac3-d2848d48db89"
 UBUNTU_NODE_CONFIGURATION = "#cloud-config\nhostname: {hostname}\nmanage_etc_hosts: True\nsystem_info:\n  default_user:\n    name: dtw\npassword: dtw2022\nchpasswd: {{ expire: False }}\nssh_pwauth: True\nssh_authorized_keys:\n   - your-ssh-pubkey-line-goes-here\nwrite_files:\n - path: /etc/netplan/50-cloud-init.yaml\n   content: |\n    network:\n      ethernets:\n        eth0:\n          addresses:\n            - {ip_address}/24\n          gateway4: 192.168.253.1\n          dhcp4: false\n      version: 2\nruncmd:\n  - sudo netplan apply\n  - sudo docker run -itd --privileged --net=host --name arcos arcos_20220816"
 

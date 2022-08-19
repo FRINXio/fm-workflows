@@ -28,12 +28,14 @@ class CreateAndRunNode:
     def update_node_config(self):
         """ Update node configuration part before run """
         update_node_endpoint = f"/labs/{self.lab_id}/nodes/{self.node_id}"
-        configuration = {"configuration": UBUNTU_NODE_CONFIGURATION.format(hostname=self.node_name,ip_address=self.ip_address)}
+        configuration = {"configuration": UBUNTU_NODE_CONFIGURATION.format(hostname=self.node_name,
+                                                                           ip_address=self.ip_address)}
         response = requests.patch(BASE_URL + update_node_endpoint, json=configuration, headers=self.headers)
 
         if response.status_code != 200:
             raise Exception(f"Node configuration cannot be updated. Response: {response.json()}")
-        return {"status": f"configuration updated: {UBUNTU_NODE_CONFIGURATION.format(ip_address=self.ip_address)}"}
+        return {"status": f"configuration updated: "
+                          f"{UBUNTU_NODE_CONFIGURATION.format(hostname=self.node_name, ip_address=self.ip_address)}"}
 
     def run_node(self) -> dict:
         run_node_endpoint = f"/labs/{self.lab_id}/nodes/{self.node_id}/state/start"
