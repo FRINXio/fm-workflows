@@ -64,7 +64,7 @@
       "taskReferenceName": "jsonJQ_oOEn",
       "inputParameters": {
         "key": "${UNICONFIG_read_structured_device_dataRefName_8xGO.output.response_body}",
-        "queryExpression": ".key | .[\"frinx-uniconfig-topology:configuration\"][\"Cisco-IOS-XR-ifmgr-cfg:interface-configurations\"] . \"interface-configuration\" | select(. != null) | .[] | select(.description == \"${workflow.input.Description}\") | {interface: .\"interface-name\"}"
+        "queryExpression": ".key | .[\"Cisco-IOS-XR-ifmgr-cfg:interface-configurations\"] . \"interface-configuration\" | select(. != null) | .[] | select(.description == \"${workflow.input.Description}\") | {interface: .\"interface-name\"}"
       },
       "type": "JSON_JQ_TRANSFORM",
       "decisionCases": {},
