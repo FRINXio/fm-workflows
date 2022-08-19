@@ -7,7 +7,8 @@
       "name": "Allocate_SRv6_address",
       "taskReferenceName": "allocate_srv6_address",
       "inputParameters": {
-        "node_id": "${workflow.input.node_id}"
+        "node_id": "${workflow.input.node_id}",
+        "locator": "${workflow.input.locator}"
       },
       "type": "SUB_WORKFLOW",
       "subWorkflowParam": {
@@ -42,7 +43,7 @@
   "schemaVersion": 2,
   "restartable": true,
   "inputParameters": [
-    "{\"node_id\":{\"value\":\"\",\"description\":\"Mandatory: node id of the device\"},\"vrf_name\":{\"value\":\"vrf1\",\"description\":\"Name of vrf\"}}"
+    "{\"node_id\":{\"value\":\"\",\"description\":\"Mandatory: node id of the device\"},\"vrf_name\":{\"value\":\"vrf1\",\"description\":\"Name of vrf\"},\"locator\":{\"value\":\"loc1\",\"description\":\"Locator for vrf\"}}"
   ],
   "outputParameters": {
   },
