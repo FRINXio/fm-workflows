@@ -66,6 +66,7 @@ def _register_workers(conductor) -> None:
     import device_worker
     import lldp_identification_worker
     import influx_db
+    import notify_worker
     # import vll_worker
     # import vll_service_worker
     # import vpls_worker
@@ -86,6 +87,7 @@ def _register_workers(conductor) -> None:
     device_worker.start(conductor)
     lldp_identification_worker.start(conductor)
     influx_db.start(conductor)
+    notify_worker.start(conductor)
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
