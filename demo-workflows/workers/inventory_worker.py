@@ -104,8 +104,12 @@ task_body_template = {
 }
 
 device_page_template = """
-query GetDevices($first: Int!, $after: String!) {
-  devices(first:$first, after:$after) {
+query GetDevices(
+  $first: Int!, 
+  $after: String!,
+  $labels: [String!]
+) {
+  devices(first: $first, after: $after, filter: { labels: $labels } ) {
     pageInfo {
       startCursor
       endCursor
@@ -135,11 +139,11 @@ query GetDevices($first: Int!, $after: String!) {
 
 device_info_template = """
 query Devices(
-  $labelIds: [String!]
+  $labels: [String!]
   $deviceName: String
 ) {
   devices(
-    filter: { labelIds: $labelIds, deviceName: $deviceName }
+    filter: { labels: $labels, deviceName: $deviceName }
   ) {
     edges {
       node {
@@ -157,8 +161,23 @@ query Devices(
   }
 } """
 
+device_by_label_template = """
+query Devices(
+  $labels: [String!]
+) {
+  devices(
+    filter: { labels: $labels }
+  ) {
+    edges {
+      node {
+        name
+      }
+    }
+  }
+} """
 
 def execute_inventory(body, variables):
+    print("Inventory worker", body, variables)
     return client.execute(query=body, variables=variables)
 
 
@@ -171,10 +190,14 @@ def get_zone_id(zone_name):
             return node['node']['id']
 
 
-def get_all_devices():
-    device_id_name = "query { devices { edges { node { name } } } }"
+def get_all_devices(labels):
+    device_id_name = copy.deepcopy(device_by_label_template)
+        
+    variables = {
+        "labels": str(str(labels)),
+    }
 
-    body = execute_inventory(device_id_name, '')
+    body = execute_inventory(device_id_name, variables)
     return body['data']['devices']['edges']
 
 
@@ -198,26 +221,29 @@ def get_device_info(device_name):
     return device_name, None, None
 
 
-def get_label_id(label_name):
-    zone_id_device = "query { labels { edges { node {  id name } } } }"
+def get_label_id():
+    label_id_device = "query { labels { edges { node {  id name } } } }"
+    body = execute_inventory(label_id_device, '')
 
-    label_id = ''
-    body = execute_inventory(zone_id_device, '')
+    label_id={}
     for node in body['data']['labels']['edges']:
-        if node['node']['name'] == label_name:
-            label_id = node['node']['id']
+        label_id[node['node']['name']]=node['node']['id']
 
-    if label_id == '':
-        variables = {'input': {
-            "name": label_name
-        }}
-        response = execute_inventory(create_label_template, variables)
-        if response['data']['createLabel']['label']['name'] == label_name:
-            label_id = response['data']['createLabel']['label']['id']
-            return label_id
+    return label_id
+
+def create_label(label_name):
+    variables = {'input': {
+        "name": label_name
+    }}
+    response = execute_inventory(create_label_template, variables)
+
+    if response['data']['createLabel']['label']['name'] == label_name:
+        label_id = response['data']['createLabel']['label']['id']
+        return label_id, None
+    elif response.get('errors'):
+        return None, response['errors'][0]['message']
     else:
-        return label_id
-
+        return None, {"Label was not created"}
 ####################################################################################
 
 
@@ -353,19 +379,33 @@ def install_uninstall_in_batch(task):
 
 
 def get_device_pages_ids(task):
+    label_names = task['inputData']['labels'].replace(" ", "") if 'labels' in task['inputData'] else "" 
     device_step = 10
     cursor_count = 20
     has_next_page = True
     page_ids = []
     last_page_id = ''
 
+    # check if labels exist
+    if len(label_names) > 0:
+        # get all label names and ids as dict
+        labels_id_name = get_label_id()
+
+        # check if all input labels exist
+        for label_name in label_names.split(","):
+            label_id=labels_id_name.get(label_name)
+            if label_id == None:
+                return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': "Label " + label_name + " not exist" },
+                'logs': []}
+
     while has_next_page:
         variables = {
             "first": device_step,
-            "after": str(last_page_id)
+            "after": str(last_page_id),
+            "labels": label_names
         }
+
         response = execute_inventory(device_page_template, variables)
-        print(response)
         if response.get('errors'):
             body = {'message': response['errors'][0]['message']}
             return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': body},
@@ -433,12 +473,25 @@ def page_device_dynamic_fork_tasks(task):
 
 def all_devices_fork_tasks(task):
 
+    label_names = task['inputData']['labels'].replace(" ", "") if 'labels' in task['inputData'] else "" 
     task_name = task['inputData']['task']
     add_params = task['inputData']['task_params']
     add_params = json.loads(add_params) if isinstance(add_params, str) else (add_params if add_params else {})
     optional = task['inputData']['optional'] if 'optional' in task['inputData'] else "false"
 
-    ids = get_all_devices()
+    # check if labels exist
+    if len(label_names) > 0:
+        # get all label names and ids as dict
+        labels_id_name = get_label_id()
+
+        # check if all input labels exist
+        for label_name in label_names.split(","):
+            label_id=labels_id_name.get(label_name)
+            if label_id == None:
+                return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': "Label " + label_name + " not exist" },
+                'logs': []}
+
+    ids = get_all_devices(label_names)
   
     dynamic_tasks = []
     dynamic_tasks_i = {}
@@ -474,6 +527,7 @@ def add_cli_device(task):
     body["cli"]["cli-topology:password"] = task['inputData']['password']
     body["cli"]["cli-topology:journal-size"] = task['inputData']['journal-size']
     body["cli"]["cli-topology:parsing-engine"] = task['inputData']['parsing-engine']
+    label_names = task['inputData']['labels'].replace(" ", "") if 'labels' in task['inputData'] else "" 
 
     variables = {'input': {
         "name": task['inputData']['device_id'],
@@ -481,6 +535,22 @@ def add_cli_device(task):
         "serviceState": task['inputData']["service_state"],
         "mountParameters": str(body).replace("'", '"'),
     }}
+
+    if len(label_names) > 0:
+        labels_id_name = get_label_id()
+        label_ids=[]
+
+        # check if all input labels exist
+        for label_name in label_names.split(","):
+            label_id=labels_id_name.get(label_name)
+            if label_id == None:
+                label_id, error = create_label(label_name)
+                if error is not None:
+                    return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': error},
+                    'logs': []}
+            label_ids.append(label_id)
+
+        variables['input']['labelIds'] = label_ids
 
     response = execute_inventory(add_device_template, variables)
 
@@ -509,6 +579,7 @@ def add_netconf_device(task):
     body["netconf"]["netconf-node-topology:keepalive-delay"] = task['inputData']['keepalive-delay']
     body["netconf"]["netconf-node-topology:tcp-only"] = task['inputData']['tcp-only']
     body["netconf"]["uniconfig-config:uniconfig-native-enabled"] = task['inputData']['uniconfig-native']
+    label_names = task['inputData']['labels'].replace(" ", "") if 'labels' in task['inputData'] else "" 
 
     if "blacklist" in task["inputData"] and task["inputData"]["blacklist"] is not None:
         model_array = [model.strip() for model in task["inputData"]["blacklist"].split(",")]
@@ -522,9 +593,21 @@ def add_netconf_device(task):
         "mountParameters": str(body).replace("'", '"'),
     }}
 
-    if task["inputData"]['labels'] is not None:
-        label_id = get_label_id(task["inputData"]['labels'])
-        variables['input']['labelIds'] = label_id
+    if len(label_names) > 0:
+        labels_id_name = get_label_id()
+        label_ids=[]
+
+        # check if all input labels exist
+        for label_name in label_names.split(","):
+            label_id=labels_id_name.get(label_name)
+            if label_id == None:
+                label_id, error = create_label(label_name)
+                if error is not None:
+                    return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': error},
+                    'logs': []}
+            label_ids.append(label_id)
+
+        variables['input']['labelIds'] = label_ids
 
     response = execute_inventory(add_device_template, variables)
 
@@ -569,6 +652,7 @@ def start(cc):
         "timeoutPolicy": "TIME_OUT_WF",
         "retryLogic": "FIXED",
         "inputKeys": [
+            "labels",
             "task",
             "task_params",
             "optional"

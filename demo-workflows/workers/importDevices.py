@@ -20,8 +20,10 @@ client = GraphqlClient(endpoint=inventory_url_base, headers=inventory_headers)
 
 
 def execute(body, variables):
-    return client.execute(query=body, variables=variables)
-
+    response = client.execute(query=body, variables=variables)
+    if response.get('errors'):
+        print("IMPORT DEVICES:", response)
+    return response
 
 install_device_template = """ 
 mutation  AddDevice($input: AddDeviceInput!) {
@@ -56,6 +58,7 @@ def get_zone_id(zone_name):
     zone_id_device = "query { zones { edges { node {  id name } } } }"
 
     body = execute(zone_id_device, '')
+
     for node in body['data']['zones']['edges']:
         if node['node']['name'] == zone_name:
             return node['node']['id']
@@ -109,6 +112,7 @@ def import_devices(device_data_csv, device_data_json):
     all_device_data = all_device_data[1:]
 
     for device in all_device_data:
+
         # prepare a list with device data
         data_list = device.strip().split(',')
 
@@ -136,10 +140,11 @@ def import_devices(device_data_csv, device_data_json):
         }}
 
         if not device_data['labels'] == '':
-            label_id = get_label_id(device_data['labels'])
-            variables['input']['labelIds'] = label_id
+            label_ids=[]
+            for label_name in device_data['labels'].split("|"):
+                label_ids.append(get_label_id(label_name))
 
-        print(variables)
+            variables['input']['labelIds'] = label_ids
 
         response = execute(install_device_template, variables)
         print(response)
@@ -158,17 +163,14 @@ def _is_simulated(device_data: dict) -> bool:
     instance_to_simulate = all_instances if not os.getenv("INSTANCES_TO_SIMULATE") else os.getenv("INSTANCES_TO_SIMULATE")
     run_testtools = os.getenv("RUN_TESTTOOLS")
 
-    # Validate if current device type (CLI or NETCONF) is simulated. labels = CLI or NETCONF
-    if device_data['labels'].lower() not in run_testtools:
-        return False
-
-    if device_data["labels"] == "NETCONF":
-        # get base name from device id ex. IOSXR653_1 -> IOSXR653
-        device_base_name = device_data["device_id"].split("_")[0]
-        if device_base_name not in instance_to_simulate:
-            return False
-    return True
-
+    for label in device_data["labels"].split("|"):
+        if label.lower() in run_testtools:
+            if "netconf" in label.lower():
+                device_base_name = device_data["device_id"].split("_")[0]
+                if device_base_name not in instance_to_simulate:
+                    return False
+            return True
+    return False
 
 if __name__ == '__main__':
     main()
