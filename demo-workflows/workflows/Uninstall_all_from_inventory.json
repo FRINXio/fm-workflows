@@ -7,7 +7,9 @@
     {
       "name": "INVENTORY_get_pages_cursors",
       "taskReferenceName": "INVENTORY_get_pages_cursorsRefName_iHgJ",
-      "inputParameters": {},
+      "inputParameters": {
+        "labels": "${workflow.input.labels}"
+      },
       "type": "SIMPLE",
       "decisionCases": {},
       "defaultCase": [],
