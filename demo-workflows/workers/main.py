@@ -11,6 +11,7 @@ from frinx_conductor_workers.frinx_rest import conductor_url_base, conductor_hea
 
 
 from importDevices import import_devices
+from importDevices import import_blueprints
 
 # Suppress InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -44,10 +45,15 @@ def _import_devices() -> None:
     import_devices("../devices/cli_saos_device_data.csv",
                    "../devices/cli_saos_device_import.json")
     import_devices("../devices/netconf_device_data_iosxr.csv",
-                   "../devices/netconf_device_import_iosxr.json")
+                   "../devices/netconf_device_iosxr_import.json")
     import_devices("../devices/netconf_device_data.csv",
                    "../devices/netconf_device_import.json")
 
+def _import_blueprints() -> None:
+    import_blueprints("../devices/cli_device_import.json")
+    import_blueprints("../devices/cli_saos_device_import.json")
+    import_blueprints("../devices/netconf_device_iosxr_import.json")
+    import_blueprints("../devices/netconf_device_import.json")
 
 def _register_workers(conductor) -> None:
 
@@ -135,6 +141,9 @@ def main():
 
     _import_devices()
     logger.info("All devices are imported")
+
+    _import_blueprints()
+    logger.info("All blueprints are imported")
 
     _configure_healthcheck()
     logger.debug("Health check is configured")

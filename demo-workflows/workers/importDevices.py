@@ -36,6 +36,16 @@ mutation  AddDevice($input: AddDeviceInput!) {
     }
 } """
 
+create_blueprint_template = """
+mutation AddBlueprint($input: AddBlueprintInput!) {
+  addBlueprint(input: $input) {
+    blueprint {
+      id
+      name
+    }
+  }
+} """
+
 create_label_template = """ 
 mutation CreateLabel($input: CreateLabelInput!) {
   createLabel(input: $input){
@@ -52,7 +62,7 @@ def main():
     DEVICE_DATA_JSON = argv[2]
 
     import_devices(DEVICE_DATA_CSV, DEVICE_DATA_JSON)
-
+    import_blueprints(DEVICE_DATA_JSON)
 
 def get_zone_id(zone_name):
     zone_id_device = "query { zones { edges { node {  id name } } } }"
@@ -84,6 +94,17 @@ def get_label_id(label_name):
     else:
         return label_id
 
+def import_blueprints(device_data_json):
+
+    with open(device_data_json) as json_file:
+        device_import_json = json_file.read()
+
+    variables = {'input': {
+        "name": device_data_json.split("/")[-1].replace("_import.json",""),
+        "template": device_import_json
+    }}
+
+    execute(create_blueprint_template, variables)
 
 def import_devices(device_data_csv, device_data_json):
     # definition of replacements in the DEVICE_DATA_JSON file
