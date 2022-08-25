@@ -9,7 +9,8 @@
       "taskReferenceName": "INVENTORY_install_in_batchRefName_GA1K",
       "inputParameters": {
         "page_id": "${workflow.input.page_id}",
-        "page_size": "${workflow.input.page_size}"
+        "page_size": "${workflow.input.page_size}",
+        "labels": "${workflow.input.labels}"
       },
       "type": "SIMPLE",
       "decisionCases": {},
