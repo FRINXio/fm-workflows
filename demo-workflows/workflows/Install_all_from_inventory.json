@@ -62,7 +62,8 @@
           "taskReferenceName": "read_inventory",
           "inputParameters": {
             "task": "Install_from_inventory_batch",
-            "page_ids": "${lambda_rMMU.output.result}"
+            "page_ids": "${lambda_rMMU.output.result}",
+            "labels": "${workflow.input.labels}"
           },
           "type": "SIMPLE",
           "decisionCases": {},
