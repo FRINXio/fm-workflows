@@ -1,13 +1,13 @@
 device_id,device_type,device_version,password,username,port,zone_name,service_state,labels
-IOS01,ios,15.4,cisco,cisco,10004,uniconfig,IN_SERVICE,CLI|IOS
-IOS02,ios,15.4,cisco,cisco,10005,uniconfig,IN_SERVICE,CLI|IOS
-XR01,ios xr,6.x,cisco,cisco,10006,uniconfig,IN_SERVICE,CLI|XR
-XR02,ios xr,6.x,cisco,cisco,10007,uniconfig,IN_SERVICE,CLI|XR
-VRP01,vrp,*,huawei,huawei,10008,uniconfig,IN_SERVICE,CLI|VRP
-Leaf01,ios,15.4,cisco,cisco,10009,uniconfig,IN_SERVICE,CLI|IOS
-Leaf02,ios,15.4,cisco,cisco,10010,uniconfig,IN_SERVICE,CLI|IOS
-Leaf03,ios,15.4,cisco,cisco,10011,uniconfig,IN_SERVICE,CLI|IOS
-Leaf04,ios,15.4,cisco,cisco,10012,uniconfig,IN_SERVICE,CLI|IOS
-Leaf05,ios,15.4,cisco,cisco,10013,uniconfig,IN_SERVICE,CLI|IOS
-Spine01,ios,15.4,cisco,cisco,10014,uniconfig,IN_SERVICE,CLI|IOS
-Spine02,ios,15.4,cisco,cisco,10015,uniconfig,IN_SERVICE,CLI|IOS
+IOS01,ios,15.4,cisco,cisco,10004,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+IOS02,ios,15.4,cisco,cisco,10005,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+XR01,ios xr,6.x,cisco,cisco,10006,uniconfig,IN_SERVICE,CLI|XR|CREATE_LOOPBACK_DEMO
+XR02,ios xr,6.x,cisco,cisco,10007,uniconfig,IN_SERVICE,CLI|XR|CREATE_LOOPBACK_DEMO
+VRP01,vrp,*,huawei,huawei,10008,uniconfig,IN_SERVICE,CLI|VRP|CREATE_LOOPBACK_DEMO
+Leaf01,ios,15.4,cisco,cisco,10009,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+Leaf02,ios,15.4,cisco,cisco,10010,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+Leaf03,ios,15.4,cisco,cisco,10011,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+Leaf04,ios,15.4,cisco,cisco,10012,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+Leaf05,ios,15.4,cisco,cisco,10013,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+Spine01,ios,15.4,cisco,cisco,10014,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
+Spine02,ios,15.4,cisco,cisco,10015,uniconfig,IN_SERVICE,CLI|IOS|CREATE_LOOPBACK_DEMO
