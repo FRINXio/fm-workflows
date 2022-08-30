@@ -70,7 +70,7 @@
     }
   ],
   "inputParameters": [
-    "{\"loopback_id\":{\"value\":\"\",\"description\":\"Unique loopback identifier (e.g. 77)\",\"type\":\"string\"},\"optional\":{\"value\": true,\"description\":\"If one of devices doesn't use openconfig model, workflow will continue\",\"type\":\"toggle\", \"options\": [true,false]}}"
+    "{\"labels\":{\"value\":\"CREATE_LOOPBACK_DEMO\",\"description\":\"\",\"type\":\"string\"},\"loopback_id\":{\"value\":\"\",\"description\":\"Unique loopback identifier (e.g. 77)\",\"type\":\"string\"},\"optional\":{\"value\": true,\"description\":\"If one of devices doesn't use openconfig model, workflow will continue\",\"type\":\"toggle\", \"options\": [true,false]}}"
   ],
   "outputParameters": {
     "interfaces": "${commit.output}"
