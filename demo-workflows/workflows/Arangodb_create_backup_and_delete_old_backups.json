@@ -4,9 +4,19 @@
   "version": 1,
   "tasks": [
     {
-      "name": "ArangoDB_create_backup_and_delete_old_backups",
-      "taskReferenceName": "arangodb_create_backup_and_delete_old_backups",
+      "name": "Arangodb_create_backup",
+      "taskReferenceName": "arangodb_create_backup",
       "inputParameters": {},
+      "type": "SIMPLE",
+      "optional": false,
+      "asyncComplete": false
+    },
+    {
+      "name": "Arangodb_delete_backups",
+      "taskReferenceName": "arangodb_delete_backups",
+      "inputParameters": {
+        "delete_age": "${workflow.input.delete_age}"
+      },
       "type": "SIMPLE",
       "optional": false,
       "asyncComplete": false
@@ -14,6 +24,9 @@
   ],
   "schemaVersion": 2,
   "restartable": true,
+  "inputParameters": [
+    "{\"delete_age\":{\"value\":\"24\",\"description\":\"Delete all backups older than delete_age in hours\"}}"
+  ],
   "workflowStatusListenerEnabled": false,
   "timeoutSeconds": 0,
   "hasSchedule": false
