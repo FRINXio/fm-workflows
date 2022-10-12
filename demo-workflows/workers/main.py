@@ -164,7 +164,7 @@ def main():
     _import_blueprints()
     logger.info("All blueprints are imported")
 
-    if int(os.getenv("TOPOLOGY_DISCOVERY_BACKUP")):
+    if int(os.getenv("TOPOLOGY_DISCOVERY_BACKUP_ENABLED")):
         result_dict = _import_schedulers()
         logger.info(f"Scheduler import status codes: {result_dict}")
 

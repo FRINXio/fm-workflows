@@ -30,7 +30,7 @@ EOF
 }
 
 export RUN_TESTTOOLS="./scripts/run_cli_devices/run_devices_docker.sh"
-export TOPOLOGY_DISCOVERY_BACKUP="0"
+export TOPOLOGY_DISCOVERY_BACKUP_ENABLED="0"
 INSTANCES_TO_SIMULATE=""
 
 function argumentsCheck {
@@ -59,7 +59,7 @@ function argumentsCheck {
             docker exec -it "$(docker ps -qf "name=fm_inventory-postgres")" psql -U postgres -a inventory -c 'delete from device_inventory;'
             echo "Device inventory has been cleaned.";;
         -tdb|--topology-discovery-backup)
-            export TOPOLOGY_DISCOVERY_BACKUP="1"
+            export TOPOLOGY_DISCOVERY_BACKUP_ENABLED="1"
             echo "Run scheduler for topology discovery arangodb backup";;
         *)
             echo "Unknow option: ${1}"

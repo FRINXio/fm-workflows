@@ -21,7 +21,7 @@ services:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
       - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
       - RUN_TESTTOOLS=${RUN_TESTTOOLS}
-      - TOPOLOGY_DISCOVERY_BACKUP=${TOPOLOGY_DISCOVERY_BACKUP}
+      - TOPOLOGY_DISCOVERY_BACKUP_ENABLED=${TOPOLOGY_DISCOVERY_BACKUP_ENABLED}
     entrypoint: ["/set_env_secrets.sh", "python3 main.py"]
     secrets:
       - frinx_auth
