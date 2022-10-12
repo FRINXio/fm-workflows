@@ -2,7 +2,7 @@ import util
 import requests
 import json
 
-TOPOLOGY_DISCOVERY_BASE_URL = "http://fm_topology-discovery:5000/api"
+TOPOLOGY_DISCOVERY_BASE_URL = "http://topology-discovery:5000/api"
 TOPOLOGY_DISCOVERY_HEADERS = {"Content-Type": "application/json"}
 
 
