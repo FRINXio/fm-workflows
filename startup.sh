@@ -13,7 +13,9 @@ DESCRIPTION:
    -h|--help    Print this help and exit
    -d|--debug   Enable verbose
 
-   -ci|--clean-inventory    Clean device inventory
+   -ci|--clean-inventory               Clean device inventory
+   -tdb|--topology-discovery-backup    Create Schedule for topology discovery backup WF (every 1 hour)
+
 
    SAMPLE-TOPOLOGY Parameters:
    -ad|--all-devices   Run CLI and netconf devices
@@ -28,6 +30,7 @@ EOF
 }
 
 export RUN_TESTTOOLS="./scripts/run_cli_devices/run_devices_docker.sh"
+export TOPOLOGY_DISCOVERY_BACKUP="0"
 INSTANCES_TO_SIMULATE=""
 
 function argumentsCheck {
@@ -55,6 +58,9 @@ function argumentsCheck {
         -ci|--clean-inventory)
             docker exec -it "$(docker ps -qf "name=fm_inventory-postgres")" psql -U postgres -a inventory -c 'delete from device_inventory;'
             echo "Device inventory has been cleaned.";;
+        -tdb|--topology-discovery-backup)
+            export TOPOLOGY_DISCOVERY_BACKUP="1"
+            echo "Run scheduler for topology discovery arangodb backup";;
         *)
             echo "Unknow option: ${1}"
             show_help
