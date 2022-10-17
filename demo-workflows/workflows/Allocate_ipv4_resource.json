@@ -1,0 +1,90 @@
+{
+    "name": "Allocate_ipv4_resource",
+    "description": "{\"description\": \"Claim IPv4 resource.\", \"labels\": [\"UNIRESOURCE\"]}",
+    "workflowStatusListenerEnabled": true,
+    "version": 1,
+    "tasks": [
+      {
+        "name": "UNIRESOURCE_query_pool_by_tag",
+        "taskReferenceName": "query_pool_by_tag",
+        "type": "SIMPLE",
+        "inputParameters": {
+            "poolTag": "${workflow.input.pool_name}"
+        }
+      },
+      {
+        "label": "decision",
+        "name": "decisionTask",
+        "taskReferenceName": "pool_exists",
+        "inputParameters": {
+          "pool_exists": "${query_pool_by_tag.output.response_body.data.SearchPoolsByTags}"
+        },
+        "type": "DECISION",
+        "caseExpression": "$.pool_exists.length > 0 ? 'True' : 'False'",
+        "decisionCases": {
+          "False": [
+            {
+              "name": "terminate",
+              "taskReferenceName": "terminate_cleanup_pool",
+              "inputParameters": {
+                "terminationStatus": "FAILED",
+                "workflowOutput": {
+                  "status": "Pool with name \"${workflow.input.pool_name}\" do not exists."
+                }
+              },
+              "type": "TERMINATE",
+              "startDelay": 0,
+              "optional": false
+            }
+          ]
+        },
+        "defaultCase": [],
+        "startDelay": 0,
+        "optional": false
+      },
+      {
+        "label": "decision",
+        "name": "decisionTask",
+        "taskReferenceName": "desired_value_not_null",
+        "inputParameters": {
+        "desiredValue": "${workflow.input.desired_value}"
+        },
+        "type": "DECISION",
+        "caseExpression": "$.desiredValue.length > 0 ? 'True' : 'False'",
+        "decisionCases": {
+        "True": [
+            {
+                "name": "UNIRESOURCE_claim_resource",
+                "taskReferenceName": "claim_resource_with_desired_value",
+                "type": "SIMPLE",
+                "inputParameters": {
+                "poolId": "${query_pool_by_tag.output.response_body.data.SearchPoolsByTags[0].id}",
+                "userInput": {"desiredValue": "${workflow.input.desired_value}"},
+                "description": "${workflow.input.description}",
+                "alternativeId": "${workflow.input.alternativ_id}"
+                }
+            }
+        ],
+        "False": [
+            {
+                "name": "UNIRESOURCE_claim_resource",
+                "taskReferenceName": "claim_resource_without_desired_value",
+                "type": "SIMPLE",
+                "inputParameters": {
+                "poolId": "${query_pool_by_tag.output.response_body.data.SearchPoolsByTags[0].id}",
+                "description": "${workflow.input.description}",
+                "alternativeId": "${workflow.input.alternativ_id}"
+                }
+            }
+        ]
+        }
+    }
+    ],
+    "inputParameters": [
+        "{\"pool_name\":{\"value\":\"\",\"description\":\"Pool name.\",\"type\":\"string\"}, \"description\":{\"value\":\"\",\"description\":\"Description for resource.\",\"type\":\"string\"}, \"alternativ_id\": {\"value\": \"\", \"description\":\"Alternative ID for resource.\", \"type\":\"string\"}, \"desired_value\":{\"value\":\"\",\"description\":\"Your address should be between 192.168.0.0 and 192.168.0.255 .\",\"type\":\"string\"}}"
+    ],
+    "outputParameters": {
+      "response_body": "${claim_resource.output.response_body}"
+    },
+    "schemaVersion": 2
+  }
