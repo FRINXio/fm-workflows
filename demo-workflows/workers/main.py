@@ -12,6 +12,7 @@ from frinx_conductor_workers.frinx_rest import conductor_url_base, conductor_hea
 
 from importDevices import import_devices
 from importDevices import import_blueprints
+from constants.scheduler import UNIFLOW_SCHEDULER_LIST, UNIFLOW_SCHEDULER_URL
 
 # Suppress InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -73,6 +74,7 @@ def _register_workers(conductor) -> None:
     import lldp_identification_worker
     import influx_db
     import uniresource_worker
+    import topology_discovery_worker
     # import vll_worker
     # import vll_service_worker
     # import vpls_worker
@@ -94,6 +96,7 @@ def _register_workers(conductor) -> None:
     lldp_identification_worker.start(conductor)
     influx_db.start(conductor)
     uniresource_worker.start(conductor)
+    topology_discovery_worker.start(conductor)
     # vll_worker.start(cc)
     # vll_service_worker.start(cc)
     # vpls_worker.start(cc)
@@ -124,6 +127,22 @@ def _configure_healthcheck(file: Path = HEALTCHCHEK_FILE) -> None:
         pass
 
 
+def _import_schedulers() -> dict:
+    """
+        return: result_dict ex. {'Arangodb_create_backup_and_delete_old_backups:1': {'status_code': 200}}
+    """
+    result_dict = {}
+    for scheduler_data in UNIFLOW_SCHEDULER_LIST:
+        # Convert dict values to dict
+        data = list(scheduler_data.values())[0]
+        # URL ex. http://workflow-proxy:8088/schedule/Arangodb_create_backup_and_delete_old_backups:1
+        response = requests.put(f"{UNIFLOW_SCHEDULER_URL}/{data['name']}",
+                                data=json.dumps(data), headers=conductor_headers)
+        result_dict[data["name"]] = {"status_code": response.status_code}
+
+    return result_dict
+
+
 def main():
     configure_logging()
     logger = logging.getLogger(__name__)
@@ -146,6 +165,10 @@ def main():
 
     _import_blueprints()
     logger.info("All blueprints are imported")
+
+    if int(os.getenv("TOPOLOGY_DISCOVERY_BACKUP_ENABLED")):
+        result_dict = _import_schedulers()
+        logger.info(f"Scheduler import status codes: {result_dict}")
 
     _configure_healthcheck()
     logger.debug("Health check is configured")
