@@ -17,6 +17,7 @@ RUN apk add ulogd
 WORKDIR /sample-topology
 COPY ./ ./
 
+RUN pip install typing
 RUN pip install --no-cache-dir -r requirements.txt
 
 ADD  https://license.frinx.io/download/netconf-testtool-1.4.2-Oxygen-SR2.4_2_10_rc5-frinxodl-SNAPSHOT-executable.jar /./netconf-testtool/
