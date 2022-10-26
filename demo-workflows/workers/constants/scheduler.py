@@ -1,6 +1,6 @@
-UNIFLOW_SCHEDULER_URL = "http://workflow-proxy:8088/schedule"
+WORKFLOW_MANAGER_SCHEDULER_URL = "http://workflow-proxy:8088/schedule"
 
-UNIFLOW_SCHEDULER_LIST = [
+WORKFLOW_MANAGER_SCHEDULER_LIST = [
     {
         "Arangodb_create_backup_and_delete_old_backups": {
             "workflowName": "Arangodb_create_backup_and_delete_old_backups",

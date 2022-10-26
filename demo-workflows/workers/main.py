@@ -12,7 +12,7 @@ from frinx_conductor_workers.frinx_rest import conductor_url_base, conductor_hea
 
 from importDevices import import_devices
 from importDevices import import_blueprints
-from constants.scheduler import UNIFLOW_SCHEDULER_LIST, UNIFLOW_SCHEDULER_URL
+from constants.scheduler import WORKFLOW_MANAGER_SCHEDULER_LIST, WORKFLOW_MANAGER_SCHEDULER_URL
 
 # Suppress InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -132,11 +132,11 @@ def _import_schedulers() -> dict:
         return: result_dict ex. {'Arangodb_create_backup_and_delete_old_backups:1': {'status_code': 200}}
     """
     result_dict = {}
-    for scheduler_data in UNIFLOW_SCHEDULER_LIST:
+    for scheduler_data in WORKFLOW_MANAGER_SCHEDULER_LIST:
         # Convert dict values to dict
         data = list(scheduler_data.values())[0]
         # URL ex. http://workflow-proxy:8088/schedule/Arangodb_create_backup_and_delete_old_backups:1
-        response = requests.put(f"{UNIFLOW_SCHEDULER_URL}/{data['name']}",
+        response = requests.put(f"{WORKFLOW_MANAGER_SCHEDULER_URL}/{data['name']}",
                                 data=json.dumps(data), headers=conductor_headers)
         result_dict[data["name"]] = {"status_code": response.status_code}
 
