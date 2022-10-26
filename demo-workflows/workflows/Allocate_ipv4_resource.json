@@ -1,11 +1,11 @@
 {
     "name": "Allocate_ipv4_resource",
-    "description": "{\"description\": \"Claim IPv4 resource.\", \"labels\": [\"UNIRESOURCE\"]}",
+    "description": "{\"description\": \"Claim IPv4 resource.\", \"labels\": [\"RESOURCE_MANAGER\"]}",
     "workflowStatusListenerEnabled": true,
     "version": 1,
     "tasks": [
       {
-        "name": "UNIRESOURCE_query_pool_by_tag",
+        "name": "RESOURCE_MANAGER_query_pool_by_tag",
         "taskReferenceName": "query_pool_by_tag",
         "type": "SIMPLE",
         "inputParameters": {
@@ -54,7 +54,7 @@
         "decisionCases": {
         "True": [
             {
-                "name": "UNIRESOURCE_claim_resource",
+                "name": "RESOURCE_MANAGER_claim_resource",
                 "taskReferenceName": "claim_resource_with_desired_value",
                 "type": "SIMPLE",
                 "inputParameters": {
@@ -67,7 +67,7 @@
         ],
         "False": [
             {
-                "name": "UNIRESOURCE_claim_resource",
+                "name": "RESOURCE_MANAGER_claim_resource",
                 "taskReferenceName": "claim_resource_without_desired_value",
                 "type": "SIMPLE",
                 "inputParameters": {

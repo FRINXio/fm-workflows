@@ -4,4 +4,4 @@ jinja2==3.0.3
 python_graphql_client==0.4.3
 influxdb_client==1.26.0
 frinx-conductor-client==1.0.5
-frinx-conductor-workers==1.0.8
+frinx-conductor-workers==1.1.0
