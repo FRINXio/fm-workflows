@@ -1,6 +1,6 @@
 {
-  "name": "UR_claim_data_from_pool",
-  "description": "{\"description\":\"Claim data from pool\",\"labels\":[\"UNIRESOURCE\"]}",
+  "name": "RM_claim_data_from_pool",
+  "description": "{\"description\":\"Claim data from pool\",\"labels\":[\"RESOURCE_MANAGER\"]}",
   "version": 1,
   "tasks": [
     {
@@ -118,5 +118,5 @@
   "timeoutSeconds": 0,
   "variables": {},
   "hasSchedule": false,
-  "expectedScheduleName": "UR_claim_data_from_pool:1"
+  "expectedScheduleName": "RM_claim_data_from_pool:1"
 }
