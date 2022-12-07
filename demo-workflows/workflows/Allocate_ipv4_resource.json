@@ -1,6 +1,6 @@
 {
     "name": "Allocate_ipv4_resource",
-    "description": "{\"description\": \"Claim IPv4 resource.\", \"labels\": [\"RESOURCE_MANAGER\"]}",
+    "description": "{\"description\": \"Claim IPv4 resource\", \"labels\": [\"RESOURCE_MANAGER\"]}",
     "workflowStatusListenerEnabled": true,
     "version": 1,
     "tasks": [
@@ -61,7 +61,7 @@
                 "poolId": "${query_pool_by_tag.output.response_body.data.SearchPoolsByTags[0].id}",
                 "userInput": {"desiredValue": "${workflow.input.desired_value}"},
                 "description": "${workflow.input.description}",
-                "alternativeId": "${workflow.input.alternativ_id}"
+                "alternativeId": "${workflow.input.alternative_id}"
                 }
             }
         ],
@@ -73,18 +73,37 @@
                 "inputParameters": {
                 "poolId": "${query_pool_by_tag.output.response_body.data.SearchPoolsByTags[0].id}",
                 "description": "${workflow.input.description}",
-                "alternativeId": "${workflow.input.alternativ_id}"
+                "alternativeId": "${workflow.input.alternative_id}"
                 }
             }
         ]
         }
-    }
+      },
+      {
+        "name": "LAMBDA_TASK",
+        "taskReferenceName": "lambda_claimCustomerAddress",
+        "inputParameters": {
+          "lambdaValue": "${claim_resource_with_desired_value.output.response_body}",
+          "lambdaValue2": "${claim_resource_without_desired_value.output.response_body}",
+          "scriptExpression": "if ($.lambdaValue)\n\treturn $.lambdaValue\nelse\nreturn $.lambdaValue2;"
+       },
+       "type": "LAMBDA",
+        "decisionCases": {},
+        "defaultCase": [],
+        "forkTasks": [],
+        "startDelay": 0,
+        "joinOn": [],
+        "optional": false,
+        "defaultExclusiveJoinTask": [],
+        "asyncComplete": false,
+        "loopOver": []
+      }
     ],
     "inputParameters": [
-        "{\"pool_name\":{\"value\":\"\",\"description\":\"Pool name.\",\"type\":\"string\"}, \"description\":{\"value\":\"\",\"description\":\"Description for resource.\",\"type\":\"string\"}, \"alternativ_id\": {\"value\": \"\", \"description\":\"Alternative ID for resource.\", \"type\":\"string\"}, \"desired_value\":{\"value\":\"\",\"description\":\"Your address should be between 192.168.0.0 and 192.168.0.255 .\",\"type\":\"string\"}}"
+        "{\"pool_name\":{\"value\":\"\",\"description\":\"Pool name [MANDATORY]\",\"type\":\"string\"}, \"description\":{\"value\":\"\",\"description\":\"Description for resource [OPTIONAL]\",\"type\":\"string\"}, \"alternative_id\": {\"value\": \"\", \"description\":\"Alternative ID for resource [OPTIONAL] e.g. {'status':'active'}\", \"type\":\"string\"}, \"desired_value\":{\"value\":\"\",\"description\":\"[OPTIONAL] e.g. If pool address is 192.168.0.1 with prefix 24 my address should be between 192.168.0.0 and 192.168.0.255\",\"type\":\"string\"}}"
     ],
     "outputParameters": {
-      "response_body": "${claim_resource.output.response_body}"
+      "response_body": "${lambda_claimCustomerAddress.output.result.ClaimResource.Properties}"
     },
     "schemaVersion": 2
   }
