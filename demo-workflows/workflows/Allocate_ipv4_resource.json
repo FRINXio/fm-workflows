@@ -81,11 +81,13 @@
       },
       {
         "name": "LAMBDA_TASK",
-        "taskReferenceName": "lambda_claimCustomerAddress",
+        "taskReferenceName": "lambda_claimAddress",
         "inputParameters": {
-          "lambdaValue": "${claim_resource_with_desired_value.output.response_body}",
-          "lambdaValue2": "${claim_resource_without_desired_value.output.response_body}",
-          "scriptExpression": "if ($.lambdaValue)\n\treturn $.lambdaValue\nelse\nreturn $.lambdaValue2;"
+          "lambdaValue": "${claim_resource_with_desired_value.output.response_body.ClaimResource}",
+          "lambdaValue2": "${claim_resource_without_desired_value.output.response_body.ClaimResource}",
+          "lambdaValue3": "${claim_resource_with_desired_value.output.response_body.ClaimResourceWithAltId}",
+          "lambdaValue4": "${claim_resource_without_desired_value.output.response_body.ClaimResourceWithAltId}",
+          "scriptExpression": "if ($.lambdaValue)\n\treturn $.lambdaValue\nelse if($.lambdaValue2)\nreturn $.lambdaValue2\nelse if($.lambdaValue3)\nreturn $.lambdaValue3\nelse\nreturn $.lambdaValue4;"
        },
        "type": "LAMBDA",
         "decisionCases": {},
@@ -103,7 +105,7 @@
         "{\"pool_name\":{\"value\":\"\",\"description\":\"Pool name [MANDATORY]\",\"type\":\"string\"}, \"description\":{\"value\":\"\",\"description\":\"Description for resource [OPTIONAL]\",\"type\":\"string\"}, \"alternative_id\": {\"value\": \"\", \"description\":\"Alternative ID for resource [OPTIONAL] e.g. {'status':'active'}\", \"type\":\"string\"}, \"desired_value\":{\"value\":\"\",\"description\":\"[OPTIONAL] e.g. If pool address is 192.168.0.1 with prefix 24 my address should be between 192.168.0.0 and 192.168.0.255\",\"type\":\"string\"}}"
     ],
     "outputParameters": {
-      "response_body": "${lambda_claimCustomerAddress.output.result.ClaimResource.Properties}"
+      "response_body": "${lambda_claimAddress.output.result.Properties}"
     },
     "schemaVersion": 2
   }
