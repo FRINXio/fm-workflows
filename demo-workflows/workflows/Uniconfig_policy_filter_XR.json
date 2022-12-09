@@ -1,11 +1,8 @@
 {
   "updateTime": 1632467666419,
   "name": "Uniconfig_policy_filter_XR",
-  "description": "Workflow that returns interface name based on description that user provides. Chosen policy-map is then applied on that interface. Configured for IOS XR devices.",
+  "description": "{\"description\": \"Workflow that returns interface name based on description that user provides. Chosen policy-map is then applied on that interface. Configured for IOS XR devices\"}",
   "version": 1,
- "inputParameters":[
-        "{\r\n    \"device_id\":{\r\n        \"value\":\"\",\r\n        \"description\":\"Name of the device\",\r\n        \"type\":\"string\"\r\n    },\r\n    \"Policy_map_name\":{\r\n        \"value\":\"\",\r\n        \"description\":\"Name of the policy-map you want to apply\",\r\n        \"type\":\"string\"\r\n    },\r\n    \"Description\":{\r\n        \"value\":\"\",\r\n        \"description\":\"Description of interface to filter\",\r\n        \"type\":\"string\"\r\n    }\r\n}"
-  ],
   "tasks": [
     {
       "name": "UNICONFIG_sync_from_network",

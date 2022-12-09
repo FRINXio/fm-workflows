@@ -1,6 +1,6 @@
 {
   "name": "IOS_Upgrade",
-  "description": "",
+  "description": "{\"description\":\"Upgrade IOS device\"}",
   "version": 1,
   "tasks": [
     {

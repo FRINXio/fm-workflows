@@ -1,7 +1,7 @@
 {
   "createTime": 1616693943495,
   "name": "IOSXR_Upgrade_loopTask",
-  "description": "Do-while workflow task used in IOSXR_Upgrade workflow",
+  "description": "{\"description\":\"Do-while workflow task used in IOSXR_Upgrade workflow\"}",
   "version": 1,
   "tasks": [
     {
