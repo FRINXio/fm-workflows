@@ -1,6 +1,6 @@
 {
   "name": "Device_identification",
-  "description": "Identify type and version of device and return it in the output.",
+  "description": "{\"description\":\"Identify type and version of device and return it in the output\"}",
   "workflowStatusListenerEnabled": true,
   "version": 1,
   "tasks": [

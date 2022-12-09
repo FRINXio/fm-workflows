@@ -1,6 +1,6 @@
 {
   "name": "IOSXR_Upgrade",
-  "description": "Worfklow for upgrading IOS image versions on Cisco IOSXR devices",
+  "description": "{\"description\":\"Worfklow for upgrading IOS image versions on Cisco IOSXR devices\"}",
   "version": 1,
   "tasks": [
     {
