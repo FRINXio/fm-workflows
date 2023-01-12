@@ -1,4 +1,4 @@
-FROM python:3.6.10-buster
+FROM python:3.6.15-buster
 
 WORKDIR /home/app
 
@@ -6,7 +6,7 @@ WORKDIR /home/app
 ### Install application setup
 COPY ./requirements.txt ./requirements.txt
 
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 RUN apt-get update
 RUN apt-get -y install nano
 
