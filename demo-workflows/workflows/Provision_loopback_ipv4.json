@@ -1,0 +1,117 @@
+{
+  "updateTime": 1674045802940,
+  "name": "Provision_loopback_ipv4",
+  "description": "{\"description\":\"Allocate IP from pre-defined pool and provision loopback interface\",\"labels\":[\"RESOURCE_MANAGER\",\"UNICONFIG\",\"OPENCONFIG\"]}",
+  "version": 1,
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin2@frinxservicestest.onmicrosoft.com",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "inputTemplate": {},
+  "tasks": [
+    {
+      "name": "UNICONFIG_sync_from_network",
+      "taskReferenceName": "UNICONFIG_sync_from_networkRefName_eT7J",
+      "inputParameters": {
+        "devices": "${workflow.input.device}",
+        "uniconfig_context": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_replace_config_with_oper",
+      "taskReferenceName": "UNICONFIG_replace_config_with_operRefName_kGSn",
+      "inputParameters": {
+        "devices": "${workflow.input.device}",
+        "uniconfig_context": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "Allocate_ipv4_resource",
+      "taskReferenceName": "Allocate_ipv4_resourceRef_BNUn",
+      "inputParameters": {
+        "pool_name": "${workflow.input.pool_name}",
+        "description": "",
+        "alternative_id": "",
+        "desired_value": ""
+      },
+      "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "subWorkflowParam": {
+        "name": "Allocate_ipv4_resource",
+        "version": 1
+      },
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_write_structured_device_data",
+      "taskReferenceName": "UNICONFIG_write_structured_device_dataRefName_0agg",
+      "inputParameters": {
+        "device_id": "${workflow.input.device}",
+        "uri": "/frinx-openconfig-interfaces:interfaces/interface=Loopback${workflow.input.loopback_id}",
+        "template": "{\"interface\": [{\"name\": \"Loopback${workflow.input.loopback_id}\", \"config\": {\"type\": \"iana-if-type:softwareLoopback\", \"enabled\": false, \"name\": \"Loopback${workflow.input.loopback_id}\"}, \"subinterfaces\": {\"subinterface\": [{\"index\": 0, \"config\": {\"index\": 0}, \"frinx-openconfig-if-ip:ipv4\": {\"addresses\": {\"address\": [{\"ip\": \"${Allocate_ipv4_resourceRef_BNUn.output.response_body.address}\", \"config\": {\"ip\": \"${Allocate_ipv4_resourceRef_BNUn.output.response_body.address}\", \"prefix-length\": 32}}]}}}]}}]}",
+        "params": "{}",
+        "uniconfig_context": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "UNICONFIG_commit",
+      "taskReferenceName": "UNICONFIG_commitRefName_nmL6",
+      "inputParameters": {
+        "devices": "${workflow.input.device}",
+        "uniconfig_context": ""
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ]
+}
