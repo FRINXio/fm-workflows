@@ -1,0 +1,62 @@
+{
+  "updateTime": 1674072535568,
+  "name": "Provision_loopback_ipv4_multiple_devices",
+  "description": "{\"description\":\"{}\"}",
+  "version": 1,
+  "inputParameters": [],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "ownerEmail": "admin2@frinxservicestest.onmicrosoft.com",
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "inputTemplate": {},
+  "tasks": [
+    {
+      "name": "INVENTORY_get_all_devices_as_dynamic_fork_tasks",
+      "taskReferenceName": "INVENTORY_get_all_devices_as_dynamic_fork_tasksRefName_BVnf",
+      "inputParameters": {
+        "labels": "${workflow.input.labels}",
+        "task": "Provision_loopback_ipv4",
+        "task_params": "{\"loopback_id\": \"${workflow.input.loopback_id}\", \"pool_name\": \"${workflow.input.pool_name}\"}",
+        "optional": "${workflow.input.optional}"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "Dynamic_fork",
+      "taskReferenceName": "Dynamic_forkRef_TFME",
+      "inputParameters": {
+        "dynamic_tasks": "${INVENTORY_get_all_devices_as_dynamic_fork_tasksRefName_BVnf.output.dynamic_tasks}",
+        "expectedName": "06e51546_df15_4e3a_9534_f049820ab0c5___sub_task",
+        "expectedType": "SUB_WORKFLOW",
+        "dynamic_tasks_i": "${INVENTORY_get_all_devices_as_dynamic_fork_tasksRefName_BVnf.output.dynamic_tasks_i}"
+      },
+      "type": "SUB_WORKFLOW",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "subWorkflowParam": {
+        "name": "Dynamic_fork",
+        "version": 1
+      },
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ]
+}
