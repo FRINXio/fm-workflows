@@ -1,9 +1,11 @@
 {
-  "updateTime": 1674045802940,
+  "updateTime": 1674130346974,
   "name": "Provision_loopback_ipv4",
   "description": "{\"description\":\"Allocate IP from pre-defined pool and provision loopback interface\",\"labels\":[\"RESOURCE_MANAGER\",\"UNICONFIG\",\"OPENCONFIG\"]}",
   "version": 1,
-  "inputParameters": [],
+  "inputParameters": [
+    "{\"device_id\": {\"description\": \"Unique identifier on a device\",\"type\": \"string\",\"value\": \"IOS01\"},\"loopback_id\": {\"value\": \"\",\"description\": \"Unique loopback identifier (e.g. 77)\",\"type\": \"string\"},\"pool_name\": \"Name of allocated IP pool to allocate IPs from\"}"
+  ],
   "outputParameters": {},
   "schemaVersion": 2,
   "restartable": true,
@@ -18,7 +20,7 @@
       "name": "UNICONFIG_sync_from_network",
       "taskReferenceName": "UNICONFIG_sync_from_networkRefName_eT7J",
       "inputParameters": {
-        "devices": "${workflow.input.device}",
+        "devices": "${workflow.input.device_id}",
         "uniconfig_context": ""
       },
       "type": "SIMPLE",
@@ -36,7 +38,7 @@
       "name": "UNICONFIG_replace_config_with_oper",
       "taskReferenceName": "UNICONFIG_replace_config_with_operRefName_kGSn",
       "inputParameters": {
-        "devices": "${workflow.input.device}",
+        "devices": "${workflow.input.device_id}",
         "uniconfig_context": ""
       },
       "type": "SIMPLE",
@@ -78,7 +80,7 @@
       "name": "UNICONFIG_write_structured_device_data",
       "taskReferenceName": "UNICONFIG_write_structured_device_dataRefName_0agg",
       "inputParameters": {
-        "device_id": "${workflow.input.device}",
+        "device_id": "${workflow.input.device_id}",
         "uri": "/frinx-openconfig-interfaces:interfaces/interface=Loopback${workflow.input.loopback_id}",
         "template": "{\"interface\": [{\"name\": \"Loopback${workflow.input.loopback_id}\", \"config\": {\"type\": \"iana-if-type:softwareLoopback\", \"enabled\": false, \"name\": \"Loopback${workflow.input.loopback_id}\"}, \"subinterfaces\": {\"subinterface\": [{\"index\": 0, \"config\": {\"index\": 0}, \"frinx-openconfig-if-ip:ipv4\": {\"addresses\": {\"address\": [{\"ip\": \"${Allocate_ipv4_resourceRef_BNUn.output.response_body.address}\", \"config\": {\"ip\": \"${Allocate_ipv4_resourceRef_BNUn.output.response_body.address}\", \"prefix-length\": 32}}]}}}]}}]}",
         "params": "{}",
@@ -99,7 +101,7 @@
       "name": "UNICONFIG_commit",
       "taskReferenceName": "UNICONFIG_commitRefName_nmL6",
       "inputParameters": {
-        "devices": "${workflow.input.device}",
+        "devices": "${workflow.input.device_id}",
         "uniconfig_context": ""
       },
       "type": "SIMPLE",
