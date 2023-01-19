@@ -1,0 +1,37 @@
+{
+  "name": "MainDummy",
+  "version": 1,
+  "inputParameters": [
+    "{\"number_of_sub_workflows\": {\"value\": 10, \"description\": \"\"}, \"wait_time\": {\"value\": 5, \"description\": \"\"}}"
+  ],
+  "tasks": [
+    {
+      "name": "DummySubworkflowGenerator",
+      "taskReferenceName": "dummy_get_dummies_as_dynamic_fork_task",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "number_of_sub_workflows": "${workflow.input.number_of_sub_workflows}",
+        "wait_time": "${workflow.input.wait_time}",
+        "task": "SubDummy"
+      }
+    },
+    {
+      "name": "Dynamic_fork",
+      "taskReferenceName": "execute_dummy_workflows",
+      "type": "SUB_WORKFLOW",
+      "inputParameters": {
+        "expectedName": "frinx___sub_task",
+        "expectedType": "SUB_WORKFLOW",
+        "dynamic_tasks": "${dummy_get_dummies_as_dynamic_fork_task.output.dynamic_tasks}",
+        "dynamic_tasks_i": "${dummy_get_dummies_as_dynamic_fork_task.output.dynamic_tasks_i}"
+      },
+      "subWorkflowParam": {
+        "name": "Dynamic_fork",
+        "version": 1
+      }
+    }
+  ],
+  "restartable": true,
+  "workflowStatusListenerEnabled": true,
+  "schemaVersion": 2
+}

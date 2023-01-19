@@ -1,0 +1,20 @@
+{
+  "name": "SubDummy",
+  "version": 1,
+  "inputParameters": [
+    "{\"wait_time\": {\"value\": 5, \"description\": \"\"}}"
+  ],
+  "tasks": [
+    {
+      "name": "dummy_task",
+      "taskReferenceName": "dummy_execute_dummy_task",
+      "type": "SIMPLE",
+      "inputParameters": {
+        "wait_time": "${workflow.input.wait_time}"
+      }
+    }
+  ],
+  "restartable": true,
+  "workflowStatusListenerEnabled": true,
+  "schemaVersion": 2
+}
