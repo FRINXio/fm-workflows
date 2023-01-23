@@ -1,0 +1,74 @@
+{
+  "updateTime": 1674130088253,
+  "name": "Provision_loopback_ipv4_multiple_devices",
+  "description": "{\"description\":\"Allocate IP from pre-defined pool and provision loopback interfaces of given devices with common label\",\"labels\":[\"RESOURCE_MANAGER\",\"UNICONFIG\",\"OPENCONFIG\"]}",
+  "version": 1,
+  "inputParameters": [
+    "{\"pool_name\": {\"description\": \"Name of allocated IP pool to allocate IPs from\", \"type\": \"string\"}, \"labels\":{\"value\":\"CREATE_LOOPBACK_DEMO\",\"description\":\"\",\"type\":\"string\"},\"loopback_id\":{\"value\":\"\",\"description\":\"Unique loopback identifier (e.g. 77)\",\"type\":\"string\"}}"
+  ],
+  "outputParameters": {},
+  "schemaVersion": 2,
+  "restartable": true,
+  "workflowStatusListenerEnabled": false,
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 0,
+  "variables": {},
+  "inputTemplate": {},
+  "tasks": [
+    {
+      "name": "INVENTORY_get_all_devices_as_dynamic_fork_tasks",
+      "taskReferenceName": "INVENTORY_get_all_devices_as_dynamic_fork_tasksRefName_BVnf",
+      "inputParameters": {
+        "labels": "${workflow.input.labels}",
+        "task": "Provision_loopback_ipv4",
+        "task_params": "{\"loopback_id\": \"${workflow.input.loopback_id}\", \"pool_name\": \"${workflow.input.pool_name}\"}",
+        "optional": "true"
+      },
+      "type": "SIMPLE",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "dynamic_fork",
+      "taskReferenceName": "fork",
+      "inputParameters": {
+        "dynamic_tasks": "${INVENTORY_get_all_devices_as_dynamic_fork_tasksRefName_BVnf.output.dynamic_tasks}",
+        "dynamic_tasks_i": "${INVENTORY_get_all_devices_as_dynamic_fork_tasksRefName_BVnf.output.dynamic_tasks_i}"
+      },
+      "type": "FORK_JOIN_DYNAMIC",
+      "decisionCases": {},
+      "dynamicForkTasksParam": "dynamic_tasks",
+      "dynamicForkTasksInputParamName": "dynamic_tasks_i",
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    },
+    {
+      "name": "join",
+      "taskReferenceName": "join",
+      "inputParameters": {},
+      "type": "JOIN",
+      "decisionCases": {},
+      "defaultCase": [],
+      "forkTasks": [],
+      "startDelay": 0,
+      "joinOn": [],
+      "optional": false,
+      "defaultExclusiveJoinTask": [],
+      "asyncComplete": false,
+      "loopOver": []
+    }
+  ]
+}
