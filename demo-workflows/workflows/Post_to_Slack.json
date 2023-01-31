@@ -22,7 +22,7 @@
     }
   ],
   "inputParameters": [
-    "{\"slack_webhook_id\":{\"value\":\"T7UQ7KATX/BP8M0S3EH/W3YpmbUr2fQDEA7WIoWcJIXX\",\"description\":\"The Slack webhook ID that you want to send this message to\",\"type\":\"string\"},\"message_text\":{\"value\":\"I am sitting in a room \",\"description\":\"The message that you want to send to Slack\",\"type\":\"string\"}}"
+    "{\"slack_webhook_id\":{\"value\":\"T02BFFVUQ/B04MQ2PRWQ1/xw9pWOAm0e4OMPfPxmrI1Jbp\",\"description\":\"The Slack webhook ID that you want to send this message to\",\"type\":\"string\"},\"message_text\":{\"value\":\"I am sitting in a room \",\"description\":\"The message that you want to send to Slack\",\"type\":\"string\"}}"
   ],
   "schemaVersion": 2,
   "restartable": true,
