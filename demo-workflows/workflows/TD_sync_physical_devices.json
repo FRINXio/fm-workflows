@@ -1,6 +1,6 @@
 {
   "name": "TD_sync_physical_devices",
-  "description": "{\"description\": \"Sync selected or all installed physical devices with topology discovery  \", \"labels\": []}",
+  "description": "{\"description\": \"Sync selected or all installed physical devices with topology discovery  \", \"labels\": [\"TOPOLOGY_DISCOVERY\"]}",
   "version": 1,
   "tasks": [
     {

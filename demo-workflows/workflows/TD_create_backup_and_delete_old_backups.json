@@ -1,6 +1,6 @@
 {
   "name": "TD_create_backup_and_delete_old_backups",
-  "description": "{\"description\": \"TD create backup and delete old backups \", \"labels\": []}",
+  "description": "{\"description\": \"TD create backup and delete old backups \", \"labels\": [\"TOPOLOGY_DISCOVERY\"]}",
   "version": 1,
   "tasks": [
     {
