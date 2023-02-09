@@ -2,10 +2,9 @@ import json
 import os
 
 import requests
+import util
 from frinx_conductor_workers.frinx_rest import (
     additional_uniconfig_request_params, uniconfig_url_base)
-
-import util
 
 TOPOLOGY_DISCOVERY_BASE_URL = "http://topology-discovery:5000/api"
 TOPOLOGY_DISCOVERY_HEADERS = {
