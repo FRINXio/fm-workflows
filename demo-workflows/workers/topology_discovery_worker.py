@@ -7,7 +7,14 @@ from frinx_conductor_workers.frinx_rest import uniconfig_url_base, additional_un
 TOPOLOGY_DISCOVERY_BASE_URL = "http://topology-discovery:5000/api"
 TOPOLOGY_DISCOVERY_HEADERS = {"Content-Type": "application/json", "X-Auth-User-Roles": "admin-1"}
 
+
 def sync_physical_devices(task):
+    """ Call TD endpoint /providers/physical/sync to sync devices in topology discovery
+        devices: list (list of devices to sync devices must be installed in UC, ignored when param `sync_all_installed_devices` = True)
+        labels: list (stored only when sync_all_installed_devices = False)
+        sync_all_installed_devices: bool (if true then sync all devices installed in UC else sync inputted devices)
+        To use mock uniconfig change in fm-workflow composefile env to UNICONFIG_URL_BASE=http://uniconfig_mock:1080
+        """
     devices = task["inputData"]["devices"]
     labels = task["inputData"]["labels"]
     sync_all_installed_devices = int(task["inputData"]["sync_all_installed_devices"])
@@ -32,11 +39,14 @@ def sync_physical_devices(task):
 
 
 def create_backup(task):
+    """Create DB backup for topology discovery"""
     response = requests.post(TOPOLOGY_DISCOVERY_BASE_URL + "/data/backup")
     return util.completed_response(response.json())
 
 
 def delete_backups(task):
+    """Delete backup for topology discovery
+        delete_age: int (delete all backups which are older than delete_age in hours"""
     delete_age = task["inputData"]["delete_age"]
     data = {"delete_age": int(delete_age)}
     response = requests.delete(TOPOLOGY_DISCOVERY_BASE_URL + "/data/backup", data=json.dumps(data),
@@ -52,7 +62,8 @@ def start(cc):
             "devices"
         ],
         "outputKeys": [
-            "synced_devices"
+            "loaded_devicse",
+            "labels"
         ]
     }, sync_physical_devices)
 
