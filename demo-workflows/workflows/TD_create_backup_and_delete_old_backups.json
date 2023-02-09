@@ -1,19 +1,19 @@
 {
-  "name": "Arangodb_create_backup_and_delete_old_backups",
-  "description": "{\"description\": \"Arangodb Create backup and delete old backups \", \"labels\": []}",
+  "name": "TD_create_backup_and_delete_old_backups",
+  "description": "{\"description\": \"TD create backup and delete old backups \", \"labels\": []}",
   "version": 1,
   "tasks": [
     {
-      "name": "Arangodb_create_backup",
-      "taskReferenceName": "arangodb_create_backup",
+      "name": "td_create_backup",
+      "taskReferenceName": "td_create_backup",
       "inputParameters": {},
       "type": "SIMPLE",
       "optional": false,
       "asyncComplete": false
     },
     {
-      "name": "Arangodb_delete_backups",
-      "taskReferenceName": "arangodb_delete_backups",
+      "name": "td_delete_backups",
+      "taskReferenceName": "td_delete_backups",
       "inputParameters": {
         "delete_age": "${workflow.input.delete_age}"
       },

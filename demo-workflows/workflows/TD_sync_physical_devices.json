@@ -1,0 +1,27 @@
+{
+  "name": "TD_sync_physical_devices",
+  "description": "{\"description\": \"Sync selected or all installed physical devices with topology discovery  \", \"labels\": []}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "td_sync_physical_devices",
+      "taskReferenceName": "td_sync_physical_devices",
+      "inputParameters": {
+        "devices": "${workflow.input.devices}",
+        "labels": "${workflow.input.labels}",
+        "sync_all_installed_devices": "${workflow.input.sync_all_installed_devices}"
+      },
+      "type": "SIMPLE",
+      "optional": false,
+      "asyncComplete": false
+    }
+  ],
+  "schemaVersion": 2,
+  "restartable": true,
+  "inputParameters": [
+    "{\"devices\":{\"value\":\"\",\"description\":\"List of devices ex. device1,device12,device123\"},\"labels\":{\"value\":\"\",\"description\":\"List of labels for inputted devices (work only with sync_all_installed_devices: False)\"},\"sync_all_installed_devices\":{\"value\": false,\"description\":\"Sync all devices which are installed ('devices' input will be ignored)\",\"type\":\"toggle\", \"options\": [1,0]}}"
+  ],
+  "workflowStatusListenerEnabled": false,
+  "timeoutSeconds": 0,
+  "hasSchedule": false
+}
