@@ -1,40 +1,75 @@
 import util
 import requests
 import json
+from frinx_conductor_workers.frinx_rest import uniconfig_url_base, additional_uniconfig_request_params
+
 
 TOPOLOGY_DISCOVERY_BASE_URL = "http://topology-discovery:5000/api"
-TOPOLOGY_DISCOVERY_HEADERS = {"Content-Type": "application/json"}
+TOPOLOGY_DISCOVERY_HEADERS = {"Content-Type": "application/json", "X-Auth-User-Roles": "admin-1"}
+
+def sync_physical_devices(task):
+    devices = task["inputData"]["devices"]
+    labels = task["inputData"]["labels"]
+    sync_all_installed_devices = int(task["inputData"]["sync_all_installed_devices"])
+    data = {}
+
+    if sync_all_installed_devices:
+        installed_nodes_response = requests.post(uniconfig_url_base + "/operations/connection-manager:get-installed-nodes",
+                                        **additional_uniconfig_request_params)
+        devices = installed_nodes_response.json()["output"]["nodes"]
+    else:
+        try:
+            devices = devices.split(",")
+            labels = labels.split(",")
+            data["labels"] = labels
+        except:
+            return util.failed_response({"error_message": "incorrect format for devices/labels please see ex. device1,device2,device3"})
+
+    data["devices"] = devices
+    sync_response = requests.post(TOPOLOGY_DISCOVERY_BASE_URL + "/providers/physical/sync", data=json.dumps(data), headers=TOPOLOGY_DISCOVERY_HEADERS)
+
+    return util.completed_response(sync_response.json())
 
 
-def arangodb_create_backup(task):
-    response = requests.post(TOPOLOGY_DISCOVERY_BASE_URL + "/arangodb-backup-create")
+def create_backup(task):
+    response = requests.post(TOPOLOGY_DISCOVERY_BASE_URL + "/data/backup")
     return util.completed_response(response.json())
 
 
-def arangodb_delete_backups(task):
+def delete_backups(task):
     delete_age = task["inputData"]["delete_age"]
     data = {"delete_age": int(delete_age)}
-    response = requests.delete(TOPOLOGY_DISCOVERY_BASE_URL + "/arangodb-backup-delete", data=json.dumps(data),
+    response = requests.delete(TOPOLOGY_DISCOVERY_BASE_URL + "/data/backup", data=json.dumps(data),
                                headers=TOPOLOGY_DISCOVERY_HEADERS)
 
     return util.completed_response(response.json())
 
 
 def start(cc):
-    cc.register('Arangodb_create_backup', {
-        "description": '{"description": "ArangoDB create backup"}',
+    cc.register('td_sync_physical_devices', {
+        "description": '{"description": "Sync all installed physical devices in topology discovery"}',
+        "inputKeys": [
+            "devices"
+        ],
+        "outputKeys": [
+            "synced_devices"
+        ]
+    }, sync_physical_devices)
+
+    cc.register('td_create_backup', {
+        "description": '{"description": "create backup for topology discovery"}',
         "inputKeys": [],
         "outputKeys": [
             "db_name"
         ]
-    }, arangodb_create_backup)
+    }, create_backup)
 
-    cc.register('Arangodb_delete_backups', {
-        "description": '{"description": "ArangoDB delete all backups which are older than param delete_age"}',
+    cc.register('td_delete_backups', {
+        "description": '{"description": "delete all backups which are older than param delete_age in topology discovery"}',
         "inputKeys": [
             "delete_age"
         ],
         "outputKeys": [
             "deleted_backups"
         ]
-    }, arangodb_delete_backups)
+    }, delete_backups)
