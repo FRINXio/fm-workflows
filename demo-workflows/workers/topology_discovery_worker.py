@@ -26,7 +26,7 @@ def sync_physical_devices(task):
     sync_all_installed_devices = int(task["inputData"]["sync_all_installed_devices"])
     data = {}
     # If there is MOCK_UNICONFIG_URL_BASE in composefile use mock uniconfig to get installed devices
-    if MOCK_UNICONFIG_URL_BASE != "none":
+    if MOCK_UNICONFIG_URL_BASE:
         uc_url = MOCK_UNICONFIG_URL_BASE
     else:
         uc_url = uniconfig_url_base
