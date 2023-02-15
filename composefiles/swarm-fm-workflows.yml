@@ -19,10 +19,11 @@ services:
     logging: *logging_loki
     environment:
       - UNICONFIG_URL_BASE=https://uniconfig:8181/rests
-      #- MOCK_UNICONFIG_URL_BASE=http://uniconfig_mock:1080
       - INSTANCES_TO_SIMULATE=${INSTANCES_TO_SIMULATE}
       - RUN_TESTTOOLS=${RUN_TESTTOOLS}
       - TOPOLOGY_DISCOVERY_BACKUP_ENABLED=${TOPOLOGY_DISCOVERY_BACKUP_ENABLED}
+      - TOPOLOGY_DISCOVERY_BASE_URL=http://topology-discovery:5000/api
+      #- MOCK_UNICONFIG_URL_BASE=http://uniconfig_mock:1080
     entrypoint: ["/set_env_secrets.sh", "python3 main.py"]
     secrets:
       - frinx_auth

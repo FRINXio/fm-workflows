@@ -6,13 +6,12 @@ import util
 from frinx_conductor_workers.frinx_rest import (
     additional_uniconfig_request_params, uniconfig_url_base)
 
-TOPOLOGY_DISCOVERY_BASE_URL = "http://topology-discovery:5000/api"
+MOCK_UNICONFIG_URL_BASE = os.getenv("MOCK_UNICONFIG_URL_BASE")
+TOPOLOGY_DISCOVERY_BASE_URL = os.getenv("TOPOLOGY_DISCOVERY_BASE_URL")
 TOPOLOGY_DISCOVERY_HEADERS = {
     "Content-Type": "application/json",
     "X-Auth-User-Roles": "admin-1",
 }
-MOCK_UNICONFIG_URL_BASE = os.getenv("MOCK_UNICONFIG_URL_BASE")
-
 
 def sync_physical_devices(task):
     """Call TD endpoint /providers/physical/sync to sync devices in topology discovery
