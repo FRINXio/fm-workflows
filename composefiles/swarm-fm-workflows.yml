@@ -24,6 +24,7 @@ services:
       - TOPOLOGY_DISCOVERY_BACKUP_ENABLED=${TOPOLOGY_DISCOVERY_BACKUP_ENABLED}
       - TOPOLOGY_DISCOVERY_BASE_URL=http://topology-discovery:5000/api
       #- MOCK_UNICONFIG_URL_BASE=http://uniconfig_mock:1080
+      #- BGP_MOCK_URL_BASE=http://bgpls-mock:8179
     entrypoint: ["/set_env_secrets.sh", "python3 main.py"]
     secrets:
       - frinx_auth
