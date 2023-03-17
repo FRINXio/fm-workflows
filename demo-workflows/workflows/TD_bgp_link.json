@@ -1,0 +1,29 @@
+{
+  "name": "TD_bgp_link",
+  "description": "{\"description\": \"TD bgp create/delete link between two interfaces \", \"labels\": [\"TOPOLOGY_DISCOVERY\"]}",
+  "version": 1,
+  "tasks": [
+    {
+      "name": "td_bgp_link",
+      "taskReferenceName": "td_bgp_link",
+      "inputParameters": {
+        "first_router_id": "${workflow.input.first_router_id}",
+        "first_interface_address": "${workflow.input.first_interface_address}",
+        "second_router_id": "${workflow.input.second_router_id}",
+        "second_interface_address": "${workflow.input.second_interface_address}",
+        "delete_link": "${workflow.input.delete_link}"
+      },
+      "type": "SIMPLE",
+      "optional": false,
+      "asyncComplete": false
+    }
+  ],
+  "schemaVersion": 2,
+  "restartable": true,
+  "inputParameters": [
+    "{\"first_router_id\":{\"value\":\"4.4.4.4\",\"description\":\"router-id of first node\"},\"first_interface_address\":{\"value\":\"192.168.40.2\",\"description\":\"interface address of first node\"},\"second_router_id\":{\"value\":\"9.9.9.9\",\"description\":\"router-id of second node\"},\"second_interface_address\":{\"value\":\"192.168.90.1\",\"description\":\"interface address of second node\"},\"delete_link\":{\"value\": false,\"description\":\"If False create link, If True delete link\",\"type\":\"toggle\", \"options\": [1,0]}}"
+  ],
+  "workflowStatusListenerEnabled": false,
+  "timeoutSeconds": 0,
+  "hasSchedule": false
+}
