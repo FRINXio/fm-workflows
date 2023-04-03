@@ -77,7 +77,7 @@
           "inputParameters": {
             "lambdaValue": "${Netconf_read_structured_device_dataRefName_EZW5.output.response_body.memory-summary.nodes.node}",
             "iterator": "${LoopTask.output.iteration}",
-            "scriptExpression": "if($.iterator == null){\n return $.lambdaValue[0]\n} else {\n return $.lambdaValue[$.iterator];\n}"
+            "scriptExpression": "return $.lambdaValue[($.iterator-1).toString()]"
           },
           "type": "LAMBDA",
           "decisionCases": {},

@@ -44,7 +44,7 @@
           "inputParameters": {
             "lambdaValue": "${INVENTORY_get_pages_cursorsRefName_iHgJ.output.page_ids}",
             "iterator": "${LoopTask.output.iteration}",
-            "scriptExpression": "if($.iterator == null){\n return $.lambdaValue[\"0\"]\n} else {\n return $.lambdaValue[$.iterator.toString()];\n}"
+            "scriptExpression": "return $.lambdaValue[($.iterator-1).toString()]"
           },
           "type": "LAMBDA",
           "decisionCases": {},
