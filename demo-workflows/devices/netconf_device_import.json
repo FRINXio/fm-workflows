@@ -15,7 +15,6 @@
         "uniconfig-config:blacklist": {
           "uniconfig-config:path": []
         },
-        "node-extension:reconcile": "false",
         "netconf-node-topology:schema-cache-directory": "{{schema}}",
         "netconf-node-topology:between-attempts-timeout-millis": "10000",
         "netconf-node-topology:dry-run-journal-size": 150,
