@@ -6,9 +6,9 @@ import util
 from frinx_conductor_workers.frinx_rest import (
     additional_uniconfig_request_params, uniconfig_url_base)
 
-MOCK_UNICONFIG_URL_BASE = os.getenv("MOCK_UNICONFIG_URL_BASE")
-BGP_MOCK_URL_BASE = os.getenv("BGP_MOCK_URL_BASE")
-TOPOLOGY_DISCOVERY_BASE_URL = os.getenv("TOPOLOGY_DISCOVERY_BASE_URL")
+MOCK_UNICONFIG_URL_BASE = os.getenv("MOCK_UNICONFIG_URL_BASE", "http://uniconfig_mock:1080")
+BGP_MOCK_URL_BASE = os.getenv("BGP_MOCK_URL_BASE", "http://bgpls-mock:8179")
+TOPOLOGY_DISCOVERY_BASE_URL = os.getenv("TOPOLOGY_DISCOVERY_BASE_URL", "http://topology-discovery:5000/api")
 HEADERS = {"Content-Type": "application/json"}
 TOPOLOGY_DISCOVERY_HEADERS = {
     "X-Auth-User-Roles": "admin-1",

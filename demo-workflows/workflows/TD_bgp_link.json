@@ -21,7 +21,7 @@
   "schemaVersion": 2,
   "restartable": true,
   "inputParameters": [
-    "{\"first_router_id\":{\"value\":\"4.4.4.4\",\"description\":\"router-id of first node\"},\"first_interface_address\":{\"value\":\"192.168.40.2\",\"description\":\"interface address of first node\"},\"second_router_id\":{\"value\":\"9.9.9.9\",\"description\":\"router-id of second node\"},\"second_interface_address\":{\"value\":\"192.168.90.1\",\"description\":\"interface address of second node\"},\"delete_link\":{\"value\": false,\"description\":\"If False create link, If True delete link\",\"type\":\"toggle\", \"options\": [1,0]}}"
+    "{\"first_router_id\":{\"value\":\"2.2.2.2\",\"description\":\"router-id of first node\"},\"first_interface_address\":{\"value\":\"192.168.90.6\",\"description\":\"interface address of first node\"},\"second_router_id\":{\"value\":\"3.3.3.3\",\"description\":\"router-id of second node\"},\"second_interface_address\":{\"value\":\"192.168.90.5\",\"description\":\"interface address of second node\"},\"delete_link\":{\"value\": false,\"description\":\"If False create link, If True delete link\",\"type\":\"toggle\", \"options\": [1,0]}}"
   ],
   "workflowStatusListenerEnabled": false,
   "timeoutSeconds": 0,
