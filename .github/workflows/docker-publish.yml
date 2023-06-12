@@ -9,6 +9,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
+  SAMPLE_TOPOLOGY_IMAGE_NAME: frinx/sample-topology
   DEMO_WORKFLOWS_IMAGE_NAME: frinx/demo-workflows
 
 jobs:
@@ -21,6 +22,7 @@ jobs:
 
       - name: Build image
         run: |
+          ./sample-topology/build_st_docker_image.sh $SAMPLE_TOPOLOGY_IMAGE_NAME ./sample-topology/
           docker build -f demo-workflows/Dockerfile -t $DEMO_WORKFLOWS_IMAGE_NAME ./demo-workflows/
 
       - name: Log into Docker Hub
@@ -28,10 +30,12 @@ jobs:
 
       - name: Push image
         run: |
+          SAMPLE_TOPOLOGY_IMAGE_ID=$SAMPLE_TOPOLOGY_IMAGE_NAME
           DEMO_WORKFLOWS_IMAGE_ID=$DEMO_WORKFLOWS_IMAGE_NAME
 
           # Change all uppercase to lowercase
 
+          SAMPLE_TOPOLOGY_IMAGE_ID=$(echo $SAMPLE_TOPOLOGY_IMAGE_ID | tr '[A-Z]' '[a-z]')
           DEMO_WORKFLOWS_IMAGE_ID=$(echo $DEMO_WORKFLOWS_IMAGE_ID | tr '[A-Z]' '[a-z]')
 
           # Strip git ref prefix from version
@@ -43,11 +47,14 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
 
+          echo SAMPLE_TOPOLOGY_IMAGE_ID=$SAMPLE_TOPOLOGY_IMAGE_NAME
           echo DEMO_WORKFLOWS_IMAGE_ID=$DEMO_WORKFLOWS_IMAGE_NAME
           echo VERSION=$VERSION
 
+          docker tag $SAMPLE_TOPOLOGY_IMAGE_NAME $SAMPLE_TOPOLOGY_IMAGE_ID:$VERSION
           docker tag $DEMO_WORKFLOWS_IMAGE_NAME $DEMO_WORKFLOWS_IMAGE_ID:$VERSION
 
+          docker push $SAMPLE_TOPOLOGY_IMAGE_ID:$VERSION
           docker push $DEMO_WORKFLOWS_IMAGE_ID:$VERSION
 
           # Add latest tag if we are on master and github.ref points to a tag
@@ -60,8 +67,10 @@ jobs:
             if [[ $MASTER == $HEAD ]]; then
               VERSION=latest
               echo VERSION=$VERSION
+              docker tag $SAMPLE_TOPOLOGY_IMAGE_NAME $SAMPLE_TOPOLOGY_IMAGE_ID:$VERSION
               docker tag $DEMO_WORKFLOWS_IMAGE_NAME $DEMO_WORKFLOWS_IMAGE_ID:$VERSION
 
+              docker push $SAMPLE_TOPOLOGY_IMAGE_ID:$VERSION
               docker push $DEMO_WORKFLOWS_IMAGE_ID:$VERSION
             fi
           fi
