@@ -79,6 +79,9 @@ Automatically:
 ```
 
 # Sample topology
+
+> [DEPRECATED] Active at https://github.com/FRINXio/sample-topology
+
 ### Requirements
 
 - **HW**
