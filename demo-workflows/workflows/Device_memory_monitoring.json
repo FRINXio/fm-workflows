@@ -20,7 +20,7 @@
       "taskReferenceName": "Netconf_read_structured_device_dataRefName_EZW5",
       "inputParameters": {
         "device_id": "${workflow.input.node-id}",
-        "uri": "/Cisco-IOS-XR-nto-misc-shmem-oper:memory-summary",
+        "uri": "/Cisco-IOS-XR-nto-misc-shmem-oper:memory-summary?content=nonconfig",
         "uniconfig_tx_id": ""
       },
       "type": "SIMPLE",

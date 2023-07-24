@@ -39,7 +39,7 @@
       "taskReferenceName": "Netconf_read_structured_device_dataRefName_EZW4",
       "inputParameters": {
         "device_id": "${workflow.input.node-id}",
-        "uri": "/Cisco-IOS-XR-pfi-im-cmd-oper:interfaces/interface-xr/interface=${URI_encode_aFfh.output.result}",
+        "uri": "/Cisco-IOS-XR-pfi-im-cmd-oper:interfaces/interface-xr/interface=${URI_encode_aFfh.output.result}?content=nonconfig",
         "uniconfig_tx_id": ""
       },
       "type": "SIMPLE",
