@@ -1,0 +1,42 @@
+{
+    "name": "Add_device",
+    "description": "{\"description\": \"Add device to device inventory and install\", \"labels\": [\"BASICS\",\"CLI\",\"INVENTORY\",\"MAIN\"]}",
+    "version": 1,
+    "tasks": [
+        {
+            "name": "INVENTORY_add_device",
+            "taskReferenceName": "INVENTORY_add_device_1",
+            "inputParameters": {
+                "device_id": "${workflow.input.device_id}",
+                "mount_body": "${workflow.input.mount_body}",
+                "labels": "${workflow.input.labels}",
+                "uniconfig_zone": "${workflow.input.uniconfig_zone}",
+                "service_state": "${workflow.input.service_state}"
+            },
+            "type": "SIMPLE",
+            "optional": true
+        },
+        {
+            "name": "INVENTORY_install_device_by_name",
+            "taskReferenceName": "INVENTORY_install_device_by_name_1",
+            "inputParameters": {
+                "device_name": "${workflow.input.device_id}"
+            },
+            "type": "SIMPLE"
+        }
+    ],
+    "inputParameters": [
+        "{\"device_id\": {\"value\": \"\", \"description\": \"Unique device name\", \"type\": \"string\", \"options\": null}}",
+        "{\"mount_body\": {\"value\": \"\", \"description\": \"Device mount body\", \"type\": \"textarea\", \"options\": null}}",
+        "{\"labels\": {\"value\": \"\", \"description\": \"Device labels\", \"type\": \"string\", \"options\": null}}",
+        "{\"uniconfig_zone\": {\"value\": \"uniconfig\", \"description\": \"Uniconfig zone\", \"type\": \"string\", \"options\": null}}",
+        "{\"service_state\": {\"value\": \"IN_SERVICE\", \"description\": \"Current service state\", \"type\": \"select\", \"options\": [\"IN_SERVICE\", \"PLANNING\", \"OUT_OF_SERVICE\"]}}"
+    ],
+    "outputParameters": {},
+    "schemaVersion": 2,
+    "restartable": true,
+    "variables": {},
+    "inputTemplate": {},
+    "hasSchedule": false,
+    "expectedScheduleName": "Add_device:1"
+}

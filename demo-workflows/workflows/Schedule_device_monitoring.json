@@ -1,0 +1,73 @@
+{
+    "name": "Schedule_device_monitoring",
+    "description": "{\"description\":\"\",\"labels\":[\"INFLUXDB\"]}",
+    "version": 1,
+    "inputParameters": [
+        "{\"device_name\": {\"value\": \"asr9k\", \"description\": \"Unique Device name\", \"type\": \"string\", \"options\": null}}",
+        "{\"mount_body\": {\"value\": \"\", \"description\": \"Installation body compatible with inventory format\", \"type\": \"textarea\", \"options\": null}}",
+        "{\"periode\": {\"value\": 5, \"description\": \"Time, how often to collect data from the device in minutes\", \"type\": \"int\", \"options\": null}}",
+        "{\"interface\": {\"value\": \"MgmtEth0/RSP0/CPU0/0\", \"description\": \"Monitored interface\", \"type\": \"string\", \"options\": null}}"
+    ],
+    "outputParameters": {},
+    "schemaVersion": 2,
+    "tasks": [
+        {
+            "name": "Add_device",
+            "taskReferenceName": "Add_deviceRef_yWKj",
+            "inputParameters": {
+                "device_id": "${workflow.input.device_name}",
+                "mount_body": "${workflow.input.mount_body}",
+                "uniconfig_zone": "uniconfig",
+                "service_state": "IN_SERVICE",
+                "optional": true
+            },
+            "type": "SUB_WORKFLOW",
+            "subWorkflowParam": {
+                "name": "Add_device",
+                "version": 1
+            }
+        },
+        {
+            "name": "Create_influxdb_bucket",
+            "taskReferenceName": "Create_influxdb_bucketRef_IbZN",
+            "inputParameters": {
+                "bucket": "devices"
+            },
+            "type": "SUB_WORKFLOW",
+            "subWorkflowParam": {
+                "name": "Create_influxdb_bucket",
+                "version": 1
+            }
+        },
+        {
+            "name": "SCHELLAR_create_schedule",
+            "taskReferenceName": "SCHELLAR_create_scheduleRefName_QQtR",
+            "inputParameters": {
+                "workflow_name": "Device_interface_monitoring",
+                "workflow_version": "1",
+                "enabled": true,
+                "cron": "*/${workflow.input.periode} * * * *",
+                "workflow_context": {
+                    "interface-name": "${workflow.input.interface}",
+                    "node-id": "${workflow.input.device_name}"
+                }
+            },
+            "type": "SIMPLE"
+        },
+        {
+            "name": "SCHELLAR_create_schedule",
+            "taskReferenceName": "SCHELLAR_create_scheduleRefName_e0CN",
+            "inputParameters": {
+                "workflow_name": "Device_memory_monitoring",
+                "workflow_version": "1",
+                "enabled": true,
+                "cron": "*/${workflow.input.periode} * * * *",
+                "workflow_context": {
+                    "interface-name": "${workflow.input.interface}",
+                    "node-id": "${workflow.input.device_name}"
+                }
+            },
+            "type": "SIMPLE"
+        }
+    ]
+}

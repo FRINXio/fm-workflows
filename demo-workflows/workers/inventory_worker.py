@@ -656,6 +656,50 @@ def add_netconf_device(task):
             'logs': []}
 
 
+def add_any_device(task):
+    
+    body = task['inputData']['mount_body']
+    label_names = "" if task['inputData']['labels'] is None else task['inputData']['labels'].replace(" ", "") 
+
+    variables = {'input': {
+        "name": task['inputData']['device_id'],
+        "zoneId": get_zone_id(task['inputData']['uniconfig_zone']),
+        "serviceState": task['inputData']["service_state"],
+        "mountParameters": str(body).replace("'", '"'),
+    }}
+
+    if len(label_names)>0:
+        labels_id_name = get_label_id()
+        label_ids=[]
+
+        # check if all input labels exist
+        for label_name in label_names.split(","):
+            label_id=labels_id_name.get(label_name)
+            if label_id == None:
+                label_id, error = create_label(label_name)
+                if error is not NoneType:
+                    return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': error},
+                    'logs': []}
+            label_ids.append(label_id)
+
+        variables['input']['labelIds'] = label_ids
+
+    response = execute_inventory(add_device_template, variables)
+
+    if response.get('errors'):
+        return {'status': 'FAILED', 'output': {'url': inventory_url_base, 'response_code': 404, 'response_body': response['errors'][0]['message']},
+                'logs': []}
+
+    body = {
+        "id": response['data']['addDevice']['device']['id'],
+        "name": response['data']['addDevice']['device']['name'],
+        "isInstalled": response['data']['addDevice']['device']['isInstalled']
+    }
+
+    return {'status': 'COMPLETED', 'output': {'url': inventory_url_base, 'response_code': 200, 'response_body': body},
+            'logs': []}
+
+
 def start(cc):
     print('Starting Inventory workers')
 
@@ -866,3 +910,22 @@ def start(cc):
             "response_body"
         ]
     }, add_netconf_device)
+
+
+    cc.register('INVENTORY_add_device', {
+        "description": '{"description": "add device to inventory database", "labels": ["BASICS","MAIN","INVENTORY","NETCONF"]}',
+        "responseTimeoutSeconds": 3600,
+        "timeoutSeconds": 3600,
+        "inputKeys": [
+            "device_id",
+            "mount_body",
+            "labels",
+            "uniconfig_zone",
+            "service_state",
+        ],
+        "outputKeys": [
+            "url",
+            "response_code",
+            "response_body"
+        ]
+    }, add_any_device)
