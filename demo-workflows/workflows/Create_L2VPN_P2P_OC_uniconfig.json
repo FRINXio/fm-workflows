@@ -152,7 +152,7 @@
             "name": "Post_to_Slack",
             "taskReferenceName": "post_to_slack_ref_94YO",
             "inputParameters": {
-              "slack_webhook_id": "T7UQ7KATX/BP8M0S3EH/W3YpmbUr2fQDEA7WIoWcJIXX",
+              "slack_webhook_id": "T02BFFVUQ/B04MQ2PRWQ1/xw9pWOAm0e4OMPfPxmrI1Jbp",
               "message_text": "Configuration attempt succeeded!"
             },
             "type": "SUB_WORKFLOW",
@@ -177,7 +177,7 @@
           "name": "Post_to_Slack",
           "taskReferenceName": "post_to_slack_ref_284C",
           "inputParameters": {
-            "slack_webhook_id": "T7UQ7KATX/BP8M0S3EH/W3YpmbUr2fQDEA7WIoWcJIXX",
+            "slack_webhook_id": "T02BFFVUQ/B04MQ2PRWQ1/xw9pWOAm0e4OMPfPxmrI1Jbp",
             "message_text": "${uniconfig_commit_ref_RXFF.output.response_body.output.overall-status}"
           },
           "type": "SUB_WORKFLOW",
